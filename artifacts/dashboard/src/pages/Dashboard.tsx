@@ -73,6 +73,40 @@ function Spinner() {
   );
 }
 
+// ── Skeleton ──────────────────────────────────────────────────────────────────
+function Skeleton({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse bg-muted rounded-md ${className}`} />;
+}
+
+function JobPanelSkeleton() {
+  return (
+    <div className="space-y-3">
+      <div className="bg-card border border-border rounded-xl p-4 space-y-3">
+        <div className="flex items-start justify-between gap-2">
+          <Skeleton className="h-4 w-48" />
+          <Skeleton className="h-5 w-16 rounded-full" />
+        </div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-3 w-full" />
+          ))}
+        </div>
+        <Skeleton className="h-2 w-full rounded-full" />
+      </div>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className="bg-card border border-border rounded-xl p-3 flex gap-3 items-start">
+          <Skeleton className="w-7 h-7 rounded" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-3 w-28" />
+            <Skeleton className="h-3 w-48" />
+          </div>
+          <Skeleton className="h-3 w-12" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ── Stage row ─────────────────────────────────────────────────────────────────
 type ScrapeSnap = { totalArticles: number; completedArticles: number; currentArticle?: string; coveragePct: number };
 
@@ -211,11 +245,7 @@ function JobPanel({ jobId }: { jobId: string }) {
   );
 
   if (!job) {
-    return (
-      <div className="flex items-center justify-center h-40 text-muted-foreground text-sm">
-        Loading…
-      </div>
-    );
+    return <JobPanelSkeleton />;
   }
 
   const completedCount = job.completedStages.length;
@@ -327,7 +357,7 @@ export default function Dashboard() {
   const { connected } = useEventStreamStatus();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: jobs = [] } = useListPipelineJobs({ query: { refetchInterval: 8000 } as any });
+  const { data: jobs = [], isLoading: jobsLoading, isError: jobsError } = useListPipelineJobs({ query: { refetchInterval: 8000 } as any });
 
   // Auto-select running job on first load
   const didAutoSelect = useRef(false);
@@ -403,14 +433,33 @@ export default function Dashboard() {
           </div>
         )}
 
+        {/* Error banner */}
+        {jobsError && (
+          <div className="bg-destructive/10 border border-destructive/40 rounded-xl px-4 py-3 text-sm text-destructive flex items-start gap-2">
+            <span className="flex-shrink-0">⚠️</span>
+            <span>Failed to load pipeline jobs. Check that the API server is running and reachable.</span>
+          </div>
+        )}
+
+        {/* Loading skeleton for jobs list */}
+        {jobsLoading && !selectedJobId && (
+          <div className="space-y-2">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="h-8 animate-pulse bg-muted rounded-xl" />
+            ))}
+          </div>
+        )}
+
         {/* Job panel */}
         {selectedJobId ? (
           <JobPanel key={selectedJobId} jobId={selectedJobId} />
         ) : (
-          <div className="text-center py-16 text-muted-foreground text-sm space-y-2">
-            <div className="text-4xl">🌐</div>
-            <p>Enter a URL above to start a full-site reconstruction pipeline.</p>
-          </div>
+          !jobsLoading && (
+            <div className="text-center py-16 text-muted-foreground text-sm space-y-2">
+              <div className="text-4xl">🌐</div>
+              <p>Enter a URL above to start a full-site reconstruction pipeline.</p>
+            </div>
+          )
         )}
       </div>
     </div>

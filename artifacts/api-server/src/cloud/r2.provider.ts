@@ -139,8 +139,12 @@ function isTransientError(err: unknown): boolean {
 // Tuning constants
 // ---------------------------------------------------------------------------
 
-const MAX_UPLOAD_ATTEMPTS = 3;
-const BACKOFF_BASE_MS     = 600;
+const MAX_UPLOAD_ATTEMPTS = 5;
+const BACKOFF_BASE_MS     = 1000;
+/** Adds ±20% jitter to avoid thundering-herd on concurrent batch uploads. */
+function jitter(ms: number): number {
+  return Math.round(ms * (0.8 + Math.random() * 0.4));
+}
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -289,7 +293,7 @@ export class R2Provider implements CloudProvider {
           "R2: upload attempt failed",
         );
         if (permanent || attempt === MAX_UPLOAD_ATTEMPTS) break;
-        await sleep(BACKOFF_BASE_MS * attempt);
+        await sleep(jitter(BACKOFF_BASE_MS * Math.pow(2, attempt - 1)));
       }
     }
 

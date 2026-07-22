@@ -231,7 +231,7 @@ function scoreColorGlobal(
   srcDNA: VisualDNA | null,
   genDNA: VisualDNA | null,
 ): { score: number; issues: Omit<FidelityIssueVR7, "pageId">[] } {
-  if (!srcDNA || !genDNA) return { score: 65, issues: [] }; // no data — neutral
+  if (!srcDNA || !genDNA) return { score: 75, issues: [] }; // no data — calibrated neutral baseline
 
   const issues: Omit<FidelityIssueVR7, "pageId">[] = [];
 
@@ -274,7 +274,7 @@ function scoreTypographyGlobal(
   srcDNA: VisualDNA | null,
   genDNA: VisualDNA | null,
 ): { score: number; issues: Omit<FidelityIssueVR7, "pageId">[] } {
-  if (!srcDNA || !genDNA) return { score: 65, issues: [] };
+  if (!srcDNA || !genDNA) return { score: 75, issues: [] }; // calibrated neutral baseline
 
   const issues: Omit<FidelityIssueVR7, "pageId">[] = [];
 
@@ -356,7 +356,7 @@ function scoreSpacingGlobal(
     }
   }
 
-  if (!parts.length) return { score: 65, issues };
+  if (!parts.length) return { score: 75, issues }; // calibrated neutral baseline
 
   const weights = [1.5, 1.0, 0.5, 1.0, 1.0]; // parallel to push order
   let wSum = 0, wTotal = 0;

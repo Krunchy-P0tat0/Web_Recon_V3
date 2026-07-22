@@ -41,6 +41,8 @@ import { db, orchestrationJobsTable, type InsertOrchestrationJob } from "../db/i
 import { loadBaselineManifest, computeDiff, computeSavingsReport } from "./diff-engine.js";
 import { runIntelligenceLayer } from "./diff-intelligence.js";
 import { getJobRecord } from "./db-queue.js";
+import { classifyFailure } from "./failure-classifier.js";
+import { executeRecovery } from "./autonomous-recovery-engine.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -740,6 +742,7 @@ export async function runPipeline(job: OrchestrationJob): Promise<void> {
   } catch (err) {
     const isCancelErr   = err instanceof CancellationError;
     const msg           = err instanceof Error ? err.message : String(err);
+    const stack         = err instanceof Error ? (err.stack ?? null) : null;
     job.status          = "failed";
     job.error           = isCancelErr ? `Cancelled: ${msg}` : msg;
     job.completedAt     = new Date().toISOString();
@@ -750,6 +753,32 @@ export async function runPipeline(job: OrchestrationJob): Promise<void> {
     } else {
       publishEvent("job-failed", job.id, { stage: job.currentStage, error: msg });
       logger.error({ jobId: job.id, err, currentStage: job.currentStage }, "MASTER: pipeline failed");
+
+      // ── Phase H: auto-invoke F3 recovery when the crawl stage fails
+      // (the underlying scrape job is the only entity F3 can operate on)
+      if (job.underlyingJobId && (job.currentStage === "crawl" || job.currentStage === "manifest")) {
+        try {
+          const scrapeRecord = await getJobRecord(job.underlyingJobId);
+          const classification = classifyFailure({
+            jobId:        job.underlyingJobId,
+            seedUrl:      job.url,
+            errorMessage: msg,
+            errorStack:   stack,
+            retryCount:   scrapeRecord?.retryCount  ?? 0,
+            maxRetries:   scrapeRecord?.maxRetries  ?? 3,
+          });
+          logger.info(
+            { jobId: job.id, underlyingJobId: job.underlyingJobId, failureClass: classification.failureClass, stage: job.currentStage },
+            "MASTER: auto-triggering F3 recovery",
+          );
+          // Non-blocking — recovery is best-effort
+          void executeRecovery(classification).catch((recErr) => {
+            logger.warn({ err: recErr, jobId: job.underlyingJobId }, "MASTER: F3 auto-recovery failed (non-fatal)");
+          });
+        } catch (recErr) {
+          logger.warn({ err: recErr, jobId: job.id }, "MASTER: could not classify failure for F3 auto-recovery");
+        }
+      }
     }
   }
 
