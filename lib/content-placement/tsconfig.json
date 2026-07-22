@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "lib": ["ES2022", "DOM"]
+  },
+  "references": [
+    { "path": "../site-intelligence" },
+    { "path": "../stencil-library" },
+    { "path": "../stencil-registry" }
+  ],
+  "include": ["src/**/*.ts"]
+}

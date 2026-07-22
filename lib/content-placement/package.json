@@ -1,0 +1,20 @@
+{
+  "name": "@workspace/content-placement",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@workspace/site-intelligence": "workspace:*",
+    "@workspace/stencil-library": "workspace:*",
+    "@workspace/stencil-registry": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
+  }
+}

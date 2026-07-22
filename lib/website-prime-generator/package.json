@@ -1,0 +1,20 @@
+{
+  "name": "@workspace/website-prime-generator",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@workspace/generation-pipeline": "workspace:*",
+    "@workspace/stencil-assembly-engine": "workspace:*",
+    "@workspace/stencil-library": "workspace:*",
+    "@workspace/theme-intelligence": "workspace:*",
+    "@workspace/navigation-intelligence": "workspace:*",
+    "@workspace/content-placement": "workspace:*"
+  }
+}

@@ -3,14 +3,29 @@
   "compileOnSave": false,
   "files": [],
   "references": [
-    {
-      "path": "./lib/db"
-    },
-    {
-      "path": "./lib/api-client-react"
-    },
-    {
-      "path": "./lib/api-zod"
-    }
+    { "path": "./lib/db" },
+    { "path": "./lib/api-client-react" },
+    { "path": "./lib/api-zod" },
+    { "path": "./lib/framework-profiler" },
+    { "path": "./lib/deployment-planner" },
+    { "path": "./lib/version-intelligence" },
+    { "path": "./lib/backend-profiler" },
+    { "path": "./lib/content-placement" },
+    { "path": "./lib/deployment-adapters" },
+    { "path": "./lib/design-dna" },
+    { "path": "./lib/generation-pipeline" },
+    { "path": "./lib/manifest-binding" },
+    { "path": "./lib/merge-execution-engine" },
+    { "path": "./lib/merge-planner" },
+    { "path": "./lib/navigation-intelligence" },
+    { "path": "./lib/site-constructor" },
+    { "path": "./lib/site-discovery" },
+    { "path": "./lib/site-intelligence" },
+    { "path": "./lib/stencil-assembly-engine" },
+    { "path": "./lib/stencil-generator" },
+    { "path": "./lib/stencil-library" },
+    { "path": "./lib/stencil-registry" },
+    { "path": "./lib/theme-intelligence" },
+    { "path": "./lib/website-prime-generator" }
   ]
 }

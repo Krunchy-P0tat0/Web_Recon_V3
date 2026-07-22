@@ -1,0 +1,195 @@
+{
+  "version": "PH-3",
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-07-22T06:17:08.960Z",
+  "runnerStartedAt": "2026-07-22T06:16:13.169Z",
+  "isListening": true,
+  "totalRunCount": 2,
+  "totalFixtures": 2,
+  "regressionSuite": {
+    "version": "QA-2",
+    "generatedAt": "2026-07-22T06:17:08.960Z",
+    "totalFixtures": 2,
+    "totalRuns": 2,
+    "lastRunAt": "2026-07-22T06:17:08.956Z",
+    "fixtureIds": [
+      "gf-4ec23e23-aeb-v1-mrvowsxs-wjfqm",
+      "gf-7b24b222-b24-v1-mrvowva4-r4rls"
+    ],
+    "thresholds": {
+      "fidelityScore": -5,
+      "brandConfidence": -0.05,
+      "consistencyScore": -5,
+      "ssimScore": -0.03,
+      "pageCount": 0,
+      "componentCount": -2
+    },
+    "status": "PASS",
+    "recentResults": [
+      {
+        "testId": "mrvowva4-026bu",
+        "jobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+        "fixtureId": "gf-7b24b222-b24-v1-mrvowva4-r4rls",
+        "testedAt": "2026-07-22T06:17:08.956Z",
+        "durationMs": 0,
+        "overallStatus": "PASS",
+        "passCount": 6,
+        "warnCount": 0,
+        "failCount": 0,
+        "deltas": [
+          {
+            "metric": "fidelityScore",
+            "golden": 72,
+            "current": 72,
+            "delta": 0,
+            "threshold": -5,
+            "status": "PASS"
+          },
+          {
+            "metric": "brandConfidence",
+            "golden": 0.1,
+            "current": 0.1,
+            "delta": 0,
+            "threshold": -0.05,
+            "status": "PASS"
+          },
+          {
+            "metric": "consistencyScore",
+            "golden": 62,
+            "current": 62,
+            "delta": 0,
+            "threshold": -5,
+            "status": "PASS"
+          },
+          {
+            "metric": "ssimScore",
+            "golden": 0.9199999999999999,
+            "current": 0.9199999999999999,
+            "delta": 0,
+            "threshold": -0.03,
+            "status": "PASS"
+          },
+          {
+            "metric": "pageCount",
+            "golden": 7,
+            "current": 7,
+            "delta": 0,
+            "threshold": 0,
+            "status": "PASS"
+          },
+          {
+            "metric": "componentCount",
+            "golden": 10,
+            "current": 10,
+            "delta": 0,
+            "threshold": -2,
+            "status": "PASS"
+          }
+        ],
+        "regressions": [],
+        "improvements": [],
+        "summary": "All 6 metrics pass — no regressions detected"
+      },
+      {
+        "testId": "mrvowsxs-fu0ya",
+        "jobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+        "fixtureId": "gf-4ec23e23-aeb-v1-mrvowsxs-wjfqm",
+        "testedAt": "2026-07-22T06:17:05.920Z",
+        "durationMs": 0,
+        "overallStatus": "PASS",
+        "passCount": 6,
+        "warnCount": 0,
+        "failCount": 0,
+        "deltas": [
+          {
+            "metric": "fidelityScore",
+            "golden": 89,
+            "current": 89,
+            "delta": 0,
+            "threshold": -5,
+            "status": "PASS"
+          },
+          {
+            "metric": "brandConfidence",
+            "golden": 0.1,
+            "current": 0.1,
+            "delta": 0,
+            "threshold": -0.05,
+            "status": "PASS"
+          },
+          {
+            "metric": "consistencyScore",
+            "golden": 69,
+            "current": 69,
+            "delta": 0,
+            "threshold": -5,
+            "status": "PASS"
+          },
+          {
+            "metric": "ssimScore",
+            "golden": 0.84,
+            "current": 0.84,
+            "delta": 0,
+            "threshold": -0.03,
+            "status": "PASS"
+          },
+          {
+            "metric": "pageCount",
+            "golden": 6,
+            "current": 6,
+            "delta": 0,
+            "threshold": 0,
+            "status": "PASS"
+          },
+          {
+            "metric": "componentCount",
+            "golden": 17,
+            "current": 17,
+            "delta": 0,
+            "threshold": -2,
+            "status": "PASS"
+          }
+        ],
+        "regressions": [],
+        "improvements": [],
+        "summary": "All 6 metrics pass — no regressions detected"
+      }
+    ]
+  },
+  "results": {
+    "total": 2,
+    "passed": 2,
+    "warned": 0,
+    "failed": 0,
+    "skipped": 0,
+    "blockedDeployments": 0,
+    "passRate": 100
+  },
+  "avgFidelityDelta": 0,
+  "recentHistory": [
+    {
+      "entryId": "mrvowva4-1srn0",
+      "jobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "reportId": "ph3-mrvowva4-8j1wr",
+      "testedAt": "2026-07-22T06:17:08.956Z",
+      "overallStatus": "PASS",
+      "criticalCount": 0,
+      "warnCount": 0,
+      "blocksDeployment": false,
+      "fidelityDelta": 0,
+      "durationMs": 0
+    },
+    {
+      "entryId": "mrvowsxs-o2fsf",
+      "jobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "reportId": "ph3-mrvowsxs-2z0ao",
+      "testedAt": "2026-07-22T06:17:05.920Z",
+      "overallStatus": "PASS",
+      "criticalCount": 0,
+      "warnCount": 0,
+      "blocksDeployment": false,
+      "fidelityDelta": 0,
+      "durationMs": 0
+    }
+  ]
+}

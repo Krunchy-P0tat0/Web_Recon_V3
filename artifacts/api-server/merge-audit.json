@@ -1,0 +1,170 @@
+{
+  "meta": {
+    "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4",
+    "url": "https://example.com",
+    "generatedAt": "2026-07-22T06:17:12.538Z",
+    "phase": "A2+A3",
+    "dryRun": true,
+    "durationMs": 2,
+    "stats": {
+      "decisions": 2,
+      "conflicts": 0,
+      "fileChanges": 2,
+      "targetFiles": 0
+    }
+  },
+  "mergePlan": {
+    "decisions": [
+      {
+        "id": "dec-layout-0001",
+        "action": "CREATE",
+        "entityKind": "layout",
+        "reason": "No existing layout component matches 'LandingLayout'. A new layout must be created to render 1 scraped page(s) of this type.",
+        "confidence": 0.85,
+        "source": null,
+        "target": null,
+        "conflicts": [],
+        "metadata": {
+          "requiredLayoutType": "LandingLayout",
+          "scrapedPageCount": 1,
+          "requiredSlots": {
+            "header": true,
+            "footer": true,
+            "nav": true,
+            "sidebar": false
+          }
+        }
+      },
+      {
+        "id": "dec-comp-0001",
+        "action": "CREATE",
+        "entityKind": "component",
+        "reason": "Component 'HeroSection' is required by LandingLayout for 1 scraped page(s), but no matching component exists in the codebase.",
+        "confidence": 0.9,
+        "source": null,
+        "target": null,
+        "conflicts": [],
+        "metadata": {
+          "neededName": "HeroSection",
+          "usedByLayouts": [
+            "LandingLayout"
+          ],
+          "usedByContentTypes": [
+            "ARTICLE"
+          ],
+          "usageCount": 1,
+          "isRequired": true
+        }
+      }
+    ],
+    "conflicts": [],
+    "stats": {
+      "totalDecisions": 2,
+      "byAction": {
+        "CREATE": 2,
+        "UPDATE": 0,
+        "EXTEND": 0,
+        "ARCHIVE": 0,
+        "IGNORE": 0
+      },
+      "byEntityKind": {
+        "route": 0,
+        "layout": 1,
+        "component": 1,
+        "api": 0,
+        "datasource": 0
+      },
+      "conflictCount": 0,
+      "errorConflictCount": 0,
+      "warningConflictCount": 0,
+      "planningTimeMs": 1,
+      "overallConfidence": 0.875
+    }
+  },
+  "executionAudit": {
+    "version": "1.0",
+    "executedAt": "2026-07-22T06:17:12.538Z",
+    "durationMs": 0,
+    "planVersion": "1.0",
+    "planGeneratedAt": "2026-07-22T06:17:12.538Z",
+    "dryRun": true,
+    "summary": {
+      "total": 2,
+      "created": 2,
+      "updated": 0,
+      "extended": 0,
+      "archived": 0,
+      "ignored": 0,
+      "failed": 0,
+      "filesCreated": 2,
+      "filesUpdated": 0,
+      "filesDeleted": 0,
+      "filesMoved": 0,
+      "dryRun": true,
+      "hadBlockers": false,
+      "abortedEarly": false
+    },
+    "created": [
+      {
+        "decisionId": "dec-layout-0001",
+        "action": "CREATE",
+        "entityKind": "layout",
+        "sourcePath": null,
+        "targetPath": null,
+        "reason": "No existing layout component matches 'LandingLayout'. A new layout must be created to render 1 scraped page(s) of this type.",
+        "confidence": 0.85,
+        "fileChanges": [
+          {
+            "path": "src/layouts/Unknown.tsx",
+            "operation": "create",
+            "bytesBefore": 0,
+            "bytesAfter": 440,
+            "decisionId": "dec-layout-0001"
+          }
+        ],
+        "durationMs": 0
+      },
+      {
+        "decisionId": "dec-comp-0001",
+        "action": "CREATE",
+        "entityKind": "component",
+        "sourcePath": null,
+        "targetPath": null,
+        "reason": "Component 'HeroSection' is required by LandingLayout for 1 scraped page(s), but no matching component exists in the codebase.",
+        "confidence": 0.9,
+        "fileChanges": [
+          {
+            "path": "src/components/Unknown.tsx",
+            "operation": "create",
+            "bytesBefore": 0,
+            "bytesAfter": 408,
+            "decisionId": "dec-comp-0001"
+          }
+        ],
+        "durationMs": 0
+      }
+    ],
+    "updated": [],
+    "extended": [],
+    "archived": [],
+    "ignored": [],
+    "failed": [],
+    "fileChanges": [
+      {
+        "path": "src/layouts/Unknown.tsx",
+        "operation": "create",
+        "bytesBefore": 0,
+        "bytesAfter": 440,
+        "decisionId": "dec-layout-0001"
+      },
+      {
+        "path": "src/components/Unknown.tsx",
+        "operation": "create",
+        "bytesBefore": 0,
+        "bytesAfter": 408,
+        "decisionId": "dec-comp-0001"
+      }
+    ],
+    "rollbackSnapshot": null
+  }
+}

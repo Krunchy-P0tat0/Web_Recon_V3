@@ -1,0 +1,133 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-07-22T06:19:20.249Z",
+  "overallStatus": "healthy",
+  "uptimeSeconds": 187,
+  "intervalSeconds": 60,
+  "checks": {
+    "routes": {
+      "status": "pass",
+      "totalProbed": 9,
+      "passed": 9,
+      "failed": 0,
+      "avgLatencyMs": 14,
+      "p95LatencyMs": 19,
+      "probes": [
+        {
+          "path": "/api/healthz",
+          "method": "GET",
+          "statusCode": 200,
+          "latencyMs": 8,
+          "pass": true
+        },
+        {
+          "path": "/api/scrape/jobs",
+          "method": "GET",
+          "statusCode": 404,
+          "latencyMs": 10,
+          "pass": true
+        },
+        {
+          "path": "/api/deploy/frameworks",
+          "method": "GET",
+          "statusCode": 200,
+          "latencyMs": 11,
+          "pass": true
+        },
+        {
+          "path": "/api/deploy/targets",
+          "method": "GET",
+          "statusCode": 200,
+          "latencyMs": 12,
+          "pass": true
+        },
+        {
+          "path": "/api/deploy/audit",
+          "method": "GET",
+          "statusCode": 200,
+          "latencyMs": 19,
+          "pass": true
+        },
+        {
+          "path": "/api/deploy/executions",
+          "method": "GET",
+          "statusCode": 200,
+          "latencyMs": 15,
+          "pass": true
+        },
+        {
+          "path": "/api/monitor/health",
+          "method": "GET",
+          "statusCode": 404,
+          "latencyMs": 17,
+          "pass": true
+        },
+        {
+          "path": "/api/monitor/pipeline",
+          "method": "GET",
+          "statusCode": 404,
+          "latencyMs": 18,
+          "pass": true
+        },
+        {
+          "path": "/api/monitor/status",
+          "method": "GET",
+          "statusCode": 404,
+          "latencyMs": 19,
+          "pass": true
+        }
+      ]
+    },
+    "assets": {
+      "status": "pass",
+      "cloudProvider": "r2",
+      "cloudConfigured": true,
+      "sentinelWritten": true,
+      "keysVerified": 3,
+      "keysMissing": 0,
+      "probes": [
+        {
+          "key": "monitoring/sentinel.txt",
+          "exists": true,
+          "latencyMs": 1447
+        },
+        {
+          "key": "monitoring/sentinel.txt:verify",
+          "exists": true,
+          "latencyMs": 309
+        },
+        {
+          "key": "monitoring/health-report.json",
+          "exists": true,
+          "latencyMs": 316
+        }
+      ]
+    },
+    "manifests": {
+      "status": "pass",
+      "totalSnapshots": 3,
+      "totalJobs": 3,
+      "jobsByStatus": {
+        "done": 3
+      },
+      "schemaVersions": [
+        "1.0"
+      ],
+      "recentActivityWithin24h": true,
+      "staleSnapshotCount": 0,
+      "generationReports": 3,
+      "constructionReports": 3
+    },
+    "deployments": {
+      "status": "pass",
+      "total": 2,
+      "success": 2,
+      "failed": 0,
+      "rolledBack": 0,
+      "running": 0,
+      "avgDurationMs": 3724,
+      "firstDeployedAt": "2026-07-22T06:17:17.664Z",
+      "lastDeployedAt": "2026-07-22T06:17:21.437Z"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-07-22T06:19:23.581Z",
+  "durationMs": 0,
+  "basedOnHealthReport": "2026-07-22T06:19:20.249Z",
+  "basedOnRecoveryReport": "2026-07-22T06:19:23.581Z",
+  "rootCauses": [
+    {
+      "id": "rc:assets:missing_artifacts",
+      "category": "data_loss",
+      "priority": "high",
+      "title": "Missing R2 artifacts for completed jobs (1 found)",
+      "description": "1 artifact(s) were missing from R2 for completed jobs. 0 were auto-repaired; 1 still need attention.",
+      "evidence": [
+        "index_html missing: jobs/cb2e6c78-72dd-4177-9fd7-1271b454a9ce/index.html"
+      ],
+      "affectedDimension": "assets"
+    }
+  ],
+  "repairs": [
+    {
+      "id": "repair:rc:assets:missing_artifacts",
+      "rootCauseId": "rc:assets:missing_artifacts",
+      "priority": "high",
+      "title": "Re-upload missing R2 artifacts (none auto-repaired)",
+      "description": "No assets could be auto-repaired. Trigger manual ZIP regeneration via POST /scrape/regenerate/{jobId} for each affected job.",
+      "autoExecutable": false,
+      "status": "pending_manual",
+      "estimatedImpact": "Restores job restorability from R2 for affected jobs."
+    }
+  ],
+  "summary": {
+    "totalRootCauses": 1,
+    "criticalCount": 0,
+    "highCount": 1,
+    "mediumCount": 0,
+    "autoExecutedCount": 0,
+    "pendingManualCount": 1,
+    "systemStatus": "action_required"
+  }
+}

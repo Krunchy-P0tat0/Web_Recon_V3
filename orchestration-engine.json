@@ -1,0 +1,216 @@
+{
+  "id": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+  "url": "https://example.com",
+  "includeDiff": false,
+  "baseJobId": null,
+  "status": "complete",
+  "currentStage": null,
+  "completedStages": [
+    "crawl",
+    "manifest",
+    "intelligence",
+    "design-dna",
+    "visual-dna",
+    "stencil",
+    "website-prime",
+    "merge",
+    "deployment-plan",
+    "deploy",
+    "certification"
+  ],
+  "failedStages": [],
+  "skippedStages": [
+    "diff"
+  ],
+  "stages": [
+    {
+      "id": "crawl",
+      "label": "Crawl — scrape all pages",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:16:24.414Z",
+      "completedAt": "2026-07-22T06:16:36.335Z",
+      "durationMs": 11921,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "scrapeJobId": "c14b30f3-e515-469d-a369-3259b058e4b4"
+      }
+    },
+    {
+      "id": "manifest",
+      "label": "Manifest — verify content manifest",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:16:38.181Z",
+      "completedAt": "2026-07-22T06:16:39.842Z",
+      "durationMs": 1661,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "pageCount": 1,
+        "seedUrl": "https://example.com",
+        "coveragePct": 100,
+        "totalNodes": 1,
+        "completed": 1
+      }
+    },
+    {
+      "id": "diff",
+      "label": "Diff — detect changes vs baseline",
+      "status": "skipped",
+      "startedAt": "2026-07-22T06:16:41.372Z",
+      "completedAt": "2026-07-22T06:16:41.372Z",
+      "durationMs": 0,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "reason": "No baseline job provided — diff not required"
+      }
+    },
+    {
+      "id": "intelligence",
+      "label": "Intelligence — deployment environment analysis",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:16:44.355Z",
+      "completedAt": "2026-07-22T06:16:47.097Z",
+      "durationMs": 2742,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "deploymentRisk": "LOW",
+        "compatibilityScore": 95,
+        "recommended": "replit"
+      }
+    },
+    {
+      "id": "design-dna",
+      "label": "Design DNA — archetype classification",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:16:48.928Z",
+      "completedAt": "2026-07-22T06:16:50.454Z",
+      "durationMs": 1526,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4"
+      }
+    },
+    {
+      "id": "visual-dna",
+      "label": "Visual DNA — layout & colour analysis",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:16:51.951Z",
+      "completedAt": "2026-07-22T06:16:53.457Z",
+      "durationMs": 1506,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "pagesAnalyzed": 0,
+        "pagesSkipped": 0,
+        "overallConfidence": 0
+      }
+    },
+    {
+      "id": "stencil",
+      "label": "Stencil — select & assemble stencil",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:16:54.992Z",
+      "completedAt": "2026-07-22T06:16:57.826Z",
+      "durationMs": 2834,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4"
+      }
+    },
+    {
+      "id": "website-prime",
+      "label": "Website Prime — generate site blueprint",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:16:59.205Z",
+      "completedAt": "2026-07-22T06:17:08.955Z",
+      "durationMs": 9750,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4"
+      }
+    },
+    {
+      "id": "merge",
+      "label": "Merge — compile merge plan",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:17:10.382Z",
+      "completedAt": "2026-07-22T06:17:13.748Z",
+      "durationMs": 3366,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4"
+      }
+    },
+    {
+      "id": "deployment-plan",
+      "label": "Deployment Plan — multi-framework plan",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:17:15.303Z",
+      "completedAt": "2026-07-22T06:17:18.202Z",
+      "durationMs": 2899,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4"
+      }
+    },
+    {
+      "id": "deploy",
+      "label": "Deploy — execute & verify deployment",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:17:19.561Z",
+      "completedAt": "2026-07-22T06:17:27.912Z",
+      "durationMs": 8351,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "executionId": "19e9cfa9-cdff-4df0-83fa-dec0a8acba90",
+        "status": "success",
+        "deploymentUrl": "https://pub-8710859f71744960aa5d89e60cf0eb31.r2.dev/deployments/19e9cfa9-cdff-4df0-83fa-dec0a8acba90/index.html",
+        "filesDeployed": 2
+      }
+    },
+    {
+      "id": "certification",
+      "label": "Certification — production readiness gate",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:17:29.278Z",
+      "completedAt": "2026-07-22T06:17:31.987Z",
+      "durationMs": 2709,
+      "retryCount": 0,
+      "maxRetries": 2,
+      "error": null,
+      "metadata": {
+        "certificationId": "CERT-C14B30F3-1784701050786",
+        "certificationLevel": "Not Production Ready",
+        "overallGrade": "F",
+        "overallScore": 56
+      }
+    }
+  ],
+  "underlyingJobId": "c14b30f3-e515-469d-a369-3259b058e4b4",
+  "deploymentExecutionId": "19e9cfa9-cdff-4df0-83fa-dec0a8acba90",
+  "startedAt": "2026-07-22T06:16:22.778Z",
+  "completedAt": "2026-07-22T06:17:33.425Z",
+  "totalDurationMs": 70647,
+  "error": null,
+  "coverageThreshold": 50
+}

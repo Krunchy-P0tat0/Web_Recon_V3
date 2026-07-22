@@ -1,0 +1,133 @@
+{
+  "version": "1.0",
+  "phase": "5.9",
+  "generatedAt": "2026-07-22T06:16:45.861Z",
+  "sourceUrl": "https://example.com",
+  "recommendedTarget": "replit",
+  "deploymentRisk": "LOW",
+  "compatibilityScore": 95,
+  "totalItems": 15,
+  "criticalItems": 0,
+  "items": [
+    {
+      "id": "chk-001",
+      "priority": "high",
+      "category": "Database",
+      "task": "Provision postgres database on the replit target",
+      "detail": null,
+      "completed": false
+    },
+    {
+      "id": "chk-002",
+      "priority": "high",
+      "category": "Database",
+      "task": "Run database migrations before first deployment",
+      "detail": "Command: pnpm --filter @workspace/db run push",
+      "completed": false
+    },
+    {
+      "id": "chk-003",
+      "priority": "high",
+      "category": "Database",
+      "task": "Verify DATABASE_URL is set in deployment target environment",
+      "detail": null,
+      "completed": false
+    },
+    {
+      "id": "chk-004",
+      "priority": "high",
+      "category": "Storage",
+      "task": "Configure r2 storage credentials on replit",
+      "detail": "Bucket: assets-stencil — set R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME",
+      "completed": false
+    },
+    {
+      "id": "chk-005",
+      "priority": "medium",
+      "category": "Risk",
+      "task": "Database dependency: postgres",
+      "detail": "Run migrations before deploy: `pnpm --filter @workspace/db run push`",
+      "completed": false
+    },
+    {
+      "id": "chk-006",
+      "priority": "medium",
+      "category": "Target: replit",
+      "task": "✓ All required env vars detected",
+      "detail": null,
+      "completed": false
+    },
+    {
+      "id": "chk-007",
+      "priority": "medium",
+      "category": "Target: replit",
+      "task": "✓ Run pnpm --filter @workspace/db run push before first request",
+      "detail": null,
+      "completed": false
+    },
+    {
+      "id": "chk-008",
+      "priority": "medium",
+      "category": "Target: replit",
+      "task": "✓ R2 storage configured",
+      "detail": null,
+      "completed": false
+    },
+    {
+      "id": "chk-009",
+      "priority": "medium",
+      "category": "Target: replit",
+      "task": "✓ Health check endpoint: GET /api/healthz",
+      "detail": null,
+      "completed": false
+    },
+    {
+      "id": "chk-010",
+      "priority": "low",
+      "category": "Security",
+      "task": "Enable HTTPS on the deployment target",
+      "detail": "Most platforms provide this automatically",
+      "completed": false
+    },
+    {
+      "id": "chk-011",
+      "priority": "low",
+      "category": "Security",
+      "task": "Review exposed environment variables — never commit secrets to source control",
+      "detail": null,
+      "completed": false
+    },
+    {
+      "id": "chk-012",
+      "priority": "low",
+      "category": "Performance",
+      "task": "Set cache-control headers for static assets",
+      "detail": "Long TTL for hashed assets, no-cache for HTML",
+      "completed": false
+    },
+    {
+      "id": "chk-013",
+      "priority": "low",
+      "category": "Observability",
+      "task": "Configure error tracking (Sentry, Datadog) before going live",
+      "detail": null,
+      "completed": false
+    },
+    {
+      "id": "chk-014",
+      "priority": "low",
+      "category": "Rollback",
+      "task": "Document rollback procedure",
+      "detail": "Know how to revert to the previous version if deployment fails",
+      "completed": false
+    },
+    {
+      "id": "chk-015",
+      "priority": "low",
+      "category": "CI/CD",
+      "task": "Set up CI/CD pipeline using a GitHub Actions workflow",
+      "detail": "Add a .github/workflows/deploy.yml that builds and deploys on push to main",
+      "completed": false
+    }
+  ]
+}

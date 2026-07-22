@@ -1,0 +1,80 @@
+{
+  "jobId": "8905badb-6de1-4234-b17f-1d9207298c6c",
+  "runId": "a61fece1-8169-4e07-aa1f-50f8d3b9538b",
+  "startedAt": "2026-07-22T06:17:00.219Z",
+  "entries": [
+    {
+      "stageId": "VR-1",
+      "label": "Visual Reconstruction — apply DNA overlay",
+      "startOffset": 0,
+      "endOffset": 1788,
+      "durationMs": 1788,
+      "status": "complete",
+      "retries": 0
+    },
+    {
+      "stageId": "VR-2",
+      "label": "Visual DNA Analysis  — extract design signals",
+      "startOffset": 4403,
+      "endOffset": 5999,
+      "durationMs": 1596,
+      "status": "complete",
+      "retries": 0
+    },
+    {
+      "stageId": "VR-3",
+      "label": "Layout Mapper        — map page regions",
+      "startOffset": 16193,
+      "endOffset": 20575,
+      "durationMs": 4382,
+      "status": "complete",
+      "retries": 0
+    },
+    {
+      "stageId": "VR-4",
+      "label": "Visual Fidelity      — source vs generated DNA",
+      "startOffset": 22222,
+      "endOffset": 26114,
+      "durationMs": 3892,
+      "status": "failed",
+      "retries": 0
+    },
+    {
+      "stageId": "VR-5",
+      "label": "Visual Stencil Mapper— select best stencil fit",
+      "startOffset": 36686,
+      "endOffset": 49191,
+      "durationMs": 12505,
+      "status": "failed",
+      "retries": 0
+    },
+    {
+      "stageId": "VR-6",
+      "label": "Consistency Engine   — cross-page audit",
+      "startOffset": 51116,
+      "endOffset": 54260,
+      "durationMs": 3144,
+      "status": "complete",
+      "retries": 0
+    },
+    {
+      "stageId": "VR-7",
+      "label": "Fidelity Scoring     — score + derive issues",
+      "startOffset": 55906,
+      "endOffset": 65682,
+      "durationMs": 9776,
+      "status": "complete",
+      "retries": 0
+    },
+    {
+      "stageId": "VR-8",
+      "label": "Reconstruction Loop  — iterative self-improvement",
+      "startOffset": 67095,
+      "endOffset": 68515,
+      "durationMs": 1420,
+      "status": "complete",
+      "retries": 0
+    }
+  ],
+  "generatedAt": "2026-07-22T06:18:10.441Z"
+}

@@ -29,6 +29,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Mount at /api for internal self-health checks (monitoring engine uses hardcoded /api/... paths)
+// Mount at /recon-api for the reverse-proxy path configured in artifact.toml
 app.use("/api", router);
+app.use("/recon-api", router);
 
 export default app;

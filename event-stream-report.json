@@ -1,0 +1,253 @@
+{
+  "version": "1.0",
+  "phase": "7.6",
+  "generatedAt": "2026-07-22T06:17:33.425Z",
+  "totalEvents": 26,
+  "summary": {
+    "job-started": 2,
+    "crawl-started": 2,
+    "manifest-generated": 2,
+    "intelligence-complete": 2,
+    "design-dna-complete": 2,
+    "visual-dna-complete": 2,
+    "stencil-generated": 2,
+    "website-prime-complete": 2,
+    "merge-complete": 2,
+    "deployment-plan-ready": 2,
+    "deployment-complete": 2,
+    "certification-complete": 2,
+    "job-complete": 2
+  },
+  "events": [
+    {
+      "id": "evt-1784700980604-1",
+      "type": "job-started",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": null,
+      "at": "2026-07-22T06:16:20.604Z",
+      "data": {
+        "url": "https://example.com",
+        "includeDiff": false
+      }
+    },
+    {
+      "id": "evt-1784700980605-2",
+      "type": "crawl-started",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "crawl",
+      "at": "2026-07-22T06:16:20.605Z",
+      "data": {
+        "url": "https://example.com"
+      }
+    },
+    {
+      "id": "evt-1784700984413-3",
+      "type": "job-started",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": null,
+      "at": "2026-07-22T06:16:24.413Z",
+      "data": {
+        "url": "https://example.com",
+        "includeDiff": false
+      }
+    },
+    {
+      "id": "evt-1784700984413-4",
+      "type": "crawl-started",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "crawl",
+      "at": "2026-07-22T06:16:24.413Z",
+      "data": {
+        "url": "https://example.com"
+      }
+    },
+    {
+      "id": "evt-1784700995874-5",
+      "type": "manifest-generated",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "manifest",
+      "at": "2026-07-22T06:16:35.874Z",
+      "data": {
+        "scrapeJobId": "8905badb-6de1-4234-b17f-1d9207298c6c"
+      }
+    },
+    {
+      "id": "evt-1784700999842-6",
+      "type": "manifest-generated",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "manifest",
+      "at": "2026-07-22T06:16:39.842Z",
+      "data": {
+        "scrapeJobId": "c14b30f3-e515-469d-a369-3259b058e4b4"
+      }
+    },
+    {
+      "id": "evt-1784701003385-7",
+      "type": "intelligence-complete",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "intelligence",
+      "at": "2026-07-22T06:16:43.385Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701006624-8",
+      "type": "design-dna-complete",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "design-dna",
+      "at": "2026-07-22T06:16:46.624Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701007097-9",
+      "type": "intelligence-complete",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "intelligence",
+      "at": "2026-07-22T06:16:47.097Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701009653-10",
+      "type": "visual-dna-complete",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "visual-dna",
+      "at": "2026-07-22T06:16:49.653Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701010454-11",
+      "type": "design-dna-complete",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "design-dna",
+      "at": "2026-07-22T06:16:50.454Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701013457-12",
+      "type": "visual-dna-complete",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "visual-dna",
+      "at": "2026-07-22T06:16:53.457Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701013971-13",
+      "type": "stencil-generated",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "stencil",
+      "at": "2026-07-22T06:16:53.971Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701017826-14",
+      "type": "stencil-generated",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "stencil",
+      "at": "2026-07-22T06:16:57.826Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701025919-15",
+      "type": "website-prime-complete",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "website-prime",
+      "at": "2026-07-22T06:17:05.919Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701028955-16",
+      "type": "website-prime-complete",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "website-prime",
+      "at": "2026-07-22T06:17:08.955Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701030102-17",
+      "type": "merge-complete",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "merge",
+      "at": "2026-07-22T06:17:10.102Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701033748-18",
+      "type": "merge-complete",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "merge",
+      "at": "2026-07-22T06:17:13.748Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701034561-19",
+      "type": "deployment-plan-ready",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "deployment-plan",
+      "at": "2026-07-22T06:17:14.561Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701038202-20",
+      "type": "deployment-plan-ready",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "deployment-plan",
+      "at": "2026-07-22T06:17:18.202Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701044039-21",
+      "type": "deployment-complete",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "deploy",
+      "at": "2026-07-22T06:17:24.039Z",
+      "data": {
+        "executionId": "a609ad2f-cff0-4882-9f53-8a105e011d8d"
+      }
+    },
+    {
+      "id": "evt-1784701047912-22",
+      "type": "deployment-complete",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "deploy",
+      "at": "2026-07-22T06:17:27.912Z",
+      "data": {
+        "executionId": "19e9cfa9-cdff-4df0-83fa-dec0a8acba90"
+      }
+    },
+    {
+      "id": "evt-1784701048600-23",
+      "type": "certification-complete",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": "certification",
+      "at": "2026-07-22T06:17:28.600Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701050001-24",
+      "type": "job-complete",
+      "pipelineJobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "stageId": null,
+      "at": "2026-07-22T06:17:30.001Z",
+      "data": {
+        "durationMs": 70854
+      }
+    },
+    {
+      "id": "evt-1784701051987-25",
+      "type": "certification-complete",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": "certification",
+      "at": "2026-07-22T06:17:31.987Z",
+      "data": {}
+    },
+    {
+      "id": "evt-1784701053425-26",
+      "type": "job-complete",
+      "pipelineJobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "stageId": null,
+      "at": "2026-07-22T06:17:33.425Z",
+      "data": {
+        "durationMs": 70647
+      }
+    }
+  ]
+}

@@ -1,0 +1,1080 @@
+{
+  "meta": {
+    "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4",
+    "url": "https://example.com",
+    "generatedAt": "2026-07-22T06:17:16.897Z",
+    "phase": "D2",
+    "durationMs": 1,
+    "frameworkCount": 6
+  },
+  "plans": {
+    "react": {
+      "version": "1.0",
+      "generatedAt": "2026-07-22T06:17:16.897Z",
+      "framework": "react",
+      "frameworkVersion": null,
+      "sourceUrl": "https://example.com",
+      "summary": "React SPA — compile to static assets and serve from any CDN or static host. No server runtime required at runtime.",
+      "hostingOptions": [
+        {
+          "name": "Vercel",
+          "provider": "vercel",
+          "tier": "free",
+          "url": "https://vercel.com",
+          "recommended": true,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "outputDirectory": "dist",
+            "framework": "vite"
+          },
+          "notes": [
+            "Connect your Git repo and Vercel auto-detects Vite/CRA.",
+            "Zero-config HTTPS, global CDN, and preview URLs per PR."
+          ]
+        },
+        {
+          "name": "Netlify",
+          "provider": "netlify",
+          "tier": "free",
+          "url": "https://netlify.com",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "publishDirectory": "dist"
+          },
+          "notes": [
+            "Add a _redirects file with `/* /index.html 200` for client-side routing."
+          ]
+        },
+        {
+          "name": "Cloudflare Pages",
+          "provider": "cloudflare",
+          "tier": "free",
+          "url": "https://pages.cloudflare.com",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "outputDirectory": "dist",
+            "nodeVersion": "20"
+          },
+          "notes": [
+            "Fastest global edge network. Add _redirects for SPA routing."
+          ]
+        },
+        {
+          "name": "GitHub Pages",
+          "provider": "github",
+          "tier": "free",
+          "url": "https://pages.github.com",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "base": "/your-repo-name/"
+          },
+          "notes": [
+            "Set `base` in vite.config.ts to match the repo name.",
+            "Use the peaceiris/actions-gh-pages action to deploy from CI."
+          ]
+        },
+        {
+          "name": "AWS S3 + CloudFront",
+          "provider": "aws",
+          "tier": "pro",
+          "url": "https://aws.amazon.com/cloudfront/",
+          "recommended": false,
+          "deployMethod": "cli",
+          "config": {
+            "s3Bucket": "<your-bucket>",
+            "distributionId": "<cloudfront-id>"
+          },
+          "notes": [
+            "Run: aws s3 sync dist/ s3://<bucket> --delete",
+            "Invalidate CloudFront: aws cloudfront create-invalidation --paths '/*'"
+          ]
+        }
+      ],
+      "buildConfig": {
+        "installCommand": "npm install",
+        "buildCommand": "npm run build",
+        "outputDirectory": "dist",
+        "startCommand": null,
+        "nodeVersion": "20",
+        "phpVersion": null,
+        "envVars": [
+          {
+            "name": "VITE_API_URL",
+            "required": false,
+            "description": "Base URL for the backend API",
+            "example": "https://api.example.com"
+          }
+        ]
+      },
+      "dockerConfig": {
+        "baseImage": "nginx:alpine",
+        "buildSteps": [
+          "FROM node:20-alpine AS builder",
+          "WORKDIR /app",
+          "COPY package*.json ./",
+          "RUN npm ci",
+          "COPY . .",
+          "RUN npm run build",
+          "",
+          "FROM nginx:alpine",
+          "COPY --from=builder /app/dist /usr/share/nginx/html",
+          "COPY nginx.conf /etc/nginx/conf.d/default.conf"
+        ],
+        "exposePort": 80,
+        "cmd": [
+          "nginx",
+          "-g",
+          "daemon off;"
+        ],
+        "dockerfileSnippet": "FROM node:20-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build\n\nFROM nginx:alpine\nCOPY --from=builder /app/dist /usr/share/nginx/html\nEXPOSE 80\nCMD [\"nginx\", \"-g\", \"daemon off;\"]"
+      },
+      "ciConfig": {
+        "platform": "github-actions",
+        "filename": ".github/workflows/deploy.yml",
+        "content": "name: Deploy React App\non:\n  push:\n    branches: [main]\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'npm'\n      - run: npm ci\n      - run: npm run build\n      - uses: actions/upload-artifact@v4\n        with:\n          name: dist\n          path: dist/"
+      },
+      "checklist": [
+        "Ensure all environment variables are prefixed with VITE_ (for Vite projects)",
+        "Configure client-side routing fallback (/* → /index.html) on your host",
+        "Enable HTTPS — all major static hosts provide it for free",
+        "Set cache-control headers: long TTL for hashed assets, no-cache for index.html",
+        "Run `npm run build` locally first and verify the dist/ output"
+      ]
+    },
+    "nextjs": {
+      "version": "1.0",
+      "generatedAt": "2026-07-22T06:17:16.897Z",
+      "framework": "nextjs",
+      "frameworkVersion": null,
+      "sourceUrl": "https://example.com",
+      "summary": "Next.js app — supports SSR, SSG, and edge runtimes. Vercel is the zero-config option; Docker enables self-hosting on any cloud.",
+      "hostingOptions": [
+        {
+          "name": "Vercel",
+          "provider": "vercel",
+          "tier": "free",
+          "url": "https://vercel.com",
+          "recommended": true,
+          "deployMethod": "git",
+          "config": {
+            "framework": "nextjs"
+          },
+          "notes": [
+            "Made by the Next.js team — zero configuration required.",
+            "App Router, Server Components, ISR, and Edge functions all work natively.",
+            "Connect your Git repo and every push auto-deploys."
+          ]
+        },
+        {
+          "name": "Railway",
+          "provider": "railway",
+          "tier": "hobby",
+          "url": "https://railway.app",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "startCommand": "npm start",
+            "PORT": "$PORT"
+          },
+          "notes": [
+            "Set PORT env var to $PORT (Railway injects it automatically).",
+            "Add `output: 'standalone'` to next.config.ts for smaller Docker images."
+          ]
+        },
+        {
+          "name": "Fly.io",
+          "provider": "fly",
+          "tier": "hobby",
+          "url": "https://fly.io",
+          "recommended": false,
+          "deployMethod": "docker",
+          "config": {
+            "regions": "iad",
+            "memory": "512mb"
+          },
+          "notes": [
+            "Run `fly launch` then `fly deploy`.",
+            "Use standalone output mode for the smallest possible image."
+          ]
+        },
+        {
+          "name": "AWS Amplify",
+          "provider": "aws",
+          "tier": "pro",
+          "url": "https://aws.amazon.com/amplify/",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "framework": "Next.js - SSR",
+            "buildCommand": "npm run build"
+          },
+          "notes": [
+            "Supports SSR via Lambda@Edge. Enable SSR in the Amplify console.",
+            "Requires Node.js 18+ runtime setting."
+          ]
+        },
+        {
+          "name": "Render",
+          "provider": "render",
+          "tier": "hobby",
+          "url": "https://render.com",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "startCommand": "npm start",
+            "envVars": "NODE_ENV=production"
+          },
+          "notes": [
+            "Deploy as a Web Service. Free tier spins down after inactivity."
+          ]
+        }
+      ],
+      "buildConfig": {
+        "installCommand": "npm install",
+        "buildCommand": "npm run build",
+        "outputDirectory": ".next",
+        "startCommand": "npm start",
+        "nodeVersion": "20",
+        "phpVersion": null,
+        "envVars": [
+          {
+            "name": "NODE_ENV",
+            "required": true,
+            "description": "Must be 'production' for production builds",
+            "example": "production"
+          },
+          {
+            "name": "NEXTAUTH_SECRET",
+            "required": false,
+            "description": "Required if using NextAuth.js — generate with: openssl rand -base64 32",
+            "example": null
+          },
+          {
+            "name": "NEXTAUTH_URL",
+            "required": false,
+            "description": "Canonical URL of your deployment (required for NextAuth.js)",
+            "example": "https://your-app.vercel.app"
+          },
+          {
+            "name": "DATABASE_URL",
+            "required": false,
+            "description": "Postgres/MySQL connection string if the app uses a database",
+            "example": "postgresql://user:pass@host:5432/db"
+          }
+        ]
+      },
+      "dockerConfig": {
+        "baseImage": "node:20-alpine",
+        "buildSteps": [
+          "FROM node:20-alpine AS deps",
+          "WORKDIR /app",
+          "COPY package*.json ./",
+          "RUN npm ci --omit=dev",
+          "",
+          "FROM node:20-alpine AS builder",
+          "WORKDIR /app",
+          "COPY --from=deps /app/node_modules ./node_modules",
+          "COPY . .",
+          "RUN npm run build",
+          "",
+          "FROM node:20-alpine AS runner",
+          "WORKDIR /app",
+          "ENV NODE_ENV=production",
+          "COPY --from=builder /app/.next/standalone ./",
+          "COPY --from=builder /app/.next/static ./.next/static",
+          "COPY --from=builder /app/public ./public"
+        ],
+        "exposePort": 3000,
+        "cmd": [
+          "node",
+          "server.js"
+        ],
+        "dockerfileSnippet": "# next.config.ts: output: 'standalone'  ← required\nFROM node:20-alpine AS deps\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --omit=dev\n\nFROM node:20-alpine AS builder\nWORKDIR /app\nCOPY --from=deps /app/node_modules ./node_modules\nCOPY . .\nRUN npm run build\n\nFROM node:20-alpine AS runner\nWORKDIR /app\nENV NODE_ENV=production\nCOPY --from=builder /app/.next/standalone ./\nCOPY --from=builder /app/.next/static ./.next/static\nCOPY --from=builder /app/public ./public\nEXPOSE 3000\nENV PORT=3000\nCMD [\"node\", \"server.js\"]"
+      },
+      "ciConfig": {
+        "platform": "github-actions",
+        "filename": ".github/workflows/deploy.yml",
+        "content": "name: Deploy Next.js App\non:\n  push:\n    branches: [main]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'npm'\n      - run: npm ci\n      - run: npm run build\n        env:\n          NODE_ENV: production\n      # Add your deploy step here (vercel deploy, fly deploy, etc.)"
+      },
+      "checklist": [
+        "Add `output: 'standalone'` to next.config.ts if self-hosting with Docker",
+        "Set NODE_ENV=production before running `next build`",
+        "Configure all NEXT_PUBLIC_* env vars in your host's dashboard",
+        "Run database migrations before the first deployment if the app uses a DB",
+        "Verify ISR revalidation works — some hosts require additional config",
+        "Enable HTTP/2 on your reverse proxy (nginx/caddy) for optimal performance"
+      ]
+    },
+    "astro": {
+      "version": "1.0",
+      "generatedAt": "2026-07-22T06:17:16.897Z",
+      "framework": "astro",
+      "frameworkVersion": null,
+      "sourceUrl": "https://example.com",
+      "summary": "Astro site — defaults to static output (zero JS by default). For SSR, install an Astro adapter matching your host. Cloudflare Pages is ideal for edge SSR; any static host works for static output.",
+      "hostingOptions": [
+        {
+          "name": "Cloudflare Pages",
+          "provider": "cloudflare",
+          "tier": "free",
+          "url": "https://pages.cloudflare.com",
+          "recommended": true,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "outputDirectory": "dist",
+            "nodeVersion": "20",
+            "framework": "Astro"
+          },
+          "notes": [
+            "For SSR: install @astrojs/cloudflare adapter and set output: 'server'.",
+            "Static output: no adapter needed — just connect your repo.",
+            "Use `wrangler pages deploy` for CLI deployments."
+          ]
+        },
+        {
+          "name": "Vercel",
+          "provider": "vercel",
+          "tier": "free",
+          "url": "https://vercel.com",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "framework": "astro"
+          },
+          "notes": [
+            "For SSR: install @astrojs/vercel adapter.",
+            "Static output works without any adapter."
+          ]
+        },
+        {
+          "name": "Netlify",
+          "provider": "netlify",
+          "tier": "free",
+          "url": "https://netlify.com",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "publishDirectory": "dist"
+          },
+          "notes": [
+            "For SSR: install @astrojs/netlify adapter.",
+            "Add a netlify.toml with [[redirects]] if using SSR."
+          ]
+        },
+        {
+          "name": "GitHub Pages",
+          "provider": "github",
+          "tier": "free",
+          "url": "https://pages.github.com",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "site": "https://<username>.github.io/<repo>",
+            "base": "/<repo>/"
+          },
+          "notes": [
+            "Set `site` and `base` in astro.config.mjs.",
+            "Use withastro/action GitHub Action for automated deploys.",
+            "Static output only — SSR requires a different host."
+          ]
+        },
+        {
+          "name": "Railway",
+          "provider": "railway",
+          "tier": "hobby",
+          "url": "https://railway.app",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "startCommand": "node ./dist/server/entry.mjs"
+          },
+          "notes": [
+            "For SSR: install @astrojs/node adapter with mode: 'standalone'.",
+            "Set PORT and HOST environment variables."
+          ]
+        }
+      ],
+      "buildConfig": {
+        "installCommand": "npm install",
+        "buildCommand": "npm run build",
+        "outputDirectory": "dist",
+        "startCommand": null,
+        "nodeVersion": "20",
+        "phpVersion": null,
+        "envVars": [
+          {
+            "name": "ASTRO_OUTPUT",
+            "required": false,
+            "description": "Override output mode: 'static' | 'server' | 'hybrid'",
+            "example": "static"
+          },
+          {
+            "name": "PUBLIC_API_URL",
+            "required": false,
+            "description": "Client-accessible API base URL (prefix PUBLIC_ for Astro env exposure)",
+            "example": "https://api.example.com"
+          }
+        ]
+      },
+      "dockerConfig": {
+        "baseImage": "node:20-alpine",
+        "buildSteps": [
+          "FROM node:20-alpine AS builder",
+          "WORKDIR /app",
+          "COPY package*.json ./",
+          "RUN npm ci",
+          "COPY . .",
+          "RUN npm run build",
+          "",
+          "# For SSR (node adapter):",
+          "FROM node:20-alpine AS runner",
+          "WORKDIR /app",
+          "COPY --from=builder /app/dist ./dist",
+          "COPY --from=builder /app/package*.json ./",
+          "RUN npm ci --omit=dev"
+        ],
+        "exposePort": 4321,
+        "cmd": [
+          "node",
+          "./dist/server/entry.mjs"
+        ],
+        "dockerfileSnippet": "# SSR mode — requires @astrojs/node adapter with mode: 'standalone'\nFROM node:20-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build\n\nFROM node:20-alpine AS runner\nWORKDIR /app\nCOPY --from=builder /app/dist ./dist\nCOPY --from=builder /app/package*.json ./\nRUN npm ci --omit=dev\nENV HOST=0.0.0.0 PORT=4321\nEXPOSE 4321\nCMD [\"node\", \"./dist/server/entry.mjs\"]"
+      },
+      "ciConfig": {
+        "platform": "github-actions",
+        "filename": ".github/workflows/deploy.yml",
+        "content": "name: Deploy Astro Site\non:\n  push:\n    branches: [main]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'npm'\n      - run: npm ci\n      - run: npm run build\n      # Static: upload dist/ to your host\n      # SSR: build Docker image and push"
+      },
+      "checklist": [
+        "Choose your output mode: 'static' (default), 'server' (SSR), or 'hybrid'",
+        "Install the correct adapter for your host (@astrojs/cloudflare, @astrojs/vercel, @astrojs/node, etc.)",
+        "For static: verify all pages are pre-rendered with `astro build --verbose`",
+        "Prefix client-accessible env vars with PUBLIC_ (Astro requirement)",
+        "Set `site` and `base` in astro.config.mjs if deploying to a sub-path",
+        "For SSR: set HOST=0.0.0.0 so the server binds to all interfaces in production"
+      ]
+    },
+    "express": {
+      "version": "1.0",
+      "generatedAt": "2026-07-22T06:17:16.897Z",
+      "framework": "express",
+      "frameworkVersion": null,
+      "sourceUrl": "https://example.com",
+      "summary": "Express API/server — deploy as a persistent Node.js process. Railway and Fly.io have the easiest DX; Docker gives you full portability.",
+      "hostingOptions": [
+        {
+          "name": "Railway",
+          "provider": "railway",
+          "tier": "hobby",
+          "url": "https://railway.app",
+          "recommended": true,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "startCommand": "npm start"
+          },
+          "notes": [
+            "Railway injects PORT automatically — read it with process.env.PORT.",
+            "Connect your GitHub repo; every push triggers a deploy.",
+            "Add a PostgreSQL or Redis service with one click."
+          ]
+        },
+        {
+          "name": "Fly.io",
+          "provider": "fly",
+          "tier": "hobby",
+          "url": "https://fly.io",
+          "recommended": false,
+          "deployMethod": "docker",
+          "config": {
+            "regions": "iad",
+            "memory": "256mb",
+            "internalPort": "3000"
+          },
+          "notes": [
+            "Run `fly launch` to auto-generate fly.toml, then `fly deploy`.",
+            "Fly provisions a free TLS certificate and global anycast IPs."
+          ]
+        },
+        {
+          "name": "Render",
+          "provider": "render",
+          "tier": "hobby",
+          "url": "https://render.com",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "buildCommand": "npm run build",
+            "startCommand": "npm start",
+            "envVars": "NODE_ENV=production"
+          },
+          "notes": [
+            "Free tier spins down after 15 minutes of inactivity — upgrade to keep it alive.",
+            "Managed PostgreSQL and Redis available as add-ons."
+          ]
+        },
+        {
+          "name": "DigitalOcean App Platform",
+          "provider": "digitalocean",
+          "tier": "pro",
+          "url": "https://cloud.digitalocean.com/apps",
+          "recommended": false,
+          "deployMethod": "git",
+          "config": {
+            "runCommand": "npm start",
+            "httpPort": "8080",
+            "envVars": "NODE_ENV=production"
+          },
+          "notes": [
+            "Set HTTP port to match your Express app's PORT env var.",
+            "Managed databases available in the same project."
+          ]
+        },
+        {
+          "name": "AWS EC2 + Elastic Beanstalk",
+          "provider": "aws",
+          "tier": "pro",
+          "url": "https://aws.amazon.com/elasticbeanstalk/",
+          "recommended": false,
+          "deployMethod": "cli",
+          "config": {
+            "platform": "Node.js 20",
+            "environmentType": "SingleInstance"
+          },
+          "notes": [
+            "Run `eb init` then `eb deploy`.",
+            "Elastic Beanstalk handles load balancing and auto-scaling."
+          ]
+        }
+      ],
+      "buildConfig": {
+        "installCommand": "npm install",
+        "buildCommand": "npm run build",
+        "outputDirectory": "dist",
+        "startCommand": "node dist/index.js",
+        "nodeVersion": "20",
+        "phpVersion": null,
+        "envVars": [
+          {
+            "name": "PORT",
+            "required": true,
+            "description": "Port the Express server listens on",
+            "example": "3000"
+          },
+          {
+            "name": "NODE_ENV",
+            "required": true,
+            "description": "Set to 'production' to disable dev middleware",
+            "example": "production"
+          },
+          {
+            "name": "DATABASE_URL",
+            "required": false,
+            "description": "Postgres/MySQL connection string",
+            "example": "postgresql://user:pass@host:5432/db"
+          },
+          {
+            "name": "SESSION_SECRET",
+            "required": false,
+            "description": "Secret for signing session cookies — at least 32 chars",
+            "example": null
+          },
+          {
+            "name": "CORS_ORIGIN",
+            "required": false,
+            "description": "Allowed CORS origins (comma-separated or *)",
+            "example": "https://your-frontend.vercel.app"
+          }
+        ]
+      },
+      "dockerConfig": {
+        "baseImage": "node:20-alpine",
+        "buildSteps": [
+          "FROM node:20-alpine AS builder",
+          "WORKDIR /app",
+          "COPY package*.json ./",
+          "RUN npm ci",
+          "COPY . .",
+          "RUN npm run build",
+          "",
+          "FROM node:20-alpine AS runner",
+          "WORKDIR /app",
+          "ENV NODE_ENV=production",
+          "COPY --from=builder /app/dist ./dist",
+          "COPY package*.json ./",
+          "RUN npm ci --omit=dev"
+        ],
+        "exposePort": 3000,
+        "cmd": [
+          "node",
+          "dist/index.js"
+        ],
+        "dockerfileSnippet": "FROM node:20-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build\n\nFROM node:20-alpine AS runner\nWORKDIR /app\nENV NODE_ENV=production\nCOPY --from=builder /app/dist ./dist\nCOPY package*.json ./\nRUN npm ci --omit=dev\nEXPOSE 3000\nCMD [\"node\", \"dist/index.js\"]"
+      },
+      "ciConfig": {
+        "platform": "github-actions",
+        "filename": ".github/workflows/deploy.yml",
+        "content": "name: Deploy Express App\non:\n  push:\n    branches: [main]\njobs:\n  build-and-push:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'npm'\n      - run: npm ci\n      - run: npm run build\n      - name: Build Docker image\n        run: docker build -t my-express-app .\n      # Add: docker push + deploy step for your host"
+      },
+      "checklist": [
+        "Read PORT from process.env.PORT (not hardcoded) — all hosts inject it",
+        "Set NODE_ENV=production before starting in production",
+        "Configure CORS to only allow your frontend's origin — never use * in production",
+        "Add a health-check endpoint (e.g. GET /healthz returning 200) for load balancers",
+        "Use a process manager (PM2) or systemd if running on a raw VM",
+        "Secure secrets in environment variables — never commit .env to source control",
+        "Set up database connection pooling (e.g. PgBouncer) for high-traffic APIs"
+      ]
+    },
+    "laravel": {
+      "version": "1.0",
+      "generatedAt": "2026-07-22T06:17:16.897Z",
+      "framework": "laravel",
+      "frameworkVersion": null,
+      "sourceUrl": "https://example.com",
+      "summary": "Laravel PHP application — Laravel Forge manages production VPS servers with zero-downtime deploys. Vapor provides serverless AWS deployment. Docker enables self-hosting on any cloud.",
+      "hostingOptions": [
+        {
+          "name": "Laravel Forge",
+          "provider": "forge.laravel.com",
+          "tier": "pro",
+          "url": "https://forge.laravel.com",
+          "recommended": true,
+          "deployMethod": "panel",
+          "config": {
+            "phpVersion": "8.3",
+            "webServer": "nginx",
+            "database": "mysql8"
+          },
+          "notes": [
+            "Provisions and manages VPS servers on DigitalOcean, AWS, Linode, or Vultr.",
+            "Zero-downtime deployment via atomic releases.",
+            "Automated SSL (Let's Encrypt), queue workers, and schedulers."
+          ]
+        },
+        {
+          "name": "Laravel Vapor",
+          "provider": "vapor.laravel.com",
+          "tier": "pro",
+          "url": "https://vapor.laravel.com",
+          "recommended": false,
+          "deployMethod": "cli",
+          "config": {
+            "runtime": "php-8.3:al2",
+            "memory": "512",
+            "queue": "sqs",
+            "cache": "elasticache"
+          },
+          "notes": [
+            "Serverless deployment on AWS Lambda — scales to zero.",
+            "Requires Vapor subscription and AWS account.",
+            "Run `vapor deploy production` to deploy.",
+            "Queues use SQS; sessions/cache use DynamoDB or ElastiCache."
+          ]
+        },
+        {
+          "name": "Railway",
+          "provider": "railway",
+          "tier": "hobby",
+          "url": "https://railway.app",
+          "recommended": false,
+          "deployMethod": "docker",
+          "config": {
+            "buildCommand": "composer install --no-dev --optimize-autoloader && php artisan optimize",
+            "startCommand": "php artisan serve --host=0.0.0.0 --port=$PORT"
+          },
+          "notes": [
+            "Deploy via Docker for full PHP control.",
+            "Add a MySQL or Postgres service to the same Railway project.",
+            "Run migrations in the deploy command: `php artisan migrate --force`."
+          ]
+        },
+        {
+          "name": "Render",
+          "provider": "render",
+          "tier": "hobby",
+          "url": "https://render.com",
+          "recommended": false,
+          "deployMethod": "docker",
+          "config": {
+            "dockerfilePath": "./Dockerfile",
+            "healthCheckPath": "/up"
+          },
+          "notes": [
+            "Use the official Laravel Docker image or build your own.",
+            "Add a managed Postgres database to the same Render project."
+          ]
+        },
+        {
+          "name": "VPS (Ubuntu + nginx + PHP-FPM)",
+          "provider": "self-hosted",
+          "tier": "pro",
+          "url": "https://laravel.com/docs/deployment",
+          "recommended": false,
+          "deployMethod": "cli",
+          "config": {
+            "webRoot": "/var/www/html/public",
+            "phpVersion": "8.3-fpm",
+            "supervisor": "queue:work"
+          },
+          "notes": [
+            "Use Laravel Deployer or Capistrano for zero-downtime releases.",
+            "Configure Supervisor to keep queue workers running.",
+            "Set up a cron job: `* * * * * php /var/www/html/artisan schedule:run`."
+          ]
+        }
+      ],
+      "buildConfig": {
+        "installCommand": "composer install --no-dev --optimize-autoloader",
+        "buildCommand": "php artisan key:generate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan optimize && npm ci && npm run build",
+        "outputDirectory": "public",
+        "startCommand": "php-fpm",
+        "nodeVersion": "20",
+        "phpVersion": "8.3",
+        "envVars": [
+          {
+            "name": "APP_KEY",
+            "required": true,
+            "description": "Laravel application encryption key — generate with: php artisan key:generate --show",
+            "example": "base64:..."
+          },
+          {
+            "name": "APP_ENV",
+            "required": true,
+            "description": "Application environment",
+            "example": "production"
+          },
+          {
+            "name": "APP_URL",
+            "required": true,
+            "description": "Full URL of your production app",
+            "example": "https://your-app.com"
+          },
+          {
+            "name": "DB_CONNECTION",
+            "required": true,
+            "description": "Database driver",
+            "example": "mysql"
+          },
+          {
+            "name": "DB_HOST",
+            "required": true,
+            "description": "Database host",
+            "example": "127.0.0.1"
+          },
+          {
+            "name": "DB_DATABASE",
+            "required": true,
+            "description": "Database name",
+            "example": "laravel"
+          },
+          {
+            "name": "DB_USERNAME",
+            "required": true,
+            "description": "Database username",
+            "example": "laravel"
+          },
+          {
+            "name": "DB_PASSWORD",
+            "required": true,
+            "description": "Database password",
+            "example": null
+          },
+          {
+            "name": "CACHE_DRIVER",
+            "required": false,
+            "description": "Cache backend: file, redis, memcached, database",
+            "example": "redis"
+          },
+          {
+            "name": "QUEUE_CONNECTION",
+            "required": false,
+            "description": "Queue backend for background jobs",
+            "example": "redis"
+          },
+          {
+            "name": "MAIL_MAILER",
+            "required": false,
+            "description": "Mail transport driver",
+            "example": "smtp"
+          }
+        ]
+      },
+      "dockerConfig": {
+        "baseImage": "php:8.3-fpm-alpine",
+        "buildSteps": [
+          "FROM php:8.3-fpm-alpine AS base",
+          "RUN apk add --no-cache nginx supervisor curl unzip",
+          "RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql opcache",
+          "COPY --from=composer:2 /usr/bin/composer /usr/bin/composer",
+          "",
+          "FROM base AS builder",
+          "WORKDIR /app",
+          "COPY composer.json composer.lock ./",
+          "RUN composer install --no-dev --optimize-autoloader --no-scripts",
+          "COPY . .",
+          "RUN php artisan optimize",
+          "",
+          "FROM base AS runner",
+          "WORKDIR /var/www/html",
+          "COPY --from=builder /app .",
+          "COPY docker/nginx.conf /etc/nginx/nginx.conf",
+          "COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf",
+          "RUN chown -R www-data:www-data storage bootstrap/cache"
+        ],
+        "exposePort": 80,
+        "cmd": [
+          "/usr/bin/supervisord",
+          "-n",
+          "-c",
+          "/etc/supervisor/conf.d/supervisord.conf"
+        ],
+        "dockerfileSnippet": "FROM php:8.3-fpm-alpine\nRUN apk add --no-cache nginx supervisor\nRUN docker-php-ext-install pdo pdo_mysql opcache\nCOPY --from=composer:2 /usr/bin/composer /usr/bin/composer\nWORKDIR /var/www/html\nCOPY composer.json composer.lock ./\nRUN composer install --no-dev --optimize-autoloader\nCOPY . .\nRUN php artisan optimize\nRUN chown -R www-data:www-data storage bootstrap/cache\nEXPOSE 80\nCMD [\"/usr/bin/supervisord\", \"-n\"]"
+      },
+      "ciConfig": {
+        "platform": "github-actions",
+        "filename": ".github/workflows/deploy.yml",
+        "content": "name: Deploy Laravel App\non:\n  push:\n    branches: [main]\njobs:\n  test-and-deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: shivammathur/setup-php@v2\n        with:\n          php-version: '8.3'\n          extensions: pdo, pdo_mysql, mbstring, xml, bcmath\n      - run: composer install --no-dev --optimize-autoloader\n      - run: cp .env.example .env && php artisan key:generate\n      - run: php artisan test\n      # Add your deploy step: ssh + php artisan migrate --force, or vapor deploy"
+      },
+      "checklist": [
+        "Generate APP_KEY with `php artisan key:generate --show` and store it as a secret",
+        "Run `php artisan migrate --force` as part of your deploy script",
+        "Enable OPcache in php.ini for 3–5× performance improvement",
+        "Run `php artisan optimize` (config:cache, route:cache, view:cache) after every deploy",
+        "Configure Supervisor to keep queue workers (`php artisan queue:work`) alive",
+        "Set up a cron job for the Laravel task scheduler",
+        "Point nginx `root` to the `/public` directory — never expose the project root",
+        "Set file permissions: `chmod -R 775 storage bootstrap/cache`"
+      ]
+    },
+    "wordpress": {
+      "version": "1.0",
+      "generatedAt": "2026-07-22T06:17:16.897Z",
+      "framework": "wordpress",
+      "frameworkVersion": null,
+      "sourceUrl": "https://example.com",
+      "summary": "WordPress site — managed WordPress hosts (WP Engine, Kinsta) eliminate server management. Docker with the official image enables self-hosting. WP-CLI automates plugin, theme, and migration tasks.",
+      "hostingOptions": [
+        {
+          "name": "WP Engine",
+          "provider": "wpengine",
+          "tier": "pro",
+          "url": "https://wpengine.com",
+          "recommended": true,
+          "deployMethod": "git",
+          "config": {
+            "phpVersion": "8.3",
+            "mysqlVersion": "8.0",
+            "cdnIncluded": "true"
+          },
+          "notes": [
+            "Fully managed: automated backups, updates, and security scanning.",
+            "Deploy via Git push or SFTP — WP Engine has a native Git integration.",
+            "Built-in CDN, staging environments, and one-click site cloning."
+          ]
+        },
+        {
+          "name": "Kinsta",
+          "provider": "kinsta",
+          "tier": "pro",
+          "url": "https://kinsta.com",
+          "recommended": false,
+          "deployMethod": "panel",
+          "config": {
+            "phpVersion": "8.3",
+            "database": "MariaDB 10.6",
+            "caching": "Nginx + Redis"
+          },
+          "notes": [
+            "Google Cloud-based with 37 global data centers.",
+            "Automated daily backups and free SSL.",
+            "DevKinsta local dev tool mirrors your production environment."
+          ]
+        },
+        {
+          "name": "SiteGround",
+          "provider": "siteground",
+          "tier": "hobby",
+          "url": "https://siteground.com",
+          "recommended": false,
+          "deployMethod": "panel",
+          "config": {
+            "phpVersion": "8.3",
+            "environment": "cPanel"
+          },
+          "notes": [
+            "Budget-friendly shared hosting with a WordPress-optimized stack.",
+            "One-click WordPress install via cPanel.",
+            "SG Optimizer plugin for caching and CDN."
+          ]
+        },
+        {
+          "name": "Cloudways",
+          "provider": "cloudways",
+          "tier": "pro",
+          "url": "https://cloudways.com",
+          "recommended": false,
+          "deployMethod": "panel",
+          "config": {
+            "phpVersion": "8.3",
+            "server": "DigitalOcean / AWS / GCP",
+            "caching": "Varnish + Redis + Memcached"
+          },
+          "notes": [
+            "Managed cloud hosting — pick your underlying provider.",
+            "Deploy from GitHub with the Git deployment add-on.",
+            "Bot protection, malware scanning, and automated backups included."
+          ]
+        },
+        {
+          "name": "Docker (Self-Hosted)",
+          "provider": "self-hosted",
+          "tier": "pro",
+          "url": "https://hub.docker.com/_/wordpress",
+          "recommended": false,
+          "deployMethod": "docker",
+          "config": {
+            "image": "wordpress:php8.3-apache",
+            "dbImage": "mysql:8.0"
+          },
+          "notes": [
+            "Use the official wordpress Docker image.",
+            "Persist wp-content via a named Docker volume.",
+            "Use Traefik or nginx-proxy for TLS termination."
+          ]
+        }
+      ],
+      "buildConfig": {
+        "installCommand": "composer install --no-dev",
+        "buildCommand": "wp core download && wp core install",
+        "outputDirectory": null,
+        "startCommand": "apache2-foreground",
+        "nodeVersion": null,
+        "phpVersion": "8.3",
+        "envVars": [
+          {
+            "name": "WORDPRESS_DB_HOST",
+            "required": true,
+            "description": "MySQL database host",
+            "example": "mysql:3306"
+          },
+          {
+            "name": "WORDPRESS_DB_NAME",
+            "required": true,
+            "description": "MySQL database name",
+            "example": "wordpress"
+          },
+          {
+            "name": "WORDPRESS_DB_USER",
+            "required": true,
+            "description": "MySQL username",
+            "example": "wordpress"
+          },
+          {
+            "name": "WORDPRESS_DB_PASSWORD",
+            "required": true,
+            "description": "MySQL password",
+            "example": null
+          },
+          {
+            "name": "WORDPRESS_AUTH_KEY",
+            "required": true,
+            "description": "WordPress secret key — generate from https://api.wordpress.org/secret-key/1.1/salt/",
+            "example": null
+          },
+          {
+            "name": "WORDPRESS_SECURE_AUTH_KEY",
+            "required": true,
+            "description": "WordPress secret key",
+            "example": null
+          },
+          {
+            "name": "WORDPRESS_LOGGED_IN_KEY",
+            "required": true,
+            "description": "WordPress secret key",
+            "example": null
+          },
+          {
+            "name": "WORDPRESS_NONCE_KEY",
+            "required": true,
+            "description": "WordPress secret key",
+            "example": null
+          },
+          {
+            "name": "WORDPRESS_TABLE_PREFIX",
+            "required": false,
+            "description": "Database table prefix for security",
+            "example": "wp_"
+          },
+          {
+            "name": "WORDPRESS_DEBUG",
+            "required": false,
+            "description": "Enable debug logging — set to false in production",
+            "example": "false"
+          }
+        ]
+      },
+      "dockerConfig": {
+        "baseImage": "wordpress:php8.3-apache",
+        "buildSteps": [
+          "version: '3.8'",
+          "services:",
+          "  wordpress:",
+          "    image: wordpress:php8.3-apache",
+          "    ports:",
+          "      - '80:80'",
+          "    environment:",
+          "      WORDPRESS_DB_HOST: db",
+          "      WORDPRESS_DB_NAME: wordpress",
+          "      WORDPRESS_DB_USER: wordpress",
+          "      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}",
+          "    volumes:",
+          "      - wp_content:/var/www/html/wp-content",
+          "  db:",
+          "    image: mysql:8.0",
+          "    environment:",
+          "      MYSQL_DATABASE: wordpress",
+          "      MYSQL_USER: wordpress",
+          "      MYSQL_PASSWORD: ${DB_PASSWORD}",
+          "      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}",
+          "    volumes:",
+          "      - db_data:/var/lib/mysql",
+          "volumes:",
+          "  wp_content:",
+          "  db_data:"
+        ],
+        "exposePort": 80,
+        "cmd": [
+          "apache2-foreground"
+        ],
+        "dockerfileSnippet": "# docker-compose.yml (recommended for WordPress)\nversion: '3.8'\nservices:\n  wordpress:\n    image: wordpress:php8.3-apache\n    ports: ['80:80']\n    environment:\n      WORDPRESS_DB_HOST: db\n      WORDPRESS_DB_NAME: wordpress\n      WORDPRESS_DB_USER: wordpress\n      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}\n    volumes:\n      - wp_content:/var/www/html/wp-content\n  db:\n    image: mysql:8.0\n    environment:\n      MYSQL_DATABASE: wordpress\n      MYSQL_USER: wordpress\n      MYSQL_PASSWORD: ${DB_PASSWORD}\n      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}\n    volumes:\n      - db_data:/var/lib/mysql\nvolumes: {wp_content: {}, db_data: {}}"
+      },
+      "ciConfig": {
+        "platform": "github-actions",
+        "filename": ".github/workflows/deploy.yml",
+        "content": "name: Deploy WordPress\non:\n  push:\n    branches: [main]\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Sync theme/plugin files via rsync\n        run: |\n          rsync -avz --delete wp-content/ user@your-server:/var/www/html/wp-content/\n      - name: Run database migrations (if using WP-CLI)\n        run: |\n          ssh user@your-server 'wp db optimize && wp cache flush'\n      # Or: use WP Engine / Kinsta Git push deploy"
+      },
+      "checklist": [
+        "Generate fresh secret keys from https://api.wordpress.org/secret-key/1.1/salt/ and store them securely",
+        "Set WORDPRESS_DEBUG=false and WP_DEBUG=false in production wp-config.php",
+        "Install a caching plugin (WP Super Cache or W3 Total Cache) for static-file caching",
+        "Enable a CDN (Cloudflare or your host's built-in CDN) for assets",
+        "Back up the database and wp-content before every major update",
+        "Limit login attempts — install a security plugin (Wordfence, Solid Security)",
+        "Disable file editing in wp-admin: add `define('DISALLOW_FILE_EDIT', true)` to wp-config.php",
+        "Use a staging environment to test plugin and core updates before applying to production"
+      ]
+    }
+  }
+}

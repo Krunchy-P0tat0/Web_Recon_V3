@@ -1,0 +1,334 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-07-22T06:16:13.108Z",
+  "phase": "7.2",
+  "description": "Deterministic pipeline state machine for website reconstruction",
+  "states": [
+    {
+      "id": "QUEUED",
+      "description": "Waiting in queue — not yet started",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "DISCOVERING",
+      "description": "Validating URL and building execution plan",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "SCRAPING",
+      "description": "Crawling all pages via the scrape pipeline",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "MANIFESTING",
+      "description": "Verifying page content manifest in the database",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "DIFFING",
+      "description": "Computing diff against baseline job (if provided)",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "INTELLIGENCE",
+      "description": "Running deployment environment and risk intelligence",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "VISUAL_RECONSTRUCTION",
+      "description": "Classifying design DNA, running visual DNA analysis",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "STENCIL_GENERATION",
+      "description": "Selecting stencil type and assembling page structure",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "SITE_GENERATION",
+      "description": "Generating full site blueprint (Website Prime)",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "MERGING",
+      "description": "Compiling backend merge plan",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "DEPLOYMENT_PLANNING",
+      "description": "Generating multi-framework deployment plan",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "DEPLOYING",
+      "description": "Executing deployment and verifying output",
+      "terminal": false,
+      "pauseable": true
+    },
+    {
+      "id": "COMPLETE",
+      "description": "Pipeline finished successfully — site deployed",
+      "terminal": true,
+      "pauseable": false
+    },
+    {
+      "id": "FAILED",
+      "description": "Pipeline halted due to unrecoverable error or cancellation",
+      "terminal": true,
+      "pauseable": false
+    },
+    {
+      "id": "ROLLED_BACK",
+      "description": "Deployment rolled back — previous version restored",
+      "terminal": true,
+      "pauseable": false
+    }
+  ],
+  "transitions": [
+    {
+      "from": [
+        "QUEUED"
+      ],
+      "to": "DISCOVERING",
+      "trigger": "START",
+      "description": "Validate URL and initialise execution context"
+    },
+    {
+      "from": [
+        "DISCOVERING"
+      ],
+      "to": "SCRAPING",
+      "trigger": "CRAWL_STARTED",
+      "description": "Submit scrape job and begin crawling all pages"
+    },
+    {
+      "from": [
+        "SCRAPING"
+      ],
+      "to": "MANIFESTING",
+      "trigger": "CRAWL_DONE",
+      "description": "Crawl complete — verify content manifest in DB"
+    },
+    {
+      "from": [
+        "MANIFESTING"
+      ],
+      "to": "DIFFING",
+      "trigger": "MANIFEST_DONE",
+      "description": "Manifest verified — run diff against baseline if provided"
+    },
+    {
+      "from": [
+        "DIFFING"
+      ],
+      "to": "INTELLIGENCE",
+      "trigger": "DIFF_DONE",
+      "description": "Diff computed — run deployment environment intelligence"
+    },
+    {
+      "from": [
+        "MANIFESTING"
+      ],
+      "to": "INTELLIGENCE",
+      "trigger": "DIFF_SKIPPED",
+      "description": "No baseline — skip diff and proceed to intelligence"
+    },
+    {
+      "from": [
+        "INTELLIGENCE"
+      ],
+      "to": "VISUAL_RECONSTRUCTION",
+      "trigger": "INTELLIGENCE_DONE",
+      "description": "Intelligence complete — classify design DNA and run visual analysis"
+    },
+    {
+      "from": [
+        "VISUAL_RECONSTRUCTION"
+      ],
+      "to": "STENCIL_GENERATION",
+      "trigger": "VISUAL_DONE",
+      "description": "Visual DNA done — select and assemble stencil"
+    },
+    {
+      "from": [
+        "STENCIL_GENERATION"
+      ],
+      "to": "SITE_GENERATION",
+      "trigger": "STENCIL_DONE",
+      "description": "Stencil assembled — generate full site blueprint"
+    },
+    {
+      "from": [
+        "SITE_GENERATION"
+      ],
+      "to": "MERGING",
+      "trigger": "SITE_DONE",
+      "description": "Site blueprint ready — compile merge plan"
+    },
+    {
+      "from": [
+        "MERGING"
+      ],
+      "to": "DEPLOYMENT_PLANNING",
+      "trigger": "MERGE_DONE",
+      "description": "Merge plan compiled — generate multi-framework deployment plan"
+    },
+    {
+      "from": [
+        "DEPLOYMENT_PLANNING"
+      ],
+      "to": "DEPLOYING",
+      "trigger": "PLAN_DONE",
+      "description": "Deployment plan ready — execute deployment"
+    },
+    {
+      "from": [
+        "DEPLOYING"
+      ],
+      "to": "COMPLETE",
+      "trigger": "DEPLOY_DONE",
+      "description": "Deployment succeeded — pipeline complete"
+    },
+    {
+      "from": [
+        "DEPLOYING"
+      ],
+      "to": "ROLLED_BACK",
+      "trigger": "ROLLBACK",
+      "description": "Deployment failed — rollback plan executed"
+    },
+    {
+      "from": [
+        "QUEUED",
+        "DISCOVERING",
+        "SCRAPING",
+        "MANIFESTING",
+        "DIFFING",
+        "INTELLIGENCE",
+        "VISUAL_RECONSTRUCTION",
+        "STENCIL_GENERATION",
+        "SITE_GENERATION",
+        "MERGING",
+        "DEPLOYMENT_PLANNING",
+        "DEPLOYING"
+      ],
+      "to": "FAILED",
+      "trigger": "ERROR",
+      "description": "Unrecoverable error — pipeline halted"
+    },
+    {
+      "from": [
+        "QUEUED",
+        "DISCOVERING",
+        "SCRAPING",
+        "MANIFESTING",
+        "DIFFING",
+        "INTELLIGENCE",
+        "VISUAL_RECONSTRUCTION",
+        "STENCIL_GENERATION",
+        "SITE_GENERATION",
+        "MERGING",
+        "DEPLOYMENT_PLANNING",
+        "DEPLOYING"
+      ],
+      "to": "FAILED",
+      "trigger": "CANCEL",
+      "description": "Pipeline cancelled by operator"
+    },
+    {
+      "from": [
+        "FAILED",
+        "ROLLED_BACK"
+      ],
+      "to": "QUEUED",
+      "trigger": "RETRY",
+      "description": "Re-queue pipeline for execution from last checkpoint"
+    }
+  ],
+  "controls": {
+    "pause": {
+      "availableIn": [
+        "QUEUED",
+        "DISCOVERING",
+        "SCRAPING",
+        "MANIFESTING",
+        "DIFFING",
+        "INTELLIGENCE",
+        "VISUAL_RECONSTRUCTION",
+        "STENCIL_GENERATION",
+        "SITE_GENERATION",
+        "MERGING",
+        "DEPLOYMENT_PLANNING",
+        "DEPLOYING"
+      ],
+      "description": "Freeze pipeline before next stage"
+    },
+    "resume": {
+      "availableIn": [
+        "QUEUED",
+        "DISCOVERING",
+        "SCRAPING",
+        "MANIFESTING",
+        "DIFFING",
+        "INTELLIGENCE",
+        "VISUAL_RECONSTRUCTION",
+        "STENCIL_GENERATION",
+        "SITE_GENERATION",
+        "MERGING",
+        "DEPLOYMENT_PLANNING",
+        "DEPLOYING"
+      ],
+      "description": "Unfreeze paused pipeline"
+    },
+    "cancel": {
+      "availableIn": [
+        "QUEUED",
+        "DISCOVERING",
+        "SCRAPING",
+        "MANIFESTING",
+        "DIFFING",
+        "INTELLIGENCE",
+        "VISUAL_RECONSTRUCTION",
+        "STENCIL_GENERATION",
+        "SITE_GENERATION",
+        "MERGING",
+        "DEPLOYMENT_PLANNING",
+        "DEPLOYING"
+      ],
+      "description": "Terminate pipeline, transition to FAILED"
+    },
+    "retry": {
+      "availableIn": [
+        "FAILED",
+        "ROLLED_BACK"
+      ],
+      "description": "Re-queue from last checkpoint"
+    }
+  },
+  "orderedFlow": [
+    "QUEUED",
+    "DISCOVERING",
+    "SCRAPING",
+    "MANIFESTING",
+    "DIFFING",
+    "INTELLIGENCE",
+    "VISUAL_RECONSTRUCTION",
+    "STENCIL_GENERATION",
+    "SITE_GENERATION",
+    "MERGING",
+    "DEPLOYMENT_PLANNING",
+    "DEPLOYING",
+    "COMPLETE"
+  ]
+}

@@ -1,0 +1,2 @@
+- [R2 config pattern](r2-config.md) — R2_ACCOUNT_ID + R2_PUBLIC_BASE_URL are env vars; R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME are secrets
+- [Phase G smoke test](phase-g-result.md) — full 12-stage pipeline passed end-to-end with R2 deploy; example.com gives grade F/56 (expected for stub site)

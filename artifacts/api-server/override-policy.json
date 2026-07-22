@@ -1,0 +1,48 @@
+{
+  "version": "1.0",
+  "phase": "7.4",
+  "generatedAt": "2026-07-22T06:16:13.110Z",
+  "globalMode": "SEMI_AUTO",
+  "checkpoints": [
+    {
+      "checkpointId": "before-merge",
+      "label": "Before Merge",
+      "description": "Approval required before merging reconstructed files into the backend codebase.",
+      "mode": "SEMI_AUTO",
+      "defaultMode": "SEMI_AUTO",
+      "ttlSeconds": 300,
+      "notifyOnAuto": true,
+      "updatedAt": "2026-07-22T06:16:13.110Z"
+    },
+    {
+      "checkpointId": "before-deployment",
+      "label": "Before Deployment",
+      "description": "Approval required before pushing files to the production hosting target.",
+      "mode": "SEMI_AUTO",
+      "defaultMode": "SEMI_AUTO",
+      "ttlSeconds": 300,
+      "notifyOnAuto": true,
+      "updatedAt": "2026-07-22T06:16:13.110Z"
+    },
+    {
+      "checkpointId": "before-deletion",
+      "label": "Before Deletion",
+      "description": "Approval required before permanently deleting files or artefacts.",
+      "mode": "MANUAL",
+      "defaultMode": "MANUAL",
+      "ttlSeconds": 600,
+      "notifyOnAuto": true,
+      "updatedAt": "2026-07-22T06:16:13.110Z"
+    },
+    {
+      "checkpointId": "before-rollback",
+      "label": "Before Rollback",
+      "description": "Approval required before rolling back a deployment to a previous version.",
+      "mode": "MANUAL",
+      "defaultMode": "MANUAL",
+      "ttlSeconds": 180,
+      "notifyOnAuto": true,
+      "updatedAt": "2026-07-22T06:16:13.110Z"
+    }
+  ]
+}

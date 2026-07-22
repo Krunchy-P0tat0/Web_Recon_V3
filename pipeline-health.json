@@ -1,0 +1,81 @@
+{
+  "version": "1.0",
+  "phase": "6.2",
+  "generatedAt": "2026-07-22T06:19:21.194Z",
+  "durationMs": 20,
+  "overallStatus": "healthy",
+  "stages": {
+    "crawl": {
+      "status": "healthy",
+      "totalJobs": 3,
+      "byStatus": {
+        "done": 3
+      },
+      "stuckWorkerCount": 0,
+      "stuckJobIds": [],
+      "failedCount": 0,
+      "deadLetterCount": 0,
+      "recentDoneCount": 3,
+      "avgArticlesPerJob": null,
+      "errorRatePercent": 0,
+      "findings": []
+    },
+    "manifest": {
+      "status": "healthy",
+      "totalSnapshots": 3,
+      "snapshotsForDoneJobs": 3,
+      "orphanedSnapshotCount": 0,
+      "missingSnapshotCount": 0,
+      "staleSnapshotCount": 0,
+      "schemaVersions": [
+        "1.0"
+      ],
+      "findings": []
+    },
+    "diff": {
+      "status": "healthy",
+      "totalDiffs": 0,
+      "recentDiffCount": 0,
+      "suspectDiffCount": 0,
+      "orphanedDiffCount": 0,
+      "avgChangedArticles": null,
+      "findings": [
+        {
+          "severity": "info",
+          "message": "No differential history records yet — diff mode not used"
+        }
+      ]
+    },
+    "generation": {
+      "status": "healthy",
+      "totalGenerationReports": 3,
+      "totalConstructionReports": 3,
+      "failedGenerations": 0,
+      "failedConstructions": 0,
+      "recentGenerationCount": 3,
+      "avgGenerationDurationMs": 1940,
+      "completionRatePercent": 100,
+      "findings": []
+    },
+    "deployment": {
+      "status": "healthy",
+      "totalExecutions": 2,
+      "successCount": 2,
+      "failedCount": 0,
+      "rolledBackCount": 0,
+      "runningCount": 0,
+      "successRatePercent": 100,
+      "intelligencePlanFresh": true,
+      "lastDeployedAt": "2026-07-22T06:17:25.164Z",
+      "findings": []
+    }
+  },
+  "summary": {
+    "totalFindings": 1,
+    "errorCount": 0,
+    "warnCount": 0,
+    "healthyStages": 5,
+    "degradedStages": 0,
+    "criticalStages": 0
+  }
+}

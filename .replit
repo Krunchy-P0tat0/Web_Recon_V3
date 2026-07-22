@@ -1,4 +1,4 @@
-modules = ["nodejs-24"]
+modules = ["nodejs-24", "postgresql-16"]
 
 [deployment]
 router = "application"
@@ -18,3 +18,12 @@ expertMode = true
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
+
+[nix]
+channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+R2_ACCOUNT_ID = "69ba6c6060b1f150465b2f7f71fb9b25"
+R2_PUBLIC_BASE_URL = "https://pub-8710859f71744960aa5d89e60cf0eb31.r2.dev"
