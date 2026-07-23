@@ -161,8 +161,8 @@ router.use(visualOptimizerRouter);
 router.use(visualSchemaRouter);
 router.use(visualStencilMapperVr5Router);
 router.use(vr8ReviewIntegrationRouter);
+router.use(jobStorageRouter);
 router.use(storageRouter);
 router.use(regenerateRouter);
-router.use(jobStorageRouter);
 
 export default router;
