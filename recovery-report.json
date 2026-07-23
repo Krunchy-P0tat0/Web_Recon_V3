@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-07-22T06:19:23.581Z",
-  "durationMs": 1770,
-  "basedOnHealthReport": "2026-07-22T06:19:20.249Z",
+  "generatedAt": "2026-07-23T07:19:24.148Z",
+  "durationMs": 4,
+  "basedOnHealthReport": "2026-07-23T07:19:24.143Z",
   "totalActionsAttempted": 0,
   "totalActionsSucceeded": 0,
   "totalActionsFailed": 0,
@@ -14,33 +14,16 @@
       "repairActions": []
     },
     "assets": {
-      "cloudConfigured": true,
-      "scannedJobs": 3,
-      "missingCount": 1,
+      "cloudConfigured": false,
+      "scannedJobs": 0,
+      "missingCount": 0,
       "repairedCount": 0,
       "failedCount": 0,
-      "missing": [
-        {
-          "jobId": "cb2e6c78-72dd-4177-9fd7-1271b454a9ce",
-          "key": "jobs/cb2e6c78-72dd-4177-9fd7-1271b454a9ce/index.html",
-          "assetType": "index_html"
-        }
-      ],
-      "repairActions": [
-        {
-          "id": "asset:index_html:cb2e6c78",
-          "dimension": "assets",
-          "type": "flag_missing_index_html",
-          "target": "jobs/cb2e6c78-72dd-4177-9fd7-1271b454a9ce/index.html",
-          "outcome": "diagnosed",
-          "detail": "index.html missing in R2 for job cb2e6c78 — manual ZIP regeneration required via POST /scrape/regenerate/cb2e6c78-72dd-4177-9fd7-1271b454a9ce",
-          "durationMs": 0,
-          "autoExecuted": false
-        }
-      ]
+      "missing": [],
+      "repairActions": []
     },
     "manifests": {
-      "scannedSnapshots": 3,
+      "scannedSnapshots": 0,
       "staleRunningJobs": 0,
       "repairedStaleJobs": 0,
       "schemaAnomalies": [],
@@ -48,7 +31,7 @@
       "repairActions": []
     },
     "deployments": {
-      "totalExecutions": 2,
+      "totalExecutions": 0,
       "stuckCount": 0,
       "failedCount": 0,
       "rollbacksTriggered": 0,

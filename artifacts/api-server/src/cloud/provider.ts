@@ -103,6 +103,13 @@ export interface CloudProvider {
    * Optional — providers that don't support deletion omit this method.
    */
   delete?(key: string): Promise<void>;
+
+  /**
+   * List objects whose key starts with the given prefix.
+   * Returns up to 5000 objects. Optional — providers that don't support
+   * listing (e.g. write-only or mock providers) omit this method.
+   */
+  list?(prefix?: string): Promise<Array<{ key: string; size: number; lastModified: string }>>;
 }
 
 // ---------------------------------------------------------------------------

@@ -1,39 +1,39 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-07-22T06:19:23.581Z",
-  "durationMs": 0,
-  "basedOnHealthReport": "2026-07-22T06:19:20.249Z",
-  "basedOnRecoveryReport": "2026-07-22T06:19:23.581Z",
+  "generatedAt": "2026-07-23T07:19:24.149Z",
+  "durationMs": 1,
+  "basedOnHealthReport": "2026-07-23T07:19:24.143Z",
+  "basedOnRecoveryReport": "2026-07-23T07:19:24.148Z",
   "rootCauses": [
     {
-      "id": "rc:assets:missing_artifacts",
-      "category": "data_loss",
-      "priority": "high",
-      "title": "Missing R2 artifacts for completed jobs (1 found)",
-      "description": "1 artifact(s) were missing from R2 for completed jobs. 0 were auto-repaired; 1 still need attention.",
+      "id": "rc:assets:not_configured",
+      "category": "configuration",
+      "priority": "medium",
+      "title": "Cloud storage not configured",
+      "description": "R2 credentials are absent. Assets cannot be stored or verified. Set R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, R2_ACCOUNT_ID.",
       "evidence": [
-        "index_html missing: jobs/cb2e6c78-72dd-4177-9fd7-1271b454a9ce/index.html"
+        "CLOUD_PROVIDER=noop or R2 env vars missing"
       ],
       "affectedDimension": "assets"
     }
   ],
   "repairs": [
     {
-      "id": "repair:rc:assets:missing_artifacts",
-      "rootCauseId": "rc:assets:missing_artifacts",
-      "priority": "high",
-      "title": "Re-upload missing R2 artifacts (none auto-repaired)",
-      "description": "No assets could be auto-repaired. Trigger manual ZIP regeneration via POST /scrape/regenerate/{jobId} for each affected job.",
+      "id": "repair:rc:assets:not_configured",
+      "rootCauseId": "rc:assets:not_configured",
+      "priority": "medium",
+      "title": "Configure R2 credentials",
+      "description": "Add R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, R2_ACCOUNT_ID, and CLOUD_PROVIDER=r2 to environment secrets.",
       "autoExecutable": false,
       "status": "pending_manual",
-      "estimatedImpact": "Restores job restorability from R2 for affected jobs."
+      "estimatedImpact": "Enables all cloud storage features including asset persistence and monitoring uploads."
     }
   ],
   "summary": {
     "totalRootCauses": 1,
     "criticalCount": 0,
-    "highCount": 1,
-    "mediumCount": 0,
+    "highCount": 0,
+    "mediumCount": 1,
     "autoExecutedCount": 0,
     "pendingManualCount": 1,
     "systemStatus": "action_required"

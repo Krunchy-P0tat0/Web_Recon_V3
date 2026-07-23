@@ -1,35 +1,31 @@
 {
   "version": "1.0",
   "phase": "6.2",
-  "generatedAt": "2026-07-22T06:19:21.194Z",
-  "durationMs": 20,
+  "generatedAt": "2026-07-23T07:19:57.105Z",
+  "durationMs": 18,
   "overallStatus": "healthy",
   "stages": {
     "crawl": {
       "status": "healthy",
-      "totalJobs": 3,
-      "byStatus": {
-        "done": 3
-      },
+      "totalJobs": 0,
+      "byStatus": {},
       "stuckWorkerCount": 0,
       "stuckJobIds": [],
       "failedCount": 0,
       "deadLetterCount": 0,
-      "recentDoneCount": 3,
+      "recentDoneCount": 0,
       "avgArticlesPerJob": null,
       "errorRatePercent": 0,
       "findings": []
     },
     "manifest": {
       "status": "healthy",
-      "totalSnapshots": 3,
-      "snapshotsForDoneJobs": 3,
+      "totalSnapshots": 0,
+      "snapshotsForDoneJobs": 0,
       "orphanedSnapshotCount": 0,
       "missingSnapshotCount": 0,
       "staleSnapshotCount": 0,
-      "schemaVersions": [
-        "1.0"
-      ],
+      "schemaVersions": [],
       "findings": []
     },
     "diff": {
@@ -48,30 +44,40 @@
     },
     "generation": {
       "status": "healthy",
-      "totalGenerationReports": 3,
-      "totalConstructionReports": 3,
+      "totalGenerationReports": 0,
+      "totalConstructionReports": 0,
       "failedGenerations": 0,
       "failedConstructions": 0,
-      "recentGenerationCount": 3,
-      "avgGenerationDurationMs": 1940,
+      "recentGenerationCount": 0,
+      "avgGenerationDurationMs": null,
       "completionRatePercent": 100,
-      "findings": []
+      "findings": [
+        {
+          "severity": "info",
+          "message": "No generation reports yet — generation pipeline not yet triggered"
+        }
+      ]
     },
     "deployment": {
       "status": "healthy",
-      "totalExecutions": 2,
-      "successCount": 2,
+      "totalExecutions": 0,
+      "successCount": 0,
       "failedCount": 0,
       "rolledBackCount": 0,
       "runningCount": 0,
       "successRatePercent": 100,
-      "intelligencePlanFresh": true,
-      "lastDeployedAt": "2026-07-22T06:17:25.164Z",
-      "findings": []
+      "intelligencePlanFresh": false,
+      "lastDeployedAt": null,
+      "findings": [
+        {
+          "severity": "info",
+          "message": "deployment-plan.json is stale or missing — run POST /api/deploy/intelligence"
+        }
+      ]
     }
   },
   "summary": {
-    "totalFindings": 1,
+    "totalFindings": 3,
     "errorCount": 0,
     "warnCount": 0,
     "healthyStages": 5,

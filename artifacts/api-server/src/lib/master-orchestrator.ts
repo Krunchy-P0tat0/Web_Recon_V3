@@ -43,6 +43,7 @@ import { runIntelligenceLayer } from "./diff-intelligence.js";
 import { getJobRecord } from "./db-queue.js";
 import { classifyFailure } from "./failure-classifier.js";
 import { executeRecovery } from "./autonomous-recovery-engine.js";
+import { persistStageOutput, persistJobSummary } from "./r2-stage-persister.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -655,18 +656,28 @@ export async function runPipeline(job: OrchestrationJob): Promise<void> {
     }
   }
 
+  /**
+   * D3.4: fire-and-forget stage persistence after each stage.
+   * Never awaited in the critical path — failures are swallowed.
+   */
+  const _d34cloud = getDefaultCloudProvider();
+  function d34(stageId: MasterStageId): void {
+    const stg = job.stages.find((s) => s.id === stageId);
+    if (stg) void persistStageOutput(job, stg, _d34cloud).catch(() => {});
+  }
+
   try {
     // 1. crawl
     await gate("crawl");
     publishEvent("crawl-started", job.id, { url: job.url }, "crawl");
     await runWithRetry(job, "crawl", () => stageCrawl(job));
-    await persist(job);
+    await persist(job); d34("crawl");
 
     // 2. manifest
     await gate("manifest");
     await runWithRetry(job, "manifest", () => stageManifest(job));
     publishEvent("manifest-generated", job.id, { scrapeJobId: job.underlyingJobId }, "manifest");
-    await persist(job);
+    await persist(job); d34("manifest");
 
     // 3. diff (skip if no baseJobId)
     await gate("diff");
@@ -676,61 +687,61 @@ export async function runPipeline(job: OrchestrationJob): Promise<void> {
     } else {
       await skipStage(job, "diff", "No baseline job provided — diff not required");
     }
-    await persist(job);
+    await persist(job); d34("diff");
 
     // 4. intelligence
     await gate("intelligence");
     await runWithRetry(job, "intelligence", () => stageIntelligence(job));
     publishEvent("intelligence-complete", job.id, {}, "intelligence");
-    await persist(job);
+    await persist(job); d34("intelligence");
 
     // 5. design-dna
     await gate("design-dna");
     await runWithRetry(job, "design-dna", () => stageDesignDna(job));
     publishEvent("design-dna-complete", job.id, {}, "design-dna");
-    await persist(job);
+    await persist(job); d34("design-dna");
 
     // 6. visual-dna
     await gate("visual-dna");
     await runWithRetry(job, "visual-dna", () => stageVisualDna(job));
     publishEvent("visual-dna-complete", job.id, {}, "visual-dna");
-    await persist(job);
+    await persist(job); d34("visual-dna");
 
     // 7. stencil
     await gate("stencil");
     await runWithRetry(job, "stencil", () => stageStencil(job));
     publishEvent("stencil-generated", job.id, {}, "stencil");
-    await persist(job);
+    await persist(job); d34("stencil");
 
     // 8. website-prime
     await gate("website-prime");
     await runWithRetry(job, "website-prime", () => stageWebsitePrime(job));
     publishEvent("website-prime-complete", job.id, {}, "website-prime");
-    await persist(job);
+    await persist(job); d34("website-prime");
 
     // 9. merge
     await gate("merge");
     await runWithRetry(job, "merge", () => stageMerge(job));
     publishEvent("merge-complete", job.id, {}, "merge");
-    await persist(job);
+    await persist(job); d34("merge");
 
     // 10. deployment-plan
     await gate("deployment-plan");
     await runWithRetry(job, "deployment-plan", () => stageDeploymentPlan(job));
     publishEvent("deployment-plan-ready", job.id, {}, "deployment-plan");
-    await persist(job);
+    await persist(job); d34("deployment-plan");
 
     // 11. deploy
     await gate("deploy");
     await runWithRetry(job, "deploy", () => stageDeploy(job));
     publishEvent("deployment-complete", job.id, { executionId: job.deploymentExecutionId }, "deploy");
-    await persist(job);
+    await persist(job); d34("deploy");
 
     // 12. certification (Stage 19 — Production Certification)
     await gate("certification");
     await runWithRetry(job, "certification", () => stageCertification(job));
     publishEvent("certification-complete", job.id, {}, "certification");
-    await persist(job);
+    await persist(job); d34("certification");
 
     // Done
     job.status          = "complete";
@@ -784,6 +795,8 @@ export async function runPipeline(job: OrchestrationJob): Promise<void> {
 
   await persist(job);
   await persistAudit();
+  // D3.4: write execution-summary + finalise job manifest in R2 (non-blocking)
+  void persistJobSummary(job, _d34cloud).catch(() => {});
 }
 
 // ---------------------------------------------------------------------------

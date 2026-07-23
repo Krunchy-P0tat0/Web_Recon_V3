@@ -79,6 +79,7 @@ import visualStencilMapperVr5Router from "./visual-stencil-mapper-vr5.js";
 import vr8ReviewIntegrationRouter from "./vr8-review-integration.js";
 import storageRouter from "./storage.js";
 import regenerateRouter from "./regenerate.js";
+import jobStorageRouter from "./job-storage.js";
 
 const router: IRouter = Router();
 
@@ -162,5 +163,6 @@ router.use(visualStencilMapperVr5Router);
 router.use(vr8ReviewIntegrationRouter);
 router.use(storageRouter);
 router.use(regenerateRouter);
+router.use(jobStorageRouter);
 
 export default router;

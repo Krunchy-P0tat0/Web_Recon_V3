@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-07-22T06:19:20.249Z",
-  "overallStatus": "healthy",
-  "uptimeSeconds": 187,
+  "generatedAt": "2026-07-23T07:19:24.143Z",
+  "overallStatus": "degraded",
+  "uptimeSeconds": 5,
   "intervalSeconds": 60,
   "checks": {
     "routes": {
@@ -10,124 +10,104 @@
       "totalProbed": 9,
       "passed": 9,
       "failed": 0,
-      "avgLatencyMs": 14,
-      "p95LatencyMs": 19,
+      "avgLatencyMs": 45,
+      "p95LatencyMs": 58,
       "probes": [
         {
           "path": "/api/healthz",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 8,
+          "latencyMs": 28,
           "pass": true
         },
         {
           "path": "/api/scrape/jobs",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 10,
+          "latencyMs": 36,
           "pass": true
         },
         {
           "path": "/api/deploy/frameworks",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 11,
+          "latencyMs": 38,
           "pass": true
         },
         {
           "path": "/api/deploy/targets",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 12,
+          "latencyMs": 40,
           "pass": true
         },
         {
           "path": "/api/deploy/audit",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 19,
+          "latencyMs": 58,
           "pass": true
         },
         {
           "path": "/api/deploy/executions",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 15,
+          "latencyMs": 43,
           "pass": true
         },
         {
           "path": "/api/monitor/health",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 17,
+          "latencyMs": 53,
           "pass": true
         },
         {
           "path": "/api/monitor/pipeline",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 18,
+          "latencyMs": 55,
           "pass": true
         },
         {
           "path": "/api/monitor/status",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 19,
+          "latencyMs": 56,
           "pass": true
         }
       ]
     },
     "assets": {
-      "status": "pass",
-      "cloudProvider": "r2",
-      "cloudConfigured": true,
-      "sentinelWritten": true,
-      "keysVerified": 3,
+      "status": "warn",
+      "cloudProvider": "noop",
+      "cloudConfigured": false,
+      "sentinelWritten": false,
+      "keysVerified": 0,
       "keysMissing": 0,
-      "probes": [
-        {
-          "key": "monitoring/sentinel.txt",
-          "exists": true,
-          "latencyMs": 1447
-        },
-        {
-          "key": "monitoring/sentinel.txt:verify",
-          "exists": true,
-          "latencyMs": 309
-        },
-        {
-          "key": "monitoring/health-report.json",
-          "exists": true,
-          "latencyMs": 316
-        }
-      ]
+      "probes": []
     },
     "manifests": {
       "status": "pass",
-      "totalSnapshots": 3,
-      "totalJobs": 3,
-      "jobsByStatus": {
-        "done": 3
-      },
-      "schemaVersions": [
-        "1.0"
-      ],
-      "recentActivityWithin24h": true,
+      "totalSnapshots": 0,
+      "totalJobs": 0,
+      "jobsByStatus": {},
+      "schemaVersions": [],
+      "recentActivityWithin24h": false,
       "staleSnapshotCount": 0,
-      "generationReports": 3,
-      "constructionReports": 3
+      "generationReports": 0,
+      "constructionReports": 0
     },
     "deployments": {
       "status": "pass",
-      "total": 2,
-      "success": 2,
+      "total": 0,
+      "success": 0,
       "failed": 0,
       "rolledBack": 0,
       "running": 0,
-      "avgDurationMs": 3724,
-      "firstDeployedAt": "2026-07-22T06:17:17.664Z",
-      "lastDeployedAt": "2026-07-22T06:17:21.437Z"
+      "avgDurationMs": null,
+      "firstDeployedAt": null,
+      "lastDeployedAt": null
     }
   }
 }

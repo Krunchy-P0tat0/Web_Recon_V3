@@ -16,7 +16,7 @@
  *   - Public URL generation from bucket base URL
  */
 
-import { S3Client, PutObjectCommand, HeadObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, HeadObjectCommand, GetObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { createHash } from "crypto";
 import { logger } from "../lib/logger";
 import type { CloudProvider, UploadParams, UploadResult } from "./provider";
@@ -371,6 +371,43 @@ export class R2Provider implements CloudProvider {
         "R2: delete failed (non-fatal)",
       );
     }
+  }
+
+  // ── List ───────────────────────────────────────────────────────────────────
+
+  /**
+   * List all objects whose key starts with `prefix`.
+   * Paginates automatically; caps at 5 000 objects for safety.
+   */
+  async list(prefix?: string): Promise<Array<{ key: string; size: number; lastModified: string }>> {
+    if (!this.config || !this.client) return [];
+
+    const results: Array<{ key: string; size: number; lastModified: string }> = [];
+    let continuationToken: string | undefined;
+
+    do {
+      const resp = await this.client.send(
+        new ListObjectsV2Command({
+          Bucket:            this.config.bucketName,
+          Prefix:            prefix,
+          ContinuationToken: continuationToken,
+          MaxKeys:           1_000,
+        }),
+      );
+
+      for (const obj of resp.Contents ?? []) {
+        if (obj.Key) {
+          results.push({
+            key:          obj.Key,
+            size:         obj.Size ?? 0,
+            lastModified: obj.LastModified?.toISOString() ?? new Date().toISOString(),
+          });
+        }
+      }
+      continuationToken = resp.NextContinuationToken;
+    } while (continuationToken && results.length < 5_000);
+
+    return results;
   }
 
   // ── Accessors for reporting (R2-specific metadata) ─────────────────────────

@@ -1,9 +1,9 @@
 {
   "version": "1.0",
   "phase": "6.2",
-  "generatedAt": "2026-07-21T22:35:00.221Z",
+  "generatedAt": "2026-07-23T07:15:24.137Z",
   "durationMs": 0,
-  "basedOnPipelineReport": "2026-07-21T22:35:00.221Z",
+  "basedOnPipelineReport": "2026-07-23T07:15:24.137Z",
   "totalActionsAttempted": 0,
   "totalActionsSucceeded": 0,
   "totalActionsFailed": 0,
@@ -14,12 +14,12 @@
     "generation": [],
     "deployment": [
       {
-        "id": "deployment:all_failed",
+        "id": "deployment:stale_plan",
         "stage": "deployment",
-        "type": "diagnose_all_failed_executions",
-        "target": "deployment_executions",
+        "type": "diagnose_stale_plan",
+        "target": "deployment-plan.json",
         "outcome": "diagnosed",
-        "detail": "All 3 deployment execution(s) have failed. Review the deployment-execution.ts logs. Common causes: R2 credentials missing, ZIP not found, or invalid job ID. Check GET /api/deploy/executions for error details.",
+        "detail": "deployment-plan.json is stale or missing. POST /api/deploy/intelligence to regenerate it with current environment detection (hosting, DB, storage, recommended target).",
         "durationMs": 0,
         "autoExecuted": false
       }
@@ -27,18 +27,18 @@
   },
   "actions": [
     {
-      "id": "deployment:all_failed",
+      "id": "deployment:stale_plan",
       "stage": "deployment",
-      "type": "diagnose_all_failed_executions",
-      "target": "deployment_executions",
+      "type": "diagnose_stale_plan",
+      "target": "deployment-plan.json",
       "outcome": "diagnosed",
-      "detail": "All 3 deployment execution(s) have failed. Review the deployment-execution.ts logs. Common causes: R2 credentials missing, ZIP not found, or invalid job ID. Check GET /api/deploy/executions for error details.",
+      "detail": "deployment-plan.json is stale or missing. POST /api/deploy/intelligence to regenerate it with current environment detection (hosting, DB, storage, recommended target).",
       "durationMs": 0,
       "autoExecuted": false
     }
   ],
   "autoHealedIssues": [],
   "manualActionRequired": [
-    "[DEPLOYMENT] All 3 deployment execution(s) have failed. Review the deployment-execution.ts logs. Common causes: R2 credentials missing, ZIP not found, or invalid job ID. Check GET /api/deploy/executions for error details."
+    "[DEPLOYMENT] deployment-plan.json is stale or missing. POST /api/deploy/intelligence to regenerate it with current environment detection (hosting, DB, storage, recommended target)."
   ]
 }

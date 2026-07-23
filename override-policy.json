@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "phase": "7.4",
-  "generatedAt": "2026-07-22T06:16:13.110Z",
+  "generatedAt": "2026-07-23T07:19:19.000Z",
   "globalMode": "SEMI_AUTO",
   "checkpoints": [
     {
@@ -12,7 +12,7 @@
       "defaultMode": "SEMI_AUTO",
       "ttlSeconds": 300,
       "notifyOnAuto": true,
-      "updatedAt": "2026-07-22T06:16:13.110Z"
+      "updatedAt": "2026-07-23T07:19:19.000Z"
     },
     {
       "checkpointId": "before-deployment",
@@ -22,7 +22,7 @@
       "defaultMode": "SEMI_AUTO",
       "ttlSeconds": 300,
       "notifyOnAuto": true,
-      "updatedAt": "2026-07-22T06:16:13.110Z"
+      "updatedAt": "2026-07-23T07:19:19.000Z"
     },
     {
       "checkpointId": "before-deletion",
@@ -32,7 +32,7 @@
       "defaultMode": "MANUAL",
       "ttlSeconds": 600,
       "notifyOnAuto": true,
-      "updatedAt": "2026-07-22T06:16:13.110Z"
+      "updatedAt": "2026-07-23T07:19:19.000Z"
     },
     {
       "checkpointId": "before-rollback",
@@ -42,7 +42,7 @@
       "defaultMode": "MANUAL",
       "ttlSeconds": 180,
       "notifyOnAuto": true,
-      "updatedAt": "2026-07-22T06:16:13.110Z"
+      "updatedAt": "2026-07-23T07:19:19.000Z"
     }
   ]
 }
