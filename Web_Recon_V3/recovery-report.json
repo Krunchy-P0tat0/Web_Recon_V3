@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-07-23T07:19:24.148Z",
+  "generatedAt": "2026-07-24T13:25:48.002Z",
   "durationMs": 4,
-  "basedOnHealthReport": "2026-07-23T07:19:24.143Z",
+  "basedOnHealthReport": "2026-07-24T13:25:46.510Z",
   "totalActionsAttempted": 0,
   "totalActionsSucceeded": 0,
   "totalActionsFailed": 0,
@@ -14,7 +14,7 @@
       "repairActions": []
     },
     "assets": {
-      "cloudConfigured": false,
+      "cloudConfigured": true,
       "scannedJobs": 0,
       "missingCount": 0,
       "repairedCount": 0,

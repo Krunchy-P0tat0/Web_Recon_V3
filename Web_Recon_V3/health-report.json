@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-07-23T07:19:24.143Z",
-  "overallStatus": "degraded",
-  "uptimeSeconds": 5,
+  "generatedAt": "2026-07-24T13:25:46.510Z",
+  "overallStatus": "healthy",
+  "uptimeSeconds": 187,
   "intervalSeconds": 60,
   "checks": {
     "routes": {
@@ -10,82 +10,98 @@
       "totalProbed": 9,
       "passed": 9,
       "failed": 0,
-      "avgLatencyMs": 45,
-      "p95LatencyMs": 58,
+      "avgLatencyMs": 20,
+      "p95LatencyMs": 26,
       "probes": [
         {
           "path": "/api/healthz",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 28,
+          "latencyMs": 14,
           "pass": true
         },
         {
           "path": "/api/scrape/jobs",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 36,
+          "latencyMs": 16,
           "pass": true
         },
         {
           "path": "/api/deploy/frameworks",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 38,
+          "latencyMs": 16,
           "pass": true
         },
         {
           "path": "/api/deploy/targets",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 40,
+          "latencyMs": 17,
           "pass": true
         },
         {
           "path": "/api/deploy/audit",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 58,
+          "latencyMs": 26,
           "pass": true
         },
         {
           "path": "/api/deploy/executions",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 43,
+          "latencyMs": 19,
           "pass": true
         },
         {
           "path": "/api/monitor/health",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 53,
+          "latencyMs": 24,
           "pass": true
         },
         {
           "path": "/api/monitor/pipeline",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 55,
+          "latencyMs": 25,
           "pass": true
         },
         {
           "path": "/api/monitor/status",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 56,
+          "latencyMs": 26,
           "pass": true
         }
       ]
     },
     "assets": {
-      "status": "warn",
-      "cloudProvider": "noop",
-      "cloudConfigured": false,
-      "sentinelWritten": false,
-      "keysVerified": 0,
+      "status": "pass",
+      "cloudProvider": "r2",
+      "cloudConfigured": true,
+      "sentinelWritten": true,
+      "keysVerified": 3,
       "keysMissing": 0,
-      "probes": []
+      "probes": [
+        {
+          "key": "monitoring/sentinel.txt",
+          "exists": true,
+          "latencyMs": 1464
+        },
+        {
+          "key": "monitoring/sentinel.txt:verify",
+          "exists": true,
+          "latencyMs": 313
+        },
+        {
+          "key": "monitoring/health-report.json",
+          "exists": true,
+          "latencyMs": 323
+        }
+      ]
     },
     "manifests": {
       "status": "pass",

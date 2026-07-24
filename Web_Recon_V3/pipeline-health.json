@@ -1,8 +1,8 @@
 {
   "version": "1.0",
   "phase": "6.2",
-  "generatedAt": "2026-07-23T07:19:57.105Z",
-  "durationMs": 18,
+  "generatedAt": "2026-07-24T13:25:47.427Z",
+  "durationMs": 21,
   "overallStatus": "healthy",
   "stages": {
     "crawl": {
@@ -66,18 +66,13 @@
       "rolledBackCount": 0,
       "runningCount": 0,
       "successRatePercent": 100,
-      "intelligencePlanFresh": false,
+      "intelligencePlanFresh": true,
       "lastDeployedAt": null,
-      "findings": [
-        {
-          "severity": "info",
-          "message": "deployment-plan.json is stale or missing — run POST /api/deploy/intelligence"
-        }
-      ]
+      "findings": []
     }
   },
   "summary": {
-    "totalFindings": 3,
+    "totalFindings": 2,
     "errorCount": 0,
     "warnCount": 0,
     "healthyStages": 5,

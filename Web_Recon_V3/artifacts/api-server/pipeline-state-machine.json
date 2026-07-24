@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-07-23T07:19:18.996Z",
+  "generatedAt": "2026-07-24T13:22:39.292Z",
   "phase": "7.2",
   "description": "Deterministic pipeline state machine for website reconstruction",
   "states": [
