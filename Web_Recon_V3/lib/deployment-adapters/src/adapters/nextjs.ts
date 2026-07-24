@@ -1,0 +1,217 @@
+import type { DeploymentAdapter, DeploymentContext, DeploymentPlan } from "../types.js";
+
+export const nextjsAdapter: DeploymentAdapter = {
+  framework: "nextjs",
+
+  generate(ctx: DeploymentContext): DeploymentPlan {
+    const now = new Date().toISOString();
+    return {
+      version: "1.0",
+      generatedAt: now,
+      framework: "nextjs",
+      frameworkVersion: ctx.version,
+      sourceUrl: ctx.sourceUrl,
+      summary:
+        "Next.js app — supports SSR, SSG, and edge runtimes. Vercel is the zero-config option; Docker enables self-hosting on any cloud.",
+
+      hostingOptions: [
+        {
+          name: "Vercel",
+          provider: "vercel",
+          tier: "free",
+          url: "https://vercel.com",
+          recommended: true,
+          deployMethod: "git",
+          config: {
+            framework: "nextjs",
+          },
+          notes: [
+            "Made by the Next.js team — zero configuration required.",
+            "App Router, Server Components, ISR, and Edge functions all work natively.",
+            "Connect your Git repo and every push auto-deploys.",
+          ],
+        },
+        {
+          name: "Railway",
+          provider: "railway",
+          tier: "hobby",
+          url: "https://railway.app",
+          recommended: false,
+          deployMethod: "git",
+          config: {
+            buildCommand: "npm run build",
+            startCommand: "npm start",
+            PORT: "$PORT",
+          },
+          notes: [
+            "Set PORT env var to $PORT (Railway injects it automatically).",
+            "Add `output: 'standalone'` to next.config.ts for smaller Docker images.",
+          ],
+        },
+        {
+          name: "Fly.io",
+          provider: "fly",
+          tier: "hobby",
+          url: "https://fly.io",
+          recommended: false,
+          deployMethod: "docker",
+          config: {
+            regions: "iad",
+            memory: "512mb",
+          },
+          notes: [
+            "Run `fly launch` then `fly deploy`.",
+            "Use standalone output mode for the smallest possible image.",
+          ],
+        },
+        {
+          name: "AWS Amplify",
+          provider: "aws",
+          tier: "pro",
+          url: "https://aws.amazon.com/amplify/",
+          recommended: false,
+          deployMethod: "git",
+          config: {
+            framework: "Next.js - SSR",
+            buildCommand: "npm run build",
+          },
+          notes: [
+            "Supports SSR via Lambda@Edge. Enable SSR in the Amplify console.",
+            "Requires Node.js 18+ runtime setting.",
+          ],
+        },
+        {
+          name: "Render",
+          provider: "render",
+          tier: "hobby",
+          url: "https://render.com",
+          recommended: false,
+          deployMethod: "git",
+          config: {
+            buildCommand: "npm run build",
+            startCommand: "npm start",
+            envVars: "NODE_ENV=production",
+          },
+          notes: ["Deploy as a Web Service. Free tier spins down after inactivity."],
+        },
+      ],
+
+      buildConfig: {
+        installCommand: "npm install",
+        buildCommand: "npm run build",
+        outputDirectory: ".next",
+        startCommand: "npm start",
+        nodeVersion: "20",
+        phpVersion: null,
+        envVars: [
+          {
+            name: "NODE_ENV",
+            required: true,
+            description: "Must be 'production' for production builds",
+            example: "production",
+          },
+          {
+            name: "NEXTAUTH_SECRET",
+            required: false,
+            description: "Required if using NextAuth.js — generate with: openssl rand -base64 32",
+            example: null,
+          },
+          {
+            name: "NEXTAUTH_URL",
+            required: false,
+            description: "Canonical URL of your deployment (required for NextAuth.js)",
+            example: "https://your-app.vercel.app",
+          },
+          {
+            name: "DATABASE_URL",
+            required: false,
+            description: "Postgres/MySQL connection string if the app uses a database",
+            example: "postgresql://user:pass@host:5432/db",
+          },
+        ],
+      },
+
+      dockerConfig: {
+        baseImage: "node:20-alpine",
+        buildSteps: [
+          "FROM node:20-alpine AS deps",
+          "WORKDIR /app",
+          "COPY package*.json ./",
+          "RUN npm ci --omit=dev",
+          "",
+          "FROM node:20-alpine AS builder",
+          "WORKDIR /app",
+          "COPY --from=deps /app/node_modules ./node_modules",
+          "COPY . .",
+          "RUN npm run build",
+          "",
+          "FROM node:20-alpine AS runner",
+          "WORKDIR /app",
+          "ENV NODE_ENV=production",
+          "COPY --from=builder /app/.next/standalone ./",
+          "COPY --from=builder /app/.next/static ./.next/static",
+          "COPY --from=builder /app/public ./public",
+        ],
+        exposePort: 3000,
+        cmd: ["node", "server.js"],
+        dockerfileSnippet: [
+          "# next.config.ts: output: 'standalone'  ← required",
+          "FROM node:20-alpine AS deps",
+          "WORKDIR /app",
+          "COPY package*.json ./",
+          "RUN npm ci --omit=dev",
+          "",
+          "FROM node:20-alpine AS builder",
+          "WORKDIR /app",
+          "COPY --from=deps /app/node_modules ./node_modules",
+          "COPY . .",
+          "RUN npm run build",
+          "",
+          "FROM node:20-alpine AS runner",
+          "WORKDIR /app",
+          "ENV NODE_ENV=production",
+          "COPY --from=builder /app/.next/standalone ./",
+          "COPY --from=builder /app/.next/static ./.next/static",
+          "COPY --from=builder /app/public ./public",
+          "EXPOSE 3000",
+          'ENV PORT=3000',
+          'CMD ["node", "server.js"]',
+        ].join("\n"),
+      },
+
+      ciConfig: {
+        platform: "github-actions",
+        filename: ".github/workflows/deploy.yml",
+        content: [
+          "name: Deploy Next.js App",
+          "on:",
+          "  push:",
+          "    branches: [main]",
+          "jobs:",
+          "  build:",
+          "    runs-on: ubuntu-latest",
+          "    steps:",
+          "      - uses: actions/checkout@v4",
+          "      - uses: actions/setup-node@v4",
+          "        with:",
+          "          node-version: '20'",
+          "          cache: 'npm'",
+          "      - run: npm ci",
+          "      - run: npm run build",
+          "        env:",
+          "          NODE_ENV: production",
+          "      # Add your deploy step here (vercel deploy, fly deploy, etc.)",
+        ].join("\n"),
+      },
+
+      checklist: [
+        "Add `output: 'standalone'` to next.config.ts if self-hosting with Docker",
+        "Set NODE_ENV=production before running `next build`",
+        "Configure all NEXT_PUBLIC_* env vars in your host's dashboard",
+        "Run database migrations before the first deployment if the app uses a DB",
+        "Verify ISR revalidation works — some hosts require additional config",
+        "Enable HTTP/2 on your reverse proxy (nginx/caddy) for optimal performance",
+      ],
+    };
+  },
+};

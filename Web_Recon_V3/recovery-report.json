@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-07-23T07:19:24.148Z",
+  "durationMs": 4,
+  "basedOnHealthReport": "2026-07-23T07:19:24.143Z",
+  "totalActionsAttempted": 0,
+  "totalActionsSucceeded": 0,
+  "totalActionsFailed": 0,
+  "findings": {
+    "routes": {
+      "brokenCount": 0,
+      "diagnosedCount": 0,
+      "broken": [],
+      "repairActions": []
+    },
+    "assets": {
+      "cloudConfigured": false,
+      "scannedJobs": 0,
+      "missingCount": 0,
+      "repairedCount": 0,
+      "failedCount": 0,
+      "missing": [],
+      "repairActions": []
+    },
+    "manifests": {
+      "scannedSnapshots": 0,
+      "staleRunningJobs": 0,
+      "repairedStaleJobs": 0,
+      "schemaAnomalies": [],
+      "staleJobs": [],
+      "repairActions": []
+    },
+    "deployments": {
+      "totalExecutions": 0,
+      "stuckCount": 0,
+      "failedCount": 0,
+      "rollbacksTriggered": 0,
+      "stuckExecutions": [],
+      "repairActions": []
+    }
+  }
+}

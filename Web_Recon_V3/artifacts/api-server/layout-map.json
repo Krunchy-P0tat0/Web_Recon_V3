@@ -1,0 +1,72 @@
+{
+  "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4",
+  "version": "1.0",
+  "pageCount": 1,
+  "pages": [
+    {
+      "pageId": "100680ad546ce6a5",
+      "url": "https://example.com",
+      "pageWidth": 1920,
+      "pageHeight": 3000,
+      "regions": [
+        {
+          "type": "navigation",
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 80,
+          "confidence": 0.92,
+          "label": "Site Navigation"
+        },
+        {
+          "type": "hero",
+          "x": 0,
+          "y": 80,
+          "width": 1920,
+          "height": 860,
+          "confidence": 0.88,
+          "label": "Hero Section"
+        },
+        {
+          "type": "cta",
+          "x": 0,
+          "y": 940,
+          "width": 1920,
+          "height": 620,
+          "confidence": 0.78,
+          "label": "CTA Section"
+        },
+        {
+          "type": "cta",
+          "x": 0,
+          "y": 1560,
+          "width": 1920,
+          "height": 620,
+          "confidence": 0.78,
+          "label": "CTA Section"
+        },
+        {
+          "type": "content",
+          "x": 0,
+          "y": 2180,
+          "width": 1920,
+          "height": 620,
+          "confidence": 0.72,
+          "label": "Content Section"
+        },
+        {
+          "type": "footer",
+          "x": 0,
+          "y": 2800,
+          "width": 1920,
+          "height": 220,
+          "confidence": 0.91,
+          "label": "Site Footer"
+        }
+      ],
+      "regionCount": 6,
+      "mappedAt": "2026-07-22T06:17:33.930Z"
+    }
+  ],
+  "createdAt": "2026-07-22T06:17:33.930Z"
+}

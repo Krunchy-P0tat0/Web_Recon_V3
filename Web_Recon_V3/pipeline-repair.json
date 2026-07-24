@@ -1,0 +1,44 @@
+{
+  "version": "1.0",
+  "phase": "6.2",
+  "generatedAt": "2026-07-23T07:15:24.137Z",
+  "durationMs": 0,
+  "basedOnPipelineReport": "2026-07-23T07:15:24.137Z",
+  "totalActionsAttempted": 0,
+  "totalActionsSucceeded": 0,
+  "totalActionsFailed": 0,
+  "byStage": {
+    "crawl": [],
+    "manifest": [],
+    "diff": [],
+    "generation": [],
+    "deployment": [
+      {
+        "id": "deployment:stale_plan",
+        "stage": "deployment",
+        "type": "diagnose_stale_plan",
+        "target": "deployment-plan.json",
+        "outcome": "diagnosed",
+        "detail": "deployment-plan.json is stale or missing. POST /api/deploy/intelligence to regenerate it with current environment detection (hosting, DB, storage, recommended target).",
+        "durationMs": 0,
+        "autoExecuted": false
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "deployment:stale_plan",
+      "stage": "deployment",
+      "type": "diagnose_stale_plan",
+      "target": "deployment-plan.json",
+      "outcome": "diagnosed",
+      "detail": "deployment-plan.json is stale or missing. POST /api/deploy/intelligence to regenerate it with current environment detection (hosting, DB, storage, recommended target).",
+      "durationMs": 0,
+      "autoExecuted": false
+    }
+  ],
+  "autoHealedIssues": [],
+  "manualActionRequired": [
+    "[DEPLOYMENT] deployment-plan.json is stale or missing. POST /api/deploy/intelligence to regenerate it with current environment detection (hosting, DB, storage, recommended target)."
+  ]
+}

@@ -1,0 +1,2510 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-06-17T19:23:53.149Z",
+  "stats": {
+    "totalStencils": 8,
+    "byPrimaryLayout": {
+      "ArticleLayout": 2,
+      "GalleryLayout": 0,
+      "LandingLayout": 2,
+      "DocumentationLayout": 1,
+      "PortfolioLayout": 1,
+      "IndexLayout": 2,
+      "MinimalLayout": 0
+    },
+    "byPrimaryPageType": {
+      "homepage": 0,
+      "article": 2,
+      "blog": 0,
+      "guide": 0,
+      "docs": 1,
+      "portfolio": 1,
+      "faq": 0,
+      "landing": 2,
+      "category": 2,
+      "tag": 0,
+      "gallery": 0,
+      "search": 0,
+      "not_found": 0,
+      "sitemap_page": 0
+    },
+    "totalContentCapabilities": 36,
+    "totalNavigationStructures": 12
+  },
+  "stencils": [
+    {
+      "id": "agency",
+      "displayName": "Agency",
+      "description": "Creative or professional-services agency site. Strong brand identity, services showcase, portfolio of work, team profiles, and lead-capture forms.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "primary",
+          "notes": "Core offering pages — services, about, contact."
+        },
+        {
+          "contentType": "PORTFOLIO",
+          "support": "primary",
+          "notes": "Case studies and project showcases."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "supported",
+          "notes": "Work samples, photo galleries, process shots."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "partial",
+          "notes": "Thought-leadership blog; secondary to portfolio."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Services FAQ and pricing questions."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "landing"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "PortfolioLayout",
+          "usedForPageTypes": [
+            "portfolio"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "faq"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "footer-grouped",
+        "breadcrumbs",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Brand hero, services overview, CTA."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": true,
+          "notes": "Individual service or campaign pages."
+        },
+        {
+          "pageType": "portfolio",
+          "isRequired": true,
+          "notes": "Case study detail pages."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": false,
+          "notes": "Visual work samples."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Blog / thought-leadership."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": false,
+          "notes": "Services and process FAQ."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": false,
+          "notes": "HTML sitemap for SEO."
+        }
+      ],
+      "requiredComponents": [
+        "HeroSection",
+        "NavigationBar",
+        "Footer",
+        "PortfolioGrid"
+      ],
+      "optionalComponents": [
+        "PortfolioCard",
+        "GalleryGrid",
+        "GalleryLightbox",
+        "FeaturedContent",
+        "FAQAccordion",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "landing",
+      "primaryLayout": "LandingLayout",
+      "tags": [
+        "agency",
+        "services",
+        "portfolio",
+        "creative",
+        "b2b",
+        "branding"
+      ]
+    },
+    {
+      "id": "blog",
+      "displayName": "Blog",
+      "description": "Content-first personal or editorial blog. Long-form articles with full taxonomy support (categories, tags), author profiles, related content, and an RSS-friendly sitemap.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "ARTICLE",
+          "support": "primary",
+          "notes": "Long-form posts are the primary content unit."
+        },
+        {
+          "contentType": "BLOG",
+          "support": "primary",
+          "notes": "Short-form blog entries and news posts."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "supported",
+          "notes": "How-to guides and tutorials."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "partial",
+          "notes": "Static FAQ pages when needed."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "blog",
+            "guide"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "tag",
+            "search"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "breadcrumbs",
+        "footer-grouped",
+        "tag-cloud",
+        "pagination",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Latest posts + featured content."
+        },
+        {
+          "pageType": "article",
+          "isRequired": true,
+          "notes": "Individual article/post page."
+        },
+        {
+          "pageType": "blog",
+          "isRequired": true,
+          "notes": "Short-form blog posts."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": false,
+          "notes": "How-to and tutorial content."
+        },
+        {
+          "pageType": "category",
+          "isRequired": true,
+          "notes": "Posts grouped by category."
+        },
+        {
+          "pageType": "tag",
+          "isRequired": true,
+          "notes": "Posts grouped by tag."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Full-text post search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": true,
+          "notes": "HTML sitemap for discoverability."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "ArticleList",
+        "ArticleCard",
+        "Pagination",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "FeaturedContent",
+        "LatestContent",
+        "AuthorBlock",
+        "RelatedContent",
+        "TagCloud",
+        "Breadcrumb",
+        "SearchBox",
+        "SearchResults",
+        "TableOfContents",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "article",
+      "primaryLayout": "ArticleLayout",
+      "tags": [
+        "blog",
+        "editorial",
+        "writing",
+        "articles",
+        "publishing"
+      ]
+    },
+    {
+      "id": "magazine",
+      "displayName": "Magazine",
+      "description": "High-volume editorial or news magazine. Multiple content sections, editorial curation, mega-menu navigation, gallery support, and category-driven discovery. Scales to thousands of articles.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "ARTICLE",
+          "support": "primary",
+          "notes": "News stories, features, and opinion pieces."
+        },
+        {
+          "contentType": "BLOG",
+          "support": "supported",
+          "notes": "Commentary and editor blogs."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "supported",
+          "notes": "Long-form guides and special reports."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "supported",
+          "notes": "Photo stories and editorial galleries."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "partial",
+          "notes": "Section-specific FAQ pages."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "blog",
+            "guide"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "tag",
+            "search"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "landing"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "mega-menu",
+        "breadcrumbs",
+        "category-tree",
+        "footer-grouped",
+        "pagination",
+        "tag-cloud",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Editorial front page with curated sections."
+        },
+        {
+          "pageType": "article",
+          "isRequired": true,
+          "notes": "Individual article with rich metadata."
+        },
+        {
+          "pageType": "blog",
+          "isRequired": true,
+          "notes": "Editor blog and commentary."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": false,
+          "notes": "Long-form special report pages."
+        },
+        {
+          "pageType": "category",
+          "isRequired": true,
+          "notes": "Section index with article grid."
+        },
+        {
+          "pageType": "tag",
+          "isRequired": true,
+          "notes": "Tag archive pages."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": true,
+          "notes": "Photo essays and editorial galleries."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": false,
+          "notes": "Campaign and sponsorship landing pages."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Site-wide search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": true,
+          "notes": "HTML sitemap for SEO."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "ArticleGrid",
+        "ArticleCard",
+        "ArticleList",
+        "CategoryListing",
+        "Pagination",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "FeaturedContent",
+        "LatestContent",
+        "CategoryHighlights",
+        "AuthorBlock",
+        "RelatedContent",
+        "TagCloud",
+        "FilterBar",
+        "Breadcrumb",
+        "GalleryGrid",
+        "GalleryLightbox",
+        "SearchBox",
+        "SearchResults",
+        "TableOfContents",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "article",
+      "primaryLayout": "ArticleLayout",
+      "tags": [
+        "magazine",
+        "news",
+        "editorial",
+        "publishing",
+        "media",
+        "journalism"
+      ]
+    },
+    {
+      "id": "portfolio",
+      "displayName": "Portfolio",
+      "description": "Creative professional or design studio portfolio. Work-first layout with project case studies, photo/video galleries, and a clean personal brand presence. Minimal chrome to let the work speak.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "PORTFOLIO",
+          "support": "primary",
+          "notes": "Project case studies and work samples."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "primary",
+          "notes": "Full-screen image and video galleries."
+        },
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "supported",
+          "notes": "About, contact, and services pages."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "partial",
+          "notes": "Optional writing/journal section."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "PortfolioLayout",
+          "usedForPageTypes": [
+            "portfolio"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "landing"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "breadcrumbs",
+        "footer-grouped",
+        "contextual-links",
+        "pagination"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Hero with selected work highlights."
+        },
+        {
+          "pageType": "portfolio",
+          "isRequired": true,
+          "notes": "Individual project/case study."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": true,
+          "notes": "Image/video gallery for a project."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": false,
+          "notes": "About and contact pages."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Optional writing or journal."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Branded 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": false,
+          "notes": "HTML sitemap."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "PortfolioGrid",
+        "PortfolioCard",
+        "GalleryGrid",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "GalleryLightbox",
+        "FeaturedContent",
+        "Breadcrumb",
+        "RelatedContent",
+        "ArticleList",
+        "Pagination",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "portfolio",
+      "primaryLayout": "PortfolioLayout",
+      "tags": [
+        "portfolio",
+        "creative",
+        "design",
+        "photography",
+        "studio",
+        "freelance"
+      ]
+    },
+    {
+      "id": "documentation",
+      "displayName": "Documentation",
+      "description": "Technical documentation or knowledge base. Persistent sidebar navigation, step-by-step guides, full-text search, table of contents, code blocks, and version-aware breadcrumbs. Built for developer or user references.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "DOCS",
+          "support": "primary",
+          "notes": "API references, SDK guides, and conceptual docs."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "primary",
+          "notes": "Step-by-step tutorials and how-to guides."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Troubleshooting and common questions."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "supported",
+          "notes": "Blog posts, release notes, and announcements."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "DocumentationLayout",
+          "usedForPageTypes": [
+            "docs",
+            "guide"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "faq"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "search"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "sidebar",
+        "step-nav",
+        "breadcrumbs",
+        "primary-header",
+        "pagination",
+        "contextual-links",
+        "tabs"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Docs landing with section index."
+        },
+        {
+          "pageType": "docs",
+          "isRequired": true,
+          "notes": "API references and conceptual docs."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": true,
+          "notes": "Step-by-step tutorials."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": true,
+          "notes": "Troubleshooting and FAQ."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Blog / release notes."
+        },
+        {
+          "pageType": "category",
+          "isRequired": false,
+          "notes": "Doc section index pages."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Full-text docs search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": true,
+          "notes": "HTML sitemap for crawlers."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "TableOfContents",
+        "CodeBlock",
+        "Breadcrumb",
+        "SearchBox",
+        "SearchResults",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "FAQAccordion",
+        "RelatedContent",
+        "ArticleList",
+        "Pagination",
+        "CategoryListing",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "docs",
+      "primaryLayout": "DocumentationLayout",
+      "tags": [
+        "documentation",
+        "docs",
+        "knowledge-base",
+        "developer",
+        "technical",
+        "reference"
+      ]
+    },
+    {
+      "id": "marketplace",
+      "displayName": "Marketplace",
+      "description": "Product or service marketplace. Filter-bar faceted browsing, category mega-menu, listing grids, detail pages, and conversion-oriented CTAs. Supports digital goods, services, or physical products.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "primary",
+          "notes": "Homepage, campaign, and vendor landing pages."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "supported",
+          "notes": "Product guides, comparisons, and reviews."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "supported",
+          "notes": "Product image galleries."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Purchasing, shipping, and policy FAQs."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "partial",
+          "notes": "Buying guides and tutorials."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "tag",
+            "search"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "landing"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "guide",
+            "faq"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "mega-menu",
+        "filter-bar",
+        "breadcrumbs",
+        "category-tree",
+        "footer-grouped",
+        "pagination",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Featured listings and category highlights."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": true,
+          "notes": "Campaign and vendor landing pages."
+        },
+        {
+          "pageType": "category",
+          "isRequired": true,
+          "notes": "Browsable listing grid with filters."
+        },
+        {
+          "pageType": "tag",
+          "isRequired": true,
+          "notes": "Tag-filtered listing pages."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": false,
+          "notes": "Product image gallery."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Guides and reviews."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": false,
+          "notes": "Buying guides."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": true,
+          "notes": "Purchase and policy FAQ."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Full-text listing search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": false,
+          "notes": "HTML sitemap."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "FilterBar",
+        "CategoryListing",
+        "ArticleGrid",
+        "ArticleCard",
+        "Pagination",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "FeaturedContent",
+        "LatestContent",
+        "CategoryHighlights",
+        "GalleryGrid",
+        "GalleryLightbox",
+        "Breadcrumb",
+        "SearchBox",
+        "SearchResults",
+        "FAQAccordion",
+        "RelatedContent",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "category",
+      "primaryLayout": "IndexLayout",
+      "tags": [
+        "marketplace",
+        "ecommerce",
+        "listings",
+        "products",
+        "shop",
+        "directory"
+      ]
+    },
+    {
+      "id": "directory",
+      "displayName": "Directory",
+      "description": "Business, venue, or resource directory. Category-tree browsing, filter-bar facets, listing detail pages, and SEO-friendly category archives. Suitable for local business guides, tool directories, vendor lists, and resource hubs.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "ARTICLE",
+          "support": "primary",
+          "notes": "Individual directory listing detail pages."
+        },
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "supported",
+          "notes": "Homepage, city or region landing pages."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "supported",
+          "notes": "How-to and curated guides."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Submission, listing, and general FAQs."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "tag",
+            "search"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "guide",
+            "faq"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "landing"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "filter-bar",
+        "category-tree",
+        "breadcrumbs",
+        "pagination",
+        "footer-grouped",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Directory home with category highlights."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": false,
+          "notes": "City, region, or sub-directory pages."
+        },
+        {
+          "pageType": "category",
+          "isRequired": true,
+          "notes": "Listing grid for a category."
+        },
+        {
+          "pageType": "article",
+          "isRequired": true,
+          "notes": "Individual listing detail page."
+        },
+        {
+          "pageType": "tag",
+          "isRequired": true,
+          "notes": "Tag-filtered listing archives."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": false,
+          "notes": "Curated guide content."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": false,
+          "notes": "Directory FAQ."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Full-text directory search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": true,
+          "notes": "HTML sitemap for SEO."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "FilterBar",
+        "CategoryListing",
+        "ArticleList",
+        "ArticleCard",
+        "Pagination",
+        "Breadcrumb",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "CategoryHighlights",
+        "TagCloud",
+        "SearchBox",
+        "SearchResults",
+        "FAQAccordion",
+        "RelatedContent",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "category",
+      "primaryLayout": "IndexLayout",
+      "tags": [
+        "directory",
+        "listings",
+        "local",
+        "business",
+        "resources",
+        "catalogue"
+      ]
+    },
+    {
+      "id": "wedding",
+      "displayName": "Wedding",
+      "description": "Personal event or wedding website. Visual-first with a full-bleed hero, large image galleries, event schedule, venue information, and FAQ. Minimal navigation, strong typography, and a single-occasion focus.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "primary",
+          "notes": "Event details — couple story, venue, schedule."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "primary",
+          "notes": "Engagement photos, wedding gallery."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Guest FAQ — dress code, travel, accommodation."
+        },
+        {
+          "contentType": "BLOG",
+          "support": "partial",
+          "notes": "Optional wedding blog or journal."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "partial",
+          "notes": "Long-form stories or venue write-ups."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "landing"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "faq"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "blog"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "breadcrumbs",
+        "footer-grouped",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Full-bleed hero, couple story, key info."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": true,
+          "notes": "Venue, schedule, travel, accommodation."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": true,
+          "notes": "Engagement and wedding photo galleries."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": true,
+          "notes": "Guest questions and logistics FAQ."
+        },
+        {
+          "pageType": "blog",
+          "isRequired": false,
+          "notes": "Optional wedding blog."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Venue write-ups or long-form stories."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Minimal branded 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": false,
+          "notes": "HTML sitemap."
+        }
+      ],
+      "requiredComponents": [
+        "HeroSection",
+        "NavigationBar",
+        "GalleryGrid",
+        "GalleryLightbox",
+        "FAQAccordion",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "FeaturedContent",
+        "LatestContent",
+        "ArticleList",
+        "ArticleCard",
+        "Breadcrumb",
+        "RelatedContent",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "landing",
+      "primaryLayout": "LandingLayout",
+      "tags": [
+        "wedding",
+        "event",
+        "occasion",
+        "personal",
+        "celebration",
+        "gallery"
+      ]
+    }
+  ],
+  "stencilIndex": {
+    "agency": {
+      "id": "agency",
+      "displayName": "Agency",
+      "description": "Creative or professional-services agency site. Strong brand identity, services showcase, portfolio of work, team profiles, and lead-capture forms.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "primary",
+          "notes": "Core offering pages — services, about, contact."
+        },
+        {
+          "contentType": "PORTFOLIO",
+          "support": "primary",
+          "notes": "Case studies and project showcases."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "supported",
+          "notes": "Work samples, photo galleries, process shots."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "partial",
+          "notes": "Thought-leadership blog; secondary to portfolio."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Services FAQ and pricing questions."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "landing"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "PortfolioLayout",
+          "usedForPageTypes": [
+            "portfolio"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "faq"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "footer-grouped",
+        "breadcrumbs",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Brand hero, services overview, CTA."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": true,
+          "notes": "Individual service or campaign pages."
+        },
+        {
+          "pageType": "portfolio",
+          "isRequired": true,
+          "notes": "Case study detail pages."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": false,
+          "notes": "Visual work samples."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Blog / thought-leadership."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": false,
+          "notes": "Services and process FAQ."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": false,
+          "notes": "HTML sitemap for SEO."
+        }
+      ],
+      "requiredComponents": [
+        "HeroSection",
+        "NavigationBar",
+        "Footer",
+        "PortfolioGrid"
+      ],
+      "optionalComponents": [
+        "PortfolioCard",
+        "GalleryGrid",
+        "GalleryLightbox",
+        "FeaturedContent",
+        "FAQAccordion",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "landing",
+      "primaryLayout": "LandingLayout",
+      "tags": [
+        "agency",
+        "services",
+        "portfolio",
+        "creative",
+        "b2b",
+        "branding"
+      ]
+    },
+    "blog": {
+      "id": "blog",
+      "displayName": "Blog",
+      "description": "Content-first personal or editorial blog. Long-form articles with full taxonomy support (categories, tags), author profiles, related content, and an RSS-friendly sitemap.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "ARTICLE",
+          "support": "primary",
+          "notes": "Long-form posts are the primary content unit."
+        },
+        {
+          "contentType": "BLOG",
+          "support": "primary",
+          "notes": "Short-form blog entries and news posts."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "supported",
+          "notes": "How-to guides and tutorials."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "partial",
+          "notes": "Static FAQ pages when needed."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "blog",
+            "guide"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "tag",
+            "search"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "breadcrumbs",
+        "footer-grouped",
+        "tag-cloud",
+        "pagination",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Latest posts + featured content."
+        },
+        {
+          "pageType": "article",
+          "isRequired": true,
+          "notes": "Individual article/post page."
+        },
+        {
+          "pageType": "blog",
+          "isRequired": true,
+          "notes": "Short-form blog posts."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": false,
+          "notes": "How-to and tutorial content."
+        },
+        {
+          "pageType": "category",
+          "isRequired": true,
+          "notes": "Posts grouped by category."
+        },
+        {
+          "pageType": "tag",
+          "isRequired": true,
+          "notes": "Posts grouped by tag."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Full-text post search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": true,
+          "notes": "HTML sitemap for discoverability."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "ArticleList",
+        "ArticleCard",
+        "Pagination",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "FeaturedContent",
+        "LatestContent",
+        "AuthorBlock",
+        "RelatedContent",
+        "TagCloud",
+        "Breadcrumb",
+        "SearchBox",
+        "SearchResults",
+        "TableOfContents",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "article",
+      "primaryLayout": "ArticleLayout",
+      "tags": [
+        "blog",
+        "editorial",
+        "writing",
+        "articles",
+        "publishing"
+      ]
+    },
+    "magazine": {
+      "id": "magazine",
+      "displayName": "Magazine",
+      "description": "High-volume editorial or news magazine. Multiple content sections, editorial curation, mega-menu navigation, gallery support, and category-driven discovery. Scales to thousands of articles.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "ARTICLE",
+          "support": "primary",
+          "notes": "News stories, features, and opinion pieces."
+        },
+        {
+          "contentType": "BLOG",
+          "support": "supported",
+          "notes": "Commentary and editor blogs."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "supported",
+          "notes": "Long-form guides and special reports."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "supported",
+          "notes": "Photo stories and editorial galleries."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "partial",
+          "notes": "Section-specific FAQ pages."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "blog",
+            "guide"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "tag",
+            "search"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "landing"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "mega-menu",
+        "breadcrumbs",
+        "category-tree",
+        "footer-grouped",
+        "pagination",
+        "tag-cloud",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Editorial front page with curated sections."
+        },
+        {
+          "pageType": "article",
+          "isRequired": true,
+          "notes": "Individual article with rich metadata."
+        },
+        {
+          "pageType": "blog",
+          "isRequired": true,
+          "notes": "Editor blog and commentary."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": false,
+          "notes": "Long-form special report pages."
+        },
+        {
+          "pageType": "category",
+          "isRequired": true,
+          "notes": "Section index with article grid."
+        },
+        {
+          "pageType": "tag",
+          "isRequired": true,
+          "notes": "Tag archive pages."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": true,
+          "notes": "Photo essays and editorial galleries."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": false,
+          "notes": "Campaign and sponsorship landing pages."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Site-wide search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": true,
+          "notes": "HTML sitemap for SEO."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "ArticleGrid",
+        "ArticleCard",
+        "ArticleList",
+        "CategoryListing",
+        "Pagination",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "FeaturedContent",
+        "LatestContent",
+        "CategoryHighlights",
+        "AuthorBlock",
+        "RelatedContent",
+        "TagCloud",
+        "FilterBar",
+        "Breadcrumb",
+        "GalleryGrid",
+        "GalleryLightbox",
+        "SearchBox",
+        "SearchResults",
+        "TableOfContents",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "article",
+      "primaryLayout": "ArticleLayout",
+      "tags": [
+        "magazine",
+        "news",
+        "editorial",
+        "publishing",
+        "media",
+        "journalism"
+      ]
+    },
+    "portfolio": {
+      "id": "portfolio",
+      "displayName": "Portfolio",
+      "description": "Creative professional or design studio portfolio. Work-first layout with project case studies, photo/video galleries, and a clean personal brand presence. Minimal chrome to let the work speak.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "PORTFOLIO",
+          "support": "primary",
+          "notes": "Project case studies and work samples."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "primary",
+          "notes": "Full-screen image and video galleries."
+        },
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "supported",
+          "notes": "About, contact, and services pages."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "partial",
+          "notes": "Optional writing/journal section."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "PortfolioLayout",
+          "usedForPageTypes": [
+            "portfolio"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "landing"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "breadcrumbs",
+        "footer-grouped",
+        "contextual-links",
+        "pagination"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Hero with selected work highlights."
+        },
+        {
+          "pageType": "portfolio",
+          "isRequired": true,
+          "notes": "Individual project/case study."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": true,
+          "notes": "Image/video gallery for a project."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": false,
+          "notes": "About and contact pages."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Optional writing or journal."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Branded 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": false,
+          "notes": "HTML sitemap."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "PortfolioGrid",
+        "PortfolioCard",
+        "GalleryGrid",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "GalleryLightbox",
+        "FeaturedContent",
+        "Breadcrumb",
+        "RelatedContent",
+        "ArticleList",
+        "Pagination",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "portfolio",
+      "primaryLayout": "PortfolioLayout",
+      "tags": [
+        "portfolio",
+        "creative",
+        "design",
+        "photography",
+        "studio",
+        "freelance"
+      ]
+    },
+    "documentation": {
+      "id": "documentation",
+      "displayName": "Documentation",
+      "description": "Technical documentation or knowledge base. Persistent sidebar navigation, step-by-step guides, full-text search, table of contents, code blocks, and version-aware breadcrumbs. Built for developer or user references.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "DOCS",
+          "support": "primary",
+          "notes": "API references, SDK guides, and conceptual docs."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "primary",
+          "notes": "Step-by-step tutorials and how-to guides."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Troubleshooting and common questions."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "supported",
+          "notes": "Blog posts, release notes, and announcements."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "DocumentationLayout",
+          "usedForPageTypes": [
+            "docs",
+            "guide"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "faq"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "search"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "sidebar",
+        "step-nav",
+        "breadcrumbs",
+        "primary-header",
+        "pagination",
+        "contextual-links",
+        "tabs"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Docs landing with section index."
+        },
+        {
+          "pageType": "docs",
+          "isRequired": true,
+          "notes": "API references and conceptual docs."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": true,
+          "notes": "Step-by-step tutorials."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": true,
+          "notes": "Troubleshooting and FAQ."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Blog / release notes."
+        },
+        {
+          "pageType": "category",
+          "isRequired": false,
+          "notes": "Doc section index pages."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Full-text docs search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": true,
+          "notes": "HTML sitemap for crawlers."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "TableOfContents",
+        "CodeBlock",
+        "Breadcrumb",
+        "SearchBox",
+        "SearchResults",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "FAQAccordion",
+        "RelatedContent",
+        "ArticleList",
+        "Pagination",
+        "CategoryListing",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "docs",
+      "primaryLayout": "DocumentationLayout",
+      "tags": [
+        "documentation",
+        "docs",
+        "knowledge-base",
+        "developer",
+        "technical",
+        "reference"
+      ]
+    },
+    "marketplace": {
+      "id": "marketplace",
+      "displayName": "Marketplace",
+      "description": "Product or service marketplace. Filter-bar faceted browsing, category mega-menu, listing grids, detail pages, and conversion-oriented CTAs. Supports digital goods, services, or physical products.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "primary",
+          "notes": "Homepage, campaign, and vendor landing pages."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "supported",
+          "notes": "Product guides, comparisons, and reviews."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "supported",
+          "notes": "Product image galleries."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Purchasing, shipping, and policy FAQs."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "partial",
+          "notes": "Buying guides and tutorials."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "tag",
+            "search"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "landing"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "guide",
+            "faq"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "mega-menu",
+        "filter-bar",
+        "breadcrumbs",
+        "category-tree",
+        "footer-grouped",
+        "pagination",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Featured listings and category highlights."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": true,
+          "notes": "Campaign and vendor landing pages."
+        },
+        {
+          "pageType": "category",
+          "isRequired": true,
+          "notes": "Browsable listing grid with filters."
+        },
+        {
+          "pageType": "tag",
+          "isRequired": true,
+          "notes": "Tag-filtered listing pages."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": false,
+          "notes": "Product image gallery."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Guides and reviews."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": false,
+          "notes": "Buying guides."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": true,
+          "notes": "Purchase and policy FAQ."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Full-text listing search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": false,
+          "notes": "HTML sitemap."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "FilterBar",
+        "CategoryListing",
+        "ArticleGrid",
+        "ArticleCard",
+        "Pagination",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "FeaturedContent",
+        "LatestContent",
+        "CategoryHighlights",
+        "GalleryGrid",
+        "GalleryLightbox",
+        "Breadcrumb",
+        "SearchBox",
+        "SearchResults",
+        "FAQAccordion",
+        "RelatedContent",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "category",
+      "primaryLayout": "IndexLayout",
+      "tags": [
+        "marketplace",
+        "ecommerce",
+        "listings",
+        "products",
+        "shop",
+        "directory"
+      ]
+    },
+    "directory": {
+      "id": "directory",
+      "displayName": "Directory",
+      "description": "Business, venue, or resource directory. Category-tree browsing, filter-bar facets, listing detail pages, and SEO-friendly category archives. Suitable for local business guides, tool directories, vendor lists, and resource hubs.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "ARTICLE",
+          "support": "primary",
+          "notes": "Individual directory listing detail pages."
+        },
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "supported",
+          "notes": "Homepage, city or region landing pages."
+        },
+        {
+          "contentType": "GUIDE",
+          "support": "supported",
+          "notes": "How-to and curated guides."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Submission, listing, and general FAQs."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "IndexLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "category",
+            "tag",
+            "search"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "guide",
+            "faq"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "landing"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "sitemap_page"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "filter-bar",
+        "category-tree",
+        "breadcrumbs",
+        "pagination",
+        "footer-grouped",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Directory home with category highlights."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": false,
+          "notes": "City, region, or sub-directory pages."
+        },
+        {
+          "pageType": "category",
+          "isRequired": true,
+          "notes": "Listing grid for a category."
+        },
+        {
+          "pageType": "article",
+          "isRequired": true,
+          "notes": "Individual listing detail page."
+        },
+        {
+          "pageType": "tag",
+          "isRequired": true,
+          "notes": "Tag-filtered listing archives."
+        },
+        {
+          "pageType": "guide",
+          "isRequired": false,
+          "notes": "Curated guide content."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": false,
+          "notes": "Directory FAQ."
+        },
+        {
+          "pageType": "search",
+          "isRequired": true,
+          "notes": "Full-text directory search."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Standard 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": true,
+          "notes": "HTML sitemap for SEO."
+        }
+      ],
+      "requiredComponents": [
+        "NavigationBar",
+        "FilterBar",
+        "CategoryListing",
+        "ArticleList",
+        "ArticleCard",
+        "Pagination",
+        "Breadcrumb",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "HeroSection",
+        "CategoryHighlights",
+        "TagCloud",
+        "SearchBox",
+        "SearchResults",
+        "FAQAccordion",
+        "RelatedContent",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "category",
+      "primaryLayout": "IndexLayout",
+      "tags": [
+        "directory",
+        "listings",
+        "local",
+        "business",
+        "resources",
+        "catalogue"
+      ]
+    },
+    "wedding": {
+      "id": "wedding",
+      "displayName": "Wedding",
+      "description": "Personal event or wedding website. Visual-first with a full-bleed hero, large image galleries, event schedule, venue information, and FAQ. Minimal navigation, strong typography, and a single-occasion focus.",
+      "version": "1.0",
+      "supportedContent": [
+        {
+          "contentType": "LANDING_PAGE",
+          "support": "primary",
+          "notes": "Event details — couple story, venue, schedule."
+        },
+        {
+          "contentType": "GALLERY",
+          "support": "primary",
+          "notes": "Engagement photos, wedding gallery."
+        },
+        {
+          "contentType": "FAQ",
+          "support": "supported",
+          "notes": "Guest FAQ — dress code, travel, accommodation."
+        },
+        {
+          "contentType": "BLOG",
+          "support": "partial",
+          "notes": "Optional wedding blog or journal."
+        },
+        {
+          "contentType": "ARTICLE",
+          "support": "partial",
+          "notes": "Long-form stories or venue write-ups."
+        }
+      ],
+      "supportedLayouts": [
+        {
+          "layout": "LandingLayout",
+          "usedForPageTypes": [
+            "homepage",
+            "landing"
+          ],
+          "isPrimary": true
+        },
+        {
+          "layout": "GalleryLayout",
+          "usedForPageTypes": [
+            "gallery"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "MinimalLayout",
+          "usedForPageTypes": [
+            "not_found",
+            "faq"
+          ],
+          "isPrimary": false
+        },
+        {
+          "layout": "ArticleLayout",
+          "usedForPageTypes": [
+            "article",
+            "blog"
+          ],
+          "isPrimary": false
+        }
+      ],
+      "supportedNavigationStructures": [
+        "primary-header",
+        "breadcrumbs",
+        "footer-grouped",
+        "contextual-links"
+      ],
+      "supportedPageTypes": [
+        {
+          "pageType": "homepage",
+          "isRequired": true,
+          "notes": "Full-bleed hero, couple story, key info."
+        },
+        {
+          "pageType": "landing",
+          "isRequired": true,
+          "notes": "Venue, schedule, travel, accommodation."
+        },
+        {
+          "pageType": "gallery",
+          "isRequired": true,
+          "notes": "Engagement and wedding photo galleries."
+        },
+        {
+          "pageType": "faq",
+          "isRequired": true,
+          "notes": "Guest questions and logistics FAQ."
+        },
+        {
+          "pageType": "blog",
+          "isRequired": false,
+          "notes": "Optional wedding blog."
+        },
+        {
+          "pageType": "article",
+          "isRequired": false,
+          "notes": "Venue write-ups or long-form stories."
+        },
+        {
+          "pageType": "not_found",
+          "isRequired": true,
+          "notes": "Minimal branded 404 page."
+        },
+        {
+          "pageType": "sitemap_page",
+          "isRequired": false,
+          "notes": "HTML sitemap."
+        }
+      ],
+      "requiredComponents": [
+        "HeroSection",
+        "NavigationBar",
+        "GalleryGrid",
+        "GalleryLightbox",
+        "FAQAccordion",
+        "Footer"
+      ],
+      "optionalComponents": [
+        "FeaturedContent",
+        "LatestContent",
+        "ArticleList",
+        "ArticleCard",
+        "Breadcrumb",
+        "RelatedContent",
+        "MetaTags",
+        "OpenGraphTags",
+        "StructuredData"
+      ],
+      "primaryPageType": "landing",
+      "primaryLayout": "LandingLayout",
+      "tags": [
+        "wedding",
+        "event",
+        "occasion",
+        "personal",
+        "celebration",
+        "gallery"
+      ]
+    }
+  }
+}

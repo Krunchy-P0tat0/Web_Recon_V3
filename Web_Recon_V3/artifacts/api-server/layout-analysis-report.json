@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "phase": "VR-3",
+  "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4",
+  "generatedAt": "2026-07-22T06:17:35.372Z",
+  "durationMs": 1442,
+  "totalPages": 1,
+  "mappedPages": 1,
+  "failedPages": 0,
+  "regionCounts": {
+    "navigation": 1,
+    "hero": 1,
+    "content": 1,
+    "cta": 2,
+    "gallery": 0,
+    "form": 0,
+    "footer": 1,
+    "unknown": 0
+  },
+  "avgRegionsPerPage": 6,
+  "coverage": 100,
+  "pageReports": [
+    {
+      "pageId": "100680ad546ce6a5",
+      "url": "https://example.com",
+      "regionCount": 6,
+      "types": [
+        "navigation",
+        "hero",
+        "cta",
+        "content",
+        "footer"
+      ],
+      "success": true
+    }
+  ],
+  "r2Path": "jobs/c14b30f3-e515-469d-a369-3259b058e4b4/layout-map.json"
+}

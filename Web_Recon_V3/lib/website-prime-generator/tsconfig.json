@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "lib": ["ES2022", "DOM"]
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../generation-pipeline" },
+    { "path": "../stencil-assembly-engine" },
+    { "path": "../stencil-library" },
+    { "path": "../theme-intelligence" },
+    { "path": "../navigation-intelligence" },
+    { "path": "../content-placement" }
+  ]
+}
