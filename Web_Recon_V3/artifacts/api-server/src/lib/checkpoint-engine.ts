@@ -32,6 +32,8 @@ import { join } from "path";
 import { createHash } from "crypto";
 import { logger } from "./logger.js";
 import type { ArticleLink } from "./scraper.js";
+import { getDefaultCloudProvider } from "../cloud/index.js";
+import { R2Keys } from "../cloud/r2-key-registry.js";
 
 // ---------------------------------------------------------------------------
 // Public types
@@ -228,8 +230,9 @@ export async function saveCheckpoint(
 
   // Write current checkpoint
   const currentPath = localCheckpointPath(jobId);
+  const cpJson = JSON.stringify(cp, null, 2);
   try {
-    await writeFile(currentPath, JSON.stringify(cp, null, 2), "utf8");
+    await writeFile(currentPath, cpJson, "utf8");
   } catch (err) {
     logger.warn({ err, jobId }, "F4: failed to write checkpoint file");
   }
@@ -237,11 +240,28 @@ export async function saveCheckpoint(
   // Rolling snapshot (keep up to 3 versions)
   if (version <= 3) {
     try {
-      await writeFile(localCheckpointPath(jobId, version), JSON.stringify(cp, null, 2), "utf8");
+      await writeFile(localCheckpointPath(jobId, version), cpJson, "utf8");
     } catch {
       // non-critical
     }
   }
+
+  // D3.5: persist to R2 so checkpoints survive container restarts
+  void (async () => {
+    try {
+      const cloud = getDefaultCloudProvider();
+      if (!cloud.isConfigured()) return;
+      await cloud.upload({
+        key:           R2Keys.checkpoints.latest(jobId),
+        data:          Buffer.from(cpJson, "utf8"),
+        contentType:   "application/json",
+        checkDuplicate: false,
+      });
+      logger.debug({ jobId, version }, "F4: checkpoint persisted to R2");
+    } catch (err) {
+      logger.warn({ err, jobId }, "F4: R2 checkpoint persist failed (non-fatal)");
+    }
+  })();
 
   logger.debug(
     {
@@ -273,20 +293,47 @@ export async function loadCheckpoint(jobId: string): Promise<JobCheckpoint | nul
     const raw = await readFile(localPath, "utf8");
     const cp = JSON.parse(raw) as JobCheckpoint;
     if (!validateChecksum(cp)) {
-      logger.warn({ jobId }, "F4: checkpoint checksum mismatch — discarding");
-      return null;
+      logger.warn({ jobId }, "F4: checkpoint checksum mismatch — discarding disk copy, will try R2");
+    } else {
+      cp.isValid = true;
+      checkpoints.set(jobId, cp);
+      logger.info(
+        { jobId, version: cp.checkpointVersion, completed: cp.completedUrls.length },
+        "F4: checkpoint restored from disk"
+      );
+      return cp;
     }
-    cp.isValid = true;
-    checkpoints.set(jobId, cp);
-    logger.info(
-      { jobId, version: cp.checkpointVersion, completed: cp.completedUrls.length },
-      "F4: checkpoint restored from disk"
-    );
-    return cp;
   } catch {
-    // no checkpoint found
-    return null;
+    // disk checkpoint not found or unreadable — fall through to R2
   }
+
+  // 3. D3.5: try R2 (survives container restarts)
+  try {
+    const cloud = getDefaultCloudProvider();
+    if (cloud.isConfigured()) {
+      const data = await cloud.download(R2Keys.checkpoints.latest(jobId));
+      if (data) {
+        const cp = JSON.parse(data.toString("utf8")) as JobCheckpoint;
+        if (!validateChecksum(cp)) {
+          logger.warn({ jobId }, "F4: R2 checkpoint checksum mismatch — discarding");
+          return null;
+        }
+        cp.isValid = true;
+        checkpoints.set(jobId, cp);
+        // Also write back to disk so subsequent loads are fast
+        void writeFile(localPath, JSON.stringify(cp, null, 2), "utf8").catch(() => {});
+        logger.info(
+          { jobId, version: cp.checkpointVersion, completed: cp.completedUrls.length },
+          "F4: checkpoint restored from R2"
+        );
+        return cp;
+      }
+    }
+  } catch (err) {
+    logger.warn({ err, jobId }, "F4: R2 checkpoint load failed (non-fatal)");
+  }
+
+  return null;
 }
 
 // ---------------------------------------------------------------------------

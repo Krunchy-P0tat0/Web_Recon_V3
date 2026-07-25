@@ -44,6 +44,7 @@ import { getJobRecord } from "./db-queue.js";
 import { classifyFailure } from "./failure-classifier.js";
 import { executeRecovery } from "./autonomous-recovery-engine.js";
 import { persistStageOutput, persistJobSummary } from "./r2-stage-persister.js";
+import { updateWebsiteMemory } from "./website-memory.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -163,6 +164,14 @@ export function listJobs(): OrchestrationJob[] {
   return Array.from(_jobs.values()).sort(
     (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
   );
+}
+
+/**
+ * D3.5: Register a pre-built job into the in-memory store.
+ * Used by pipeline-resume.ts to restore jobs from DB after server restart.
+ */
+export function _registerJob(job: OrchestrationJob): void {
+  _jobs.set(job.id, job);
 }
 
 // ---------------------------------------------------------------------------
@@ -634,6 +643,27 @@ async function stageCertification(job: OrchestrationJob): Promise<Record<string,
 }
 
 // ---------------------------------------------------------------------------
+// D3.5: Stage-skip helper — skips stages already complete (resume scenario)
+// ---------------------------------------------------------------------------
+
+async function runStageWithSkip(
+  job: OrchestrationJob,
+  stageId: MasterStageId,
+  fn: () => Promise<void | Record<string, unknown>>
+): Promise<void> {
+  if (job.completedStages.includes(stageId)) {
+    logger.info({ jobId: job.id, stageId }, "MASTER[resume]: stage already complete — skipping");
+    publishEvent("stage-resumed-skip", job.id, { stageId, reason: "already-complete" }, stageId);
+    return;
+  }
+  if (job.skippedStages.includes(stageId)) {
+    logger.info({ jobId: job.id, stageId }, "MASTER[resume]: stage was previously skipped — skipping");
+    return;
+  }
+  return runWithRetry(job, stageId, fn);
+}
+
+// ---------------------------------------------------------------------------
 // Main pipeline runner (runs async — caller polls)
 // ---------------------------------------------------------------------------
 
@@ -670,76 +700,80 @@ export async function runPipeline(job: OrchestrationJob): Promise<void> {
     // 1. crawl
     await gate("crawl");
     publishEvent("crawl-started", job.id, { url: job.url }, "crawl");
-    await runWithRetry(job, "crawl", () => stageCrawl(job));
+    await runStageWithSkip(job, "crawl", () => stageCrawl(job));
     await persist(job); d34("crawl");
 
     // 2. manifest
     await gate("manifest");
-    await runWithRetry(job, "manifest", () => stageManifest(job));
+    await runStageWithSkip(job, "manifest", () => stageManifest(job));
     publishEvent("manifest-generated", job.id, { scrapeJobId: job.underlyingJobId }, "manifest");
     await persist(job); d34("manifest");
 
-    // 3. diff (skip if no baseJobId)
+    // 3. diff (skip if no baseJobId, or already skipped/complete)
     await gate("diff");
-    if (job.includeDiff && job.baseJobId) {
-      await runWithRetry(job, "diff", () => stageDiff(job));
-      publishEvent("diff-computed", job.id, { baseJobId: job.baseJobId }, "diff");
+    if (!job.skippedStages.includes("diff") && !job.completedStages.includes("diff")) {
+      if (job.includeDiff && job.baseJobId) {
+        await runWithRetry(job, "diff", () => stageDiff(job));
+        publishEvent("diff-computed", job.id, { baseJobId: job.baseJobId }, "diff");
+      } else {
+        await skipStage(job, "diff", "No baseline job provided — diff not required");
+      }
     } else {
-      await skipStage(job, "diff", "No baseline job provided — diff not required");
+      logger.info({ jobId: job.id, stageId: "diff" }, "MASTER[resume]: diff stage already settled — skipping");
     }
     await persist(job); d34("diff");
 
     // 4. intelligence
     await gate("intelligence");
-    await runWithRetry(job, "intelligence", () => stageIntelligence(job));
+    await runStageWithSkip(job, "intelligence", () => stageIntelligence(job));
     publishEvent("intelligence-complete", job.id, {}, "intelligence");
     await persist(job); d34("intelligence");
 
     // 5. design-dna
     await gate("design-dna");
-    await runWithRetry(job, "design-dna", () => stageDesignDna(job));
+    await runStageWithSkip(job, "design-dna", () => stageDesignDna(job));
     publishEvent("design-dna-complete", job.id, {}, "design-dna");
     await persist(job); d34("design-dna");
 
     // 6. visual-dna
     await gate("visual-dna");
-    await runWithRetry(job, "visual-dna", () => stageVisualDna(job));
+    await runStageWithSkip(job, "visual-dna", () => stageVisualDna(job));
     publishEvent("visual-dna-complete", job.id, {}, "visual-dna");
     await persist(job); d34("visual-dna");
 
     // 7. stencil
     await gate("stencil");
-    await runWithRetry(job, "stencil", () => stageStencil(job));
+    await runStageWithSkip(job, "stencil", () => stageStencil(job));
     publishEvent("stencil-generated", job.id, {}, "stencil");
     await persist(job); d34("stencil");
 
     // 8. website-prime
     await gate("website-prime");
-    await runWithRetry(job, "website-prime", () => stageWebsitePrime(job));
+    await runStageWithSkip(job, "website-prime", () => stageWebsitePrime(job));
     publishEvent("website-prime-complete", job.id, {}, "website-prime");
     await persist(job); d34("website-prime");
 
     // 9. merge
     await gate("merge");
-    await runWithRetry(job, "merge", () => stageMerge(job));
+    await runStageWithSkip(job, "merge", () => stageMerge(job));
     publishEvent("merge-complete", job.id, {}, "merge");
     await persist(job); d34("merge");
 
     // 10. deployment-plan
     await gate("deployment-plan");
-    await runWithRetry(job, "deployment-plan", () => stageDeploymentPlan(job));
+    await runStageWithSkip(job, "deployment-plan", () => stageDeploymentPlan(job));
     publishEvent("deployment-plan-ready", job.id, {}, "deployment-plan");
     await persist(job); d34("deployment-plan");
 
     // 11. deploy
     await gate("deploy");
-    await runWithRetry(job, "deploy", () => stageDeploy(job));
+    await runStageWithSkip(job, "deploy", () => stageDeploy(job));
     publishEvent("deployment-complete", job.id, { executionId: job.deploymentExecutionId }, "deploy");
     await persist(job); d34("deploy");
 
     // 12. certification (Stage 19 — Production Certification)
     await gate("certification");
-    await runWithRetry(job, "certification", () => stageCertification(job));
+    await runStageWithSkip(job, "certification", () => stageCertification(job));
     publishEvent("certification-complete", job.id, {}, "certification");
     await persist(job); d34("certification");
 
@@ -797,6 +831,8 @@ export async function runPipeline(job: OrchestrationJob): Promise<void> {
   await persistAudit();
   // D3.4: write execution-summary + finalise job manifest in R2 (non-blocking)
   void persistJobSummary(job, _d34cloud).catch(() => {});
+  // D3.5: update website memory so the next crawl knows where we left off
+  void updateWebsiteMemory(job, _d34cloud).catch(() => {});
 }
 
 // ---------------------------------------------------------------------------

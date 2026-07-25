@@ -7,6 +7,7 @@ import { startPipelineMonitoring } from "./lib/pipeline-monitoring-interceptor";
 import { startRegressionRunner } from "./lib/post-build-regression-runner";
 import { startMonitoringPersistence } from "./lib/monitoring-persistence-service";
 import { startSubsystemEmitters }    from "./lib/subsystem-emitters";
+import { restoreJobsFromDB }         from "./lib/pipeline-resume";
 
 // Absorb non-fatal uncaught exceptions so the server stays alive during long scrape jobs.
 // Known non-fatal patterns:
@@ -46,6 +47,12 @@ app.listen(port, (err) => {
   }
 
   logger.info({ port }, "Server listening");
+
+  // D3.5: restore recent orchestration jobs from DB into memory so they
+  // survive server restarts and remain queryable via GET /orchestrate
+  void restoreJobsFromDB(50).catch((restoreErr) => {
+    logger.warn({ err: restoreErr }, "D3.5: job restore from DB failed (non-fatal)");
+  });
 
   // E1 — system-level health monitoring (60s interval, 5s warm-up)
   startMonitoringLoop(port, 60);
