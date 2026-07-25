@@ -1,0 +1,291 @@
+{
+  "meta": {
+    "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4",
+    "url": "https://example.com",
+    "stencilId": "agency",
+    "generatedAt": "2026-07-22T06:16:56.558Z",
+    "phase": "B3",
+    "durationMs": 3,
+    "stats": {
+      "routeCount": 8,
+      "navItemCount": 0,
+      "pageCount": 1
+    }
+  },
+  "assembly": {
+    "version": "1.0",
+    "assembledAt": "2026-07-22T06:16:56.558Z",
+    "stencilId": "agency",
+    "stencilDisplayName": "Agency",
+    "seedUrl": "https://example.com",
+    "siteGraphId": "sg-25b884ce",
+    "navigation": {
+      "activeStructures": [
+        "primary-header",
+        "footer-grouped",
+        "breadcrumbs",
+        "contextual-links"
+      ],
+      "primaryNav": [],
+      "sidebarNav": [],
+      "megaMenuSections": [],
+      "breadcrumbs": {
+        "enabled": true,
+        "example": [
+          {
+            "label": "Home",
+            "route": "/"
+          }
+        ]
+      },
+      "footerGroups": [
+        {
+          "label": "Site",
+          "items": [
+            {
+              "label": "Home",
+              "route": "/"
+            },
+            {
+              "label": "Search",
+              "route": "/search"
+            },
+            {
+              "label": "Sitemap",
+              "route": "/sitemap"
+            }
+          ]
+        }
+      ],
+      "tagCloud": [],
+      "categoryTree": [],
+      "filterBar": null,
+      "pagination": {
+        "enabled": false,
+        "pageSize": 12,
+        "routePattern": "/categories/:slug/page/:page"
+      },
+      "stepNavEnabled": false
+    },
+    "routes": {
+      "static": [
+        {
+          "id": "route__homepage",
+          "pattern": "/",
+          "pageType": "homepage",
+          "isDynamic": false,
+          "params": [],
+          "layout": "LandingLayout",
+          "description": "Site homepage.",
+          "requiresSSR": false
+        },
+        {
+          "id": "route__faq",
+          "pattern": "/faq",
+          "pageType": "faq",
+          "isDynamic": false,
+          "params": [],
+          "layout": "ArticleLayout",
+          "description": "Frequently asked questions page.",
+          "requiresSSR": false
+        },
+        {
+          "id": "route__sitemap",
+          "pattern": "/sitemap",
+          "pageType": "sitemap_page",
+          "isDynamic": false,
+          "params": [],
+          "layout": "MinimalLayout",
+          "description": "HTML sitemap for SEO and discoverability.",
+          "requiresSSR": false
+        },
+        {
+          "id": "route__not_found",
+          "pattern": "/*",
+          "pageType": "not_found",
+          "isDynamic": false,
+          "params": [],
+          "layout": "MinimalLayout",
+          "description": "404 catch-all page.",
+          "requiresSSR": false
+        }
+      ],
+      "dynamic": [
+        {
+          "id": "route__article_dynamic",
+          "pattern": "/articles/:slug",
+          "pageType": "article",
+          "isDynamic": true,
+          "params": [
+            {
+              "name": "slug",
+              "description": "URL-safe article slug",
+              "example": "my-article"
+            }
+          ],
+          "layout": "ArticleLayout",
+          "description": "Dynamic article page — one per content node.",
+          "requiresSSR": false
+        },
+        {
+          "id": "route__portfolio",
+          "pattern": "/work/:slug",
+          "pageType": "portfolio",
+          "isDynamic": true,
+          "params": [
+            {
+              "name": "slug",
+              "description": "Project slug",
+              "example": "brand-redesign-2026"
+            }
+          ],
+          "layout": "PortfolioLayout",
+          "description": "Individual portfolio / case study page.",
+          "requiresSSR": false
+        },
+        {
+          "id": "route__gallery",
+          "pattern": "/gallery/:slug",
+          "pageType": "gallery",
+          "isDynamic": true,
+          "params": [
+            {
+              "name": "slug",
+              "description": "Gallery slug",
+              "example": "summer-2026"
+            }
+          ],
+          "layout": "GalleryLayout",
+          "description": "Photo or video gallery page.",
+          "requiresSSR": false
+        },
+        {
+          "id": "route__landing",
+          "pattern": "/:slug",
+          "pageType": "landing",
+          "isDynamic": true,
+          "params": [
+            {
+              "name": "slug",
+              "description": "Landing page slug",
+              "example": "about"
+            }
+          ],
+          "layout": "LandingLayout",
+          "description": "Generic landing / about / service page.",
+          "requiresSSR": false
+        }
+      ],
+      "total": 8,
+      "generatedAt": "2026-07-22T06:16:56.557Z"
+    },
+    "pages": [
+      {
+        "id": "page__homepage",
+        "route": "/",
+        "slug": "",
+        "title": "Home",
+        "pageType": "homepage",
+        "layout": "LandingLayout",
+        "sourceNodeId": null,
+        "contentType": null,
+        "isGenerated": true,
+        "components": [
+          "NavigationBar",
+          "HeroSection",
+          "FeaturedContent",
+          "MetaTags",
+          "OpenGraphTags",
+          "StructuredData",
+          "Footer"
+        ],
+        "meta": {
+          "title": "example.com",
+          "description": "Welcome to example.com",
+          "canonicalUrl": "/",
+          "ogTitle": "example.com",
+          "ogDescription": "Welcome to example.com",
+          "ogImageUrl": null,
+          "publishedAt": null,
+          "noIndex": false
+        },
+        "priority": 1,
+        "changeFreq": "daily",
+        "estimatedWordCount": null,
+        "hasImages": false,
+        "imageCount": 0
+      }
+    ],
+    "landingPages": [
+      {
+        "id": "page__homepage",
+        "route": "/",
+        "slug": "",
+        "title": "Home",
+        "pageType": "homepage",
+        "layout": "LandingLayout",
+        "sourceNodeId": null,
+        "contentType": null,
+        "isGenerated": true,
+        "components": [
+          "NavigationBar",
+          "HeroSection",
+          "FeaturedContent",
+          "MetaTags",
+          "OpenGraphTags",
+          "StructuredData",
+          "Footer"
+        ],
+        "meta": {
+          "title": "example.com",
+          "description": "Welcome to example.com",
+          "canonicalUrl": "/",
+          "ogTitle": "example.com",
+          "ogDescription": "Welcome to example.com",
+          "ogImageUrl": null,
+          "publishedAt": null,
+          "noIndex": false
+        },
+        "priority": 1,
+        "changeFreq": "daily",
+        "estimatedWordCount": null,
+        "hasImages": false,
+        "imageCount": 0
+      }
+    ],
+    "articlePages": [],
+    "categoryPages": [],
+    "searchStructure": {
+      "enabled": false,
+      "route": "/search",
+      "indexedPageTypes": [],
+      "totalIndexablePages": 0,
+      "suggestionsEnabled": false,
+      "searchableFields": [],
+      "apiRoute": null
+    },
+    "stats": {
+      "totalPages": 1,
+      "articlePages": 0,
+      "categoryPages": 0,
+      "landingPages": 1,
+      "generatedPages": 1,
+      "orphanPagesIncluded": 0,
+      "totalRoutes": 8,
+      "dynamicRoutes": 4,
+      "staticRoutes": 4,
+      "navItems": 0,
+      "categoryCount": 0,
+      "tagCount": 0,
+      "assemblyTimeMs": 1
+    },
+    "warnings": [
+      {
+        "code": "NO_PRIMARY_CONTENT",
+        "message": "The manifest contains no content classified as LANDING_PAGE or PORTFOLIO. The \"Agency\" stencil may not be the best fit.",
+        "severity": "warning",
+        "affectedFeature": "article pages"
+      }
+    ]
+  }
+}

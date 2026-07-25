@@ -1,0 +1,123 @@
+{
+  "id": "a61fece1-8169-4e07-aa1f-50f8d3b9538b",
+  "jobId": "8905badb-6de1-4234-b17f-1d9207298c6c",
+  "status": "partial",
+  "startedAt": "2026-07-22T06:17:00.219Z",
+  "completedAt": "2026-07-22T06:18:10.441Z",
+  "totalDurationMs": 70222,
+  "stages": [
+    {
+      "stageId": "VR-1",
+      "label": "Visual Reconstruction — apply DNA overlay",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:17:00.219Z",
+      "completedAt": "2026-07-22T06:17:02.007Z",
+      "durationMs": 1788,
+      "retryCount": 0,
+      "error": null,
+      "outputSummary": {
+        "overlayApplied": false,
+        "fidelityScore": 0,
+        "grade": "D"
+      }
+    },
+    {
+      "stageId": "VR-2",
+      "label": "Visual DNA Analysis  — extract design signals",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:17:04.622Z",
+      "completedAt": "2026-07-22T06:17:06.218Z",
+      "durationMs": 1596,
+      "retryCount": 0,
+      "error": null,
+      "outputSummary": {
+        "pagesAnalyzed": 0,
+        "pagesSkipped": 0,
+        "overallConfidence": 0
+      }
+    },
+    {
+      "stageId": "VR-3",
+      "label": "Layout Mapper        — map page regions",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:17:16.412Z",
+      "completedAt": "2026-07-22T06:17:20.794Z",
+      "durationMs": 4382,
+      "retryCount": 0,
+      "error": null,
+      "outputSummary": {
+        "pagesProcessed": 1,
+        "regionsTotal": 6
+      }
+    },
+    {
+      "stageId": "VR-4",
+      "label": "Visual Fidelity      — source vs generated DNA",
+      "status": "failed",
+      "startedAt": "2026-07-22T06:17:22.441Z",
+      "completedAt": "2026-07-22T06:17:26.333Z",
+      "durationMs": 3892,
+      "retryCount": 0,
+      "error": "FIDELITY: visual DNA not available — source=missing, generated=missing. Run visual_dna phase for both jobs first.",
+      "outputSummary": {}
+    },
+    {
+      "stageId": "VR-5",
+      "label": "Visual Stencil Mapper— select best stencil fit",
+      "status": "failed",
+      "startedAt": "2026-07-22T06:17:36.905Z",
+      "completedAt": "2026-07-22T06:17:49.410Z",
+      "durationMs": 12505,
+      "retryCount": 0,
+      "error": "VR5: manifest not found for jobId=\"8905badb-6de1-4234-b17f-1d9207298c6c\". Run a crawl first.",
+      "outputSummary": {}
+    },
+    {
+      "stageId": "VR-6",
+      "label": "Consistency Engine   — cross-page audit",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:17:51.335Z",
+      "completedAt": "2026-07-22T06:17:54.479Z",
+      "durationMs": 3144,
+      "retryCount": 0,
+      "error": null,
+      "outputSummary": {
+        "issueCount": 0,
+        "overallScore": 54
+      }
+    },
+    {
+      "stageId": "VR-7",
+      "label": "Fidelity Scoring     — score + derive issues",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:17:56.125Z",
+      "completedAt": "2026-07-22T06:18:05.901Z",
+      "durationMs": 9776,
+      "retryCount": 0,
+      "error": null,
+      "outputSummary": {
+        "overallScore": 76,
+        "grade": "B",
+        "issueCount": 0
+      }
+    },
+    {
+      "stageId": "VR-8",
+      "label": "Reconstruction Loop  — iterative self-improvement",
+      "status": "complete",
+      "startedAt": "2026-07-22T06:18:07.314Z",
+      "completedAt": "2026-07-22T06:18:08.734Z",
+      "durationMs": 1420,
+      "retryCount": 0,
+      "error": null,
+      "outputSummary": {
+        "skippedReason": "fidelity target already met",
+        "fidelityScore": 76
+      }
+    }
+  ],
+  "adjustments": [],
+  "fidelityScore": 76,
+  "fidelityGrade": "B",
+  "generatedAt": "2026-07-22T06:18:10.441Z"
+}

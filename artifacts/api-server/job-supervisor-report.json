@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-07-23T07:20:04.125Z",
+  "supervisionCycleCount": 4,
+  "lastCycleAt": "2026-07-23T07:20:04.124Z",
+  "totalTrackedJobs": 0,
+  "totalActiveJobs": 0,
+  "totalStalledJobs": 0,
+  "totalFailedJobs": 0,
+  "totalDeadLetterJobs": 0,
+  "systemHealth": "healthy",
+  "queueHealth": {
+    "queued": 0,
+    "running": 0,
+    "failed": 0,
+    "dead": 0,
+    "done": 0
+  },
+  "alerts": [],
+  "jobs": [],
+  "workers": [
+    {
+      "workerId": "worker-1d9800d8",
+      "inFlight": 0,
+      "active": true,
+      "lastSeenAt": "2026-07-23T07:20:04.125Z",
+      "status": "idle"
+    }
+  ]
+}

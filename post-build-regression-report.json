@@ -1,0 +1,281 @@
+{
+  "version": "PH-3",
+  "generatedAt": "2026-07-22T06:17:08.960Z",
+  "total": 2,
+  "reports": [
+    {
+      "reportId": "ph3-mrvowva4-8j1wr",
+      "jobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+      "generatedAt": "2026-07-22T06:17:08.956Z",
+      "trigger": "automatic",
+      "durationMs": 0,
+      "baseResult": {
+        "testId": "mrvowva4-026bu",
+        "jobId": "7b24b222-b243-4108-9075-08c7ca47f8f1",
+        "fixtureId": "gf-7b24b222-b24-v1-mrvowva4-r4rls",
+        "testedAt": "2026-07-22T06:17:08.956Z",
+        "durationMs": 0,
+        "overallStatus": "PASS",
+        "passCount": 6,
+        "warnCount": 0,
+        "failCount": 0,
+        "deltas": [
+          {
+            "metric": "fidelityScore",
+            "golden": 72,
+            "current": 72,
+            "delta": 0,
+            "threshold": -5,
+            "status": "PASS"
+          },
+          {
+            "metric": "brandConfidence",
+            "golden": 0.1,
+            "current": 0.1,
+            "delta": 0,
+            "threshold": -0.05,
+            "status": "PASS"
+          },
+          {
+            "metric": "consistencyScore",
+            "golden": 62,
+            "current": 62,
+            "delta": 0,
+            "threshold": -5,
+            "status": "PASS"
+          },
+          {
+            "metric": "ssimScore",
+            "golden": 0.9199999999999999,
+            "current": 0.9199999999999999,
+            "delta": 0,
+            "threshold": -0.03,
+            "status": "PASS"
+          },
+          {
+            "metric": "pageCount",
+            "golden": 7,
+            "current": 7,
+            "delta": 0,
+            "threshold": 0,
+            "status": "PASS"
+          },
+          {
+            "metric": "componentCount",
+            "golden": 10,
+            "current": 10,
+            "delta": 0,
+            "threshold": -2,
+            "status": "PASS"
+          }
+        ],
+        "regressions": [],
+        "improvements": [],
+        "summary": "All 6 metrics pass — no regressions detected"
+      },
+      "categories": [
+        {
+          "category": "layout",
+          "status": "PASS",
+          "checks": 2,
+          "passed": 2,
+          "failed": 0,
+          "details": "10 components checked"
+        },
+        {
+          "category": "navigation",
+          "status": "PASS",
+          "checks": 1,
+          "passed": 1,
+          "failed": 0,
+          "details": "7 pages verified"
+        },
+        {
+          "category": "typography",
+          "status": "PASS",
+          "checks": 2,
+          "passed": 2,
+          "failed": 0,
+          "details": "Brand typography consistency"
+        },
+        {
+          "category": "spacing",
+          "status": "PASS",
+          "checks": 1,
+          "passed": 1,
+          "failed": 0,
+          "details": "SSIM pixel-level spacing delta"
+        },
+        {
+          "category": "images",
+          "status": "PASS",
+          "checks": 2,
+          "passed": 2,
+          "failed": 0,
+          "details": "Image rendering and brand palette"
+        },
+        {
+          "category": "routes",
+          "status": "PASS",
+          "checks": 7,
+          "passed": 7,
+          "failed": 0,
+          "details": "All routes reachable"
+        },
+        {
+          "category": "manifest",
+          "status": "PASS",
+          "checks": 1,
+          "passed": 1,
+          "failed": 0,
+          "details": "Manifest integrity verified"
+        }
+      ],
+      "overallStatus": "PASS",
+      "criticalFailures": [],
+      "blocksDeployment": false,
+      "regressions": [],
+      "improvements": [],
+      "missingAssets": [],
+      "brokenRoutes": [],
+      "summary": "All 6 metrics pass — no regressions detected"
+    },
+    {
+      "reportId": "ph3-mrvowsxs-2z0ao",
+      "jobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+      "generatedAt": "2026-07-22T06:17:05.920Z",
+      "trigger": "automatic",
+      "durationMs": 0,
+      "baseResult": {
+        "testId": "mrvowsxs-fu0ya",
+        "jobId": "4ec23e23-aeb0-4f25-aea4-164cdcc423fc",
+        "fixtureId": "gf-4ec23e23-aeb-v1-mrvowsxs-wjfqm",
+        "testedAt": "2026-07-22T06:17:05.920Z",
+        "durationMs": 0,
+        "overallStatus": "PASS",
+        "passCount": 6,
+        "warnCount": 0,
+        "failCount": 0,
+        "deltas": [
+          {
+            "metric": "fidelityScore",
+            "golden": 89,
+            "current": 89,
+            "delta": 0,
+            "threshold": -5,
+            "status": "PASS"
+          },
+          {
+            "metric": "brandConfidence",
+            "golden": 0.1,
+            "current": 0.1,
+            "delta": 0,
+            "threshold": -0.05,
+            "status": "PASS"
+          },
+          {
+            "metric": "consistencyScore",
+            "golden": 69,
+            "current": 69,
+            "delta": 0,
+            "threshold": -5,
+            "status": "PASS"
+          },
+          {
+            "metric": "ssimScore",
+            "golden": 0.84,
+            "current": 0.84,
+            "delta": 0,
+            "threshold": -0.03,
+            "status": "PASS"
+          },
+          {
+            "metric": "pageCount",
+            "golden": 6,
+            "current": 6,
+            "delta": 0,
+            "threshold": 0,
+            "status": "PASS"
+          },
+          {
+            "metric": "componentCount",
+            "golden": 17,
+            "current": 17,
+            "delta": 0,
+            "threshold": -2,
+            "status": "PASS"
+          }
+        ],
+        "regressions": [],
+        "improvements": [],
+        "summary": "All 6 metrics pass — no regressions detected"
+      },
+      "categories": [
+        {
+          "category": "layout",
+          "status": "PASS",
+          "checks": 2,
+          "passed": 2,
+          "failed": 0,
+          "details": "17 components checked"
+        },
+        {
+          "category": "navigation",
+          "status": "PASS",
+          "checks": 1,
+          "passed": 1,
+          "failed": 0,
+          "details": "6 pages verified"
+        },
+        {
+          "category": "typography",
+          "status": "PASS",
+          "checks": 2,
+          "passed": 2,
+          "failed": 0,
+          "details": "Brand typography consistency"
+        },
+        {
+          "category": "spacing",
+          "status": "PASS",
+          "checks": 1,
+          "passed": 1,
+          "failed": 0,
+          "details": "SSIM pixel-level spacing delta"
+        },
+        {
+          "category": "images",
+          "status": "PASS",
+          "checks": 2,
+          "passed": 2,
+          "failed": 0,
+          "details": "Image rendering and brand palette"
+        },
+        {
+          "category": "routes",
+          "status": "PASS",
+          "checks": 6,
+          "passed": 6,
+          "failed": 0,
+          "details": "All routes reachable"
+        },
+        {
+          "category": "manifest",
+          "status": "PASS",
+          "checks": 1,
+          "passed": 1,
+          "failed": 0,
+          "details": "Manifest integrity verified"
+        }
+      ],
+      "overallStatus": "PASS",
+      "criticalFailures": [],
+      "blocksDeployment": false,
+      "regressions": [],
+      "improvements": [],
+      "missingAssets": [],
+      "brokenRoutes": [],
+      "summary": "All 6 metrics pass — no regressions detected"
+    }
+  ]
+}

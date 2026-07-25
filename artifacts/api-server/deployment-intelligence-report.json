@@ -1,0 +1,891 @@
+{
+  "version": "1.0",
+  "phase": "5.9",
+  "generatedAt": "2026-07-22T06:16:45.861Z",
+  "sourceUrl": "https://example.com",
+  "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4",
+  "environment": {
+    "detectedHosting": "replit",
+    "nodeVersion": "24.13.0",
+    "runtime": "node",
+    "database": {
+      "kind": "postgres",
+      "detected": true,
+      "connectionEnvVar": "DATABASE_URL",
+      "migrationCommand": "pnpm --filter @workspace/db run push",
+      "notes": [
+        "postgres detected via DATABASE_URL",
+        "Ensure the database is provisioned before deploying"
+      ]
+    },
+    "storage": {
+      "kind": "r2",
+      "detected": true,
+      "provider": "Cloudflare R2",
+      "bucket": "assets-stencil",
+      "publicBaseUrl": "https://pub-8710859f71744960aa5d89e60cf0eb31.r2.dev",
+      "notes": [
+        "Cloudflare R2 configured — S3-compatible object storage",
+        "Bucket: assets-stencil",
+        "Credentials: R2_ACCESS_KEY_ID + R2_SECRET_ACCESS_KEY"
+      ]
+    },
+    "envVars": [
+      {
+        "key": "DATABASE_URL",
+        "required": true,
+        "description": "PostgreSQL connection string",
+        "example": "postgresql://user:pass@host:5432/db",
+        "secret": true,
+        "detected": true
+      },
+      {
+        "key": "SESSION_SECRET",
+        "required": true,
+        "description": "Express session signing secret",
+        "example": "long-random-string",
+        "secret": true,
+        "detected": true
+      },
+      {
+        "key": "R2_ACCOUNT_ID",
+        "required": false,
+        "description": "Cloudflare account ID for R2 access",
+        "example": "69ba6c...",
+        "secret": false,
+        "detected": true
+      },
+      {
+        "key": "R2_ACCESS_KEY_ID",
+        "required": false,
+        "description": "R2 / S3-compatible access key",
+        "example": "abc123",
+        "secret": true,
+        "detected": true
+      },
+      {
+        "key": "R2_SECRET_ACCESS_KEY",
+        "required": false,
+        "description": "R2 / S3-compatible secret key",
+        "example": "secret",
+        "secret": true,
+        "detected": true
+      },
+      {
+        "key": "R2_BUCKET_NAME",
+        "required": false,
+        "description": "R2 bucket name for asset storage",
+        "example": "assets-stencil",
+        "secret": false,
+        "detected": true
+      },
+      {
+        "key": "R2_PUBLIC_BASE_URL",
+        "required": false,
+        "description": "Public CDN base URL for R2 assets",
+        "example": "https://pub-xxx.r2.dev",
+        "secret": false,
+        "detected": true
+      },
+      {
+        "key": "CLOUD_PROVIDER",
+        "required": false,
+        "description": "Cloud storage provider selection (r2 | local)",
+        "example": "r2",
+        "secret": false,
+        "detected": false
+      },
+      {
+        "key": "NODE_ENV",
+        "required": false,
+        "description": "Runtime environment",
+        "example": "production",
+        "secret": false,
+        "detected": true
+      },
+      {
+        "key": "PORT",
+        "required": false,
+        "description": "HTTP server port",
+        "example": "8080",
+        "secret": false,
+        "detected": true
+      },
+      {
+        "key": "CLOUDFLARE_API_TOKEN",
+        "required": false,
+        "description": "Cloudflare API token for wrangler deploys",
+        "example": "cf_token",
+        "secret": true,
+        "detected": false
+      }
+    ],
+    "detectedAt": "2026-07-22T06:16:45.860Z"
+  },
+  "targets": {
+    "replit": {
+      "version": "1.0",
+      "target": "replit",
+      "targetLabel": "Replit Autoscale",
+      "generatedAt": "2026-07-22T06:16:45.860Z",
+      "sourceUrl": "https://example.com",
+      "summary": "Deploy directly on Replit using Autoscale deployments. Zero infrastructure setup — Replit manages TLS, routing, and scaling. Best for rapid iteration.",
+      "tier": "paid",
+      "recommended": true,
+      "confidence": "high",
+      "files": [
+        {
+          "path": "artifacts/api-server/.replit-artifact/artifact.toml",
+          "content": "kind = \"api\"\npreviewPath = \"/api\"\ntitle = \"Web Reconstruction Platform — API\"\nversion = \"1.0.0\"\n\n[[services]]\nname = \"API Server\"\npaths = [\"/api\"]\nlocalPort = 8080\n\n[services.development]\nrun = \"pnpm --filter @workspace/api-server run dev\"\n\n[services.production]\n\n[services.production.build]\nargs = [\"pnpm\", \"--filter\", \"@workspace/api-server\", \"run\", \"build\"]\n\n[services.production.build.env]\nNODE_ENV = \"production\"\n\n[services.production.run]\nargs = [\"node\", \"--enable-source-maps\", \"artifacts/api-server/dist/index.mjs\"]\n\n[services.production.run.env]\nPORT = \"8080\"\nNODE_ENV = \"production\"\n\n[services.production.health.startup]\npath = \"/api/healthz\"",
+          "description": "Replit artifact service registration — routes /api to the Express server"
+        },
+        {
+          "path": ".env.replit.example",
+          "content": "# Web Reconstruction Platform — Replit Environment\n# Copy to Replit Secrets (never commit actual values)\n\nDATABASE_URL=postgresql://user:pass@host:5432/webrecon\nSESSION_SECRET=change-me-long-random-string\n\n# Cloudflare R2 Storage\nCLOUD_PROVIDER=r2\nR2_ACCOUNT_ID=your-account-id\nR2_ACCESS_KEY_ID=your-access-key\nR2_SECRET_ACCESS_KEY=your-secret-key\nR2_BUCKET_NAME=assets-stencil\nR2_PUBLIC_BASE_URL=https://pub-xxx.r2.dev\nR2_ENDPOINT=https://your-account-id.r2.cloudflarestorage.com",
+          "description": "Template for Replit Secrets — copy values from your .env into Replit's secrets panel"
+        }
+      ],
+      "envVars": [
+        {
+          "key": "DATABASE_URL",
+          "required": true,
+          "description": "PostgreSQL connection string",
+          "example": "postgresql://user:pass@host:5432/db",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "SESSION_SECRET",
+          "required": true,
+          "description": "Express session signing secret",
+          "example": "long-random-string",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_ACCOUNT_ID",
+          "required": false,
+          "description": "Cloudflare account ID for R2 access",
+          "example": "69ba6c...",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "R2_ACCESS_KEY_ID",
+          "required": false,
+          "description": "R2 / S3-compatible access key",
+          "example": "abc123",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_SECRET_ACCESS_KEY",
+          "required": false,
+          "description": "R2 / S3-compatible secret key",
+          "example": "secret",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_BUCKET_NAME",
+          "required": false,
+          "description": "R2 bucket name for asset storage",
+          "example": "assets-stencil",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "R2_PUBLIC_BASE_URL",
+          "required": false,
+          "description": "Public CDN base URL for R2 assets",
+          "example": "https://pub-xxx.r2.dev",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "CLOUD_PROVIDER",
+          "required": false,
+          "description": "Cloud storage provider selection (r2 | local)",
+          "example": "r2",
+          "secret": false,
+          "detected": false
+        },
+        {
+          "key": "NODE_ENV",
+          "required": false,
+          "description": "Runtime environment",
+          "example": "production",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "PORT",
+          "required": false,
+          "description": "HTTP server port",
+          "example": "8080",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "CLOUDFLARE_API_TOKEN",
+          "required": false,
+          "description": "Cloudflare API token for wrangler deploys",
+          "example": "cf_token",
+          "secret": true,
+          "detected": false
+        }
+      ],
+      "deploySteps": [
+        {
+          "order": 1,
+          "title": "Add secrets to Replit",
+          "command": null,
+          "notes": [
+            "Open the Replit Secrets panel (padlock icon)",
+            "Add all variables from .env.replit.example",
+            "DATABASE_URL and SESSION_SECRET are mandatory"
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Provision PostgreSQL database",
+          "command": "pnpm --filter @workspace/db run push",
+          "notes": [
+            "DATABASE_URL detected — run push to apply schema"
+          ]
+        },
+        {
+          "order": 3,
+          "title": "Deploy via Replit Deploy button",
+          "command": null,
+          "notes": [
+            "Click Deploy → Autoscale in the Replit workspace",
+            "Replit builds the project and routes traffic automatically",
+            "Health check: GET /api/healthz must return 200"
+          ]
+        },
+        {
+          "order": 4,
+          "title": "Verify R2 connection after deploy",
+          "command": null,
+          "notes": [
+            "R2 configured — verify at GET /api/healthz/r2"
+          ]
+        }
+      ],
+      "estimatedDeployTime": "2–4 minutes",
+      "limitations": [
+        "Replit Autoscale has a cold-start window of ~1–2 seconds on first request after idle",
+        "Puppeteer/Chromium requires sufficient RAM — use a Reserved VM deployment for heavy crawl workloads",
+        "Local filesystem writes (os.tmpdir/) are ephemeral — all persisted data must go to R2 or PostgreSQL"
+      ],
+      "checklist": [
+        "✓ All required env vars detected",
+        "✓ Run pnpm --filter @workspace/db run push before first request",
+        "✓ R2 storage configured",
+        "✓ Health check endpoint: GET /api/healthz"
+      ]
+    },
+    "vercel": {
+      "version": "1.0",
+      "target": "vercel",
+      "targetLabel": "Vercel Serverless",
+      "generatedAt": "2026-07-22T06:16:45.860Z",
+      "sourceUrl": "https://example.com",
+      "summary": "Deploy the Express API as Vercel Serverless Functions and the React frontend as static CDN assets. Free tier supports up to 100GB bandwidth/month and 1M serverless function invocations.",
+      "tier": "free-tier",
+      "recommended": true,
+      "confidence": "high",
+      "files": [
+        {
+          "path": "vercel.json",
+          "content": "{\n  \"version\": 2,\n  \"framework\": null,\n  \"buildCommand\": \"pnpm --filter @workspace/api-server run build\",\n  \"outputDirectory\": \"artifacts/api-server/dist\",\n  \"installCommand\": \"pnpm install\",\n  \"functions\": {\n    \"artifacts/api-server/dist/index.mjs\": {\n      \"runtime\": \"@vercel/node@24\",\n      \"maxDuration\": 60\n    }\n  },\n  \"routes\": [\n    {\n      \"src\": \"/api/(.*)\",\n      \"dest\": \"artifacts/api-server/dist/index.mjs\"\n    },\n    {\n      \"src\": \"/(.*)\",\n      \"dest\": \"artifacts/article-scraper/dist/$1\"\n    }\n  ],\n  \"env\": {\n    \"NODE_ENV\": \"production\"\n  }\n}",
+          "description": "Vercel build + routing configuration — routes /api/* to the serverless function"
+        },
+        {
+          "path": ".env.vercel.example",
+          "content": "# Web Reconstruction Platform — Vercel Environment Variables\n# Add these in: Vercel Dashboard → Project → Settings → Environment Variables\n\nDATABASE_URL=postgresql://user:pass@host:5432/webrecon\nSESSION_SECRET=change-me-long-random-string\n\n# Cloudflare R2\nCLOUD_PROVIDER=r2\nR2_ACCOUNT_ID=your-account-id\nR2_ACCESS_KEY_ID=your-access-key\nR2_SECRET_ACCESS_KEY=your-secret-key\nR2_BUCKET_NAME=assets-stencil\nR2_PUBLIC_BASE_URL=https://pub-xxx.r2.dev\nR2_ENDPOINT=https://your-account-id.r2.cloudflarestorage.com\n\nNODE_ENV=production",
+          "description": "Template for Vercel environment variables — copy to the Vercel dashboard, never commit"
+        },
+        {
+          "path": ".github/workflows/vercel-deploy.yml",
+          "content": "name: Deploy to Vercel\non:\n  push:\n    branches: [main]\n\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: pnpm/action-setup@v3\n        with:\n          version: 10\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '24'\n          cache: 'pnpm'\n      - run: pnpm install\n      - run: pnpm --filter @workspace/api-server run build\n      - uses: amondnet/vercel-action@v25\n        with:\n          vercel-token: ${{ secrets.VERCEL_TOKEN }}\n          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}\n          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}\n          vercel-args: '--prod'",
+          "description": "GitHub Actions CI/CD pipeline — auto-deploys to Vercel on push to main"
+        }
+      ],
+      "envVars": [
+        {
+          "key": "DATABASE_URL",
+          "required": true,
+          "description": "PostgreSQL connection string",
+          "example": "postgresql://user:pass@host:5432/db",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "SESSION_SECRET",
+          "required": true,
+          "description": "Express session signing secret",
+          "example": "long-random-string",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_ACCOUNT_ID",
+          "required": false,
+          "description": "Cloudflare account ID for R2 access",
+          "example": "69ba6c...",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "R2_ACCESS_KEY_ID",
+          "required": false,
+          "description": "R2 / S3-compatible access key",
+          "example": "abc123",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_SECRET_ACCESS_KEY",
+          "required": false,
+          "description": "R2 / S3-compatible secret key",
+          "example": "secret",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_BUCKET_NAME",
+          "required": false,
+          "description": "R2 bucket name for asset storage",
+          "example": "assets-stencil",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "R2_PUBLIC_BASE_URL",
+          "required": false,
+          "description": "Public CDN base URL for R2 assets",
+          "example": "https://pub-xxx.r2.dev",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "CLOUD_PROVIDER",
+          "required": false,
+          "description": "Cloud storage provider selection (r2 | local)",
+          "example": "r2",
+          "secret": false,
+          "detected": false
+        },
+        {
+          "key": "NODE_ENV",
+          "required": false,
+          "description": "Runtime environment",
+          "example": "production",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "PORT",
+          "required": false,
+          "description": "HTTP server port",
+          "example": "8080",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "CLOUDFLARE_API_TOKEN",
+          "required": false,
+          "description": "Cloudflare API token for wrangler deploys",
+          "example": "cf_token",
+          "secret": true,
+          "detected": false
+        }
+      ],
+      "deploySteps": [
+        {
+          "order": 1,
+          "title": "Install Vercel CLI and link project",
+          "command": "npm i -g vercel && vercel link",
+          "notes": [
+            "Creates .vercel/project.json with your project and org IDs",
+            "You'll need these for the GitHub Actions secrets"
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Add environment variables in Vercel dashboard",
+          "command": null,
+          "notes": [
+            "Vercel Dashboard → Project → Settings → Environment Variables",
+            "Add all variables from .env.vercel.example",
+            "DATABASE_URL is required — use a managed Postgres provider (Supabase, Neon, Railway)",
+            "R2 credentials already configured"
+          ]
+        },
+        {
+          "order": 3,
+          "title": "Run DB migration on production DB",
+          "command": "DATABASE_URL=<prod_url> pnpm --filter @workspace/db run push",
+          "notes": [
+            "Must run before first deployment",
+            "Only needs to run when schema changes"
+          ]
+        },
+        {
+          "order": 4,
+          "title": "Deploy to Vercel",
+          "command": "vercel --prod",
+          "notes": [
+            "Or push to main branch to trigger GitHub Actions CI/CD",
+            "First deployment takes ~3 minutes; subsequent ones ~1 minute"
+          ]
+        }
+      ],
+      "estimatedDeployTime": "3–5 minutes (first deploy)",
+      "limitations": [
+        "Serverless functions have a 60-second execution limit — long crawl jobs will time out",
+        "Puppeteer/Chromium cannot run in Vercel serverless — headless browser crawling requires a separate worker service",
+        "Vercel free tier limits: 100GB bandwidth, 100GB-hours compute, 12 regions",
+        "For Puppeteer support, run the crawler as a background service on Railway or Render alongside the Vercel API"
+      ],
+      "checklist": [
+        "✓ All required env vars detected",
+        "Run: vercel link to connect to your project",
+        "Add secrets in Vercel dashboard before first deploy",
+        "✓ Database configured",
+        "✓ R2 storage configured",
+        "Test locally: vercel dev"
+      ]
+    },
+    "cloudflare": {
+      "version": "1.0",
+      "target": "cloudflare",
+      "targetLabel": "Cloudflare Pages + Workers",
+      "generatedAt": "2026-07-22T06:16:45.861Z",
+      "sourceUrl": "https://example.com",
+      "summary": "Deploy the frontend to Cloudflare Pages (global edge CDN) and the API to Cloudflare Workers. Natively integrates with your existing R2 bucket via the ASSETS binding — no credentials needed for storage in production.",
+      "tier": "free-tier",
+      "recommended": true,
+      "confidence": "high",
+      "files": [
+        {
+          "path": "wrangler.toml",
+          "content": "name = \"web-reconstruction-platform\"\nmain = \"artifacts/api-server/dist/worker.mjs\"\ncompatibility_date = \"2025-01-01\"\ncompatibility_flags = [\"nodejs_compat\"]\n\n# Cloudflare Pages — serves the React/Vite frontend\n[site]\nbucket = \"artifacts/article-scraper/dist\"\n\n# R2 bucket binding (replaces environment variable R2)\n[[r2_buckets]]\nbinding = \"ASSETS\"\nbucket_name = \"assets-stencil\"\n\n# Environment variables (non-secret)\n[vars]\nNODE_ENV = \"production\"\nCLOUD_PROVIDER = \"r2\"\n\n# Production environment\n[env.production]\nname = \"web-reconstruction-platform-production\"\n\n[env.production.vars]\nNODE_ENV = \"production\"",
+          "description": "Wrangler config — registers the Worker, Pages site bucket, and R2 binding"
+        },
+        {
+          "path": "public/_routes.json",
+          "content": "{\n  \"version\": 1,\n  \"include\": [\n    \"/api/*\"\n  ],\n  \"exclude\": [\n    \"/_next/*\",\n    \"/static/*\",\n    \"/*.js\",\n    \"/*.css\",\n    \"/*.png\",\n    \"/*.jpg\"\n  ]\n}",
+          "description": "Pages function routing — sends /api/* to the Worker, everything else to static CDN"
+        },
+        {
+          "path": ".env.cloudflare.example",
+          "content": "# Web Reconstruction Platform — Cloudflare Environment\n# Add secrets via: wrangler secret put SECRET_NAME\n\n# Database (use Cloudflare D1 or external Hyperdrive-compatible Postgres)\nDATABASE_URL=postgresql://user:pass@host:5432/webrecon\nSESSION_SECRET=change-me-long-random-string\n\n# R2 Storage (bind via wrangler.toml [[r2_buckets]] — no credentials needed)\n# The R2 bucket is accessed via the ASSETS binding, not env vars\nR2_BUCKET_NAME=assets-stencil\nR2_PUBLIC_BASE_URL=https://pub-xxx.r2.dev\n\n# Cloudflare API (for wrangler deploys from CI)\nCLOUDFLARE_API_TOKEN=your-api-token\nCLOUDFLARE_ACCOUNT_ID=your-account-id",
+          "description": "Secrets template — use 'wrangler secret put' for sensitive values"
+        },
+        {
+          "path": ".github/workflows/cloudflare-deploy.yml",
+          "content": "name: Deploy to Cloudflare\non:\n  push:\n    branches: [main]\n\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: pnpm/action-setup@v3\n        with:\n          version: 10\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '22'\n          cache: 'pnpm'\n      - run: pnpm install\n      - name: Build API\n        run: pnpm --filter @workspace/api-server run build\n      - name: Build Frontend\n        run: pnpm --filter @workspace/article-scraper run build\n      - name: Deploy to Cloudflare\n        uses: cloudflare/wrangler-action@v3\n        with:\n          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}\n          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}\n          command: deploy --env production",
+          "description": "GitHub Actions CI/CD — deploys via Wrangler on push to main"
+        }
+      ],
+      "envVars": [
+        {
+          "key": "DATABASE_URL",
+          "required": true,
+          "description": "PostgreSQL connection string",
+          "example": "postgresql://user:pass@host:5432/db",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "SESSION_SECRET",
+          "required": true,
+          "description": "Express session signing secret",
+          "example": "long-random-string",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_ACCOUNT_ID",
+          "required": false,
+          "description": "Cloudflare account ID for R2 access",
+          "example": "69ba6c...",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "R2_ACCESS_KEY_ID",
+          "required": false,
+          "description": "R2 / S3-compatible access key",
+          "example": "abc123",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_SECRET_ACCESS_KEY",
+          "required": false,
+          "description": "R2 / S3-compatible secret key",
+          "example": "secret",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_BUCKET_NAME",
+          "required": false,
+          "description": "R2 bucket name for asset storage",
+          "example": "assets-stencil",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "R2_PUBLIC_BASE_URL",
+          "required": false,
+          "description": "Public CDN base URL for R2 assets",
+          "example": "https://pub-xxx.r2.dev",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "CLOUD_PROVIDER",
+          "required": false,
+          "description": "Cloud storage provider selection (r2 | local)",
+          "example": "r2",
+          "secret": false,
+          "detected": false
+        },
+        {
+          "key": "NODE_ENV",
+          "required": false,
+          "description": "Runtime environment",
+          "example": "production",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "PORT",
+          "required": false,
+          "description": "HTTP server port",
+          "example": "8080",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "CLOUDFLARE_API_TOKEN",
+          "required": false,
+          "description": "Cloudflare API token for wrangler deploys",
+          "example": "cf_token",
+          "secret": true,
+          "detected": false
+        }
+      ],
+      "deploySteps": [
+        {
+          "order": 1,
+          "title": "Install Wrangler and authenticate",
+          "command": "npm install -g wrangler && wrangler login",
+          "notes": [
+            "Requires a Cloudflare account (free tier available)"
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Create R2 bucket (if not already exists)",
+          "command": "wrangler r2 bucket create assets-stencil",
+          "notes": [
+            "Bucket 'assets-stencil' — verify it exists in your Cloudflare dashboard",
+            "Update wrangler.toml [[r2_buckets]] with your bucket name"
+          ]
+        },
+        {
+          "order": 3,
+          "title": "Add secrets via Wrangler",
+          "command": "wrangler secret put DATABASE_URL && wrangler secret put SESSION_SECRET",
+          "notes": [
+            "Secrets are encrypted at rest and injected at runtime",
+            "Database URL is required — use Cloudflare Hyperdrive for Postgres connection pooling"
+          ]
+        },
+        {
+          "order": 4,
+          "title": "Build and deploy",
+          "command": "pnpm install && pnpm --filter @workspace/api-server run build && wrangler deploy",
+          "notes": [
+            "First deployment provisions the Worker and Pages site",
+            "Subsequent deploys are instant (~30 seconds)"
+          ]
+        }
+      ],
+      "estimatedDeployTime": "3–6 minutes (first deploy), ~30s thereafter",
+      "limitations": [
+        "Cloudflare Workers have a 128MB memory limit — Puppeteer/Chromium CANNOT run in Workers",
+        "CPU time limit: 50ms (free) / 30 seconds (paid) per request — long scrapes must be offloaded",
+        "No persistent local filesystem in Workers — all state must use R2, D1, or KV",
+        "Postgres connections require Cloudflare Hyperdrive for connection pooling (paid feature)",
+        "Workers runtime is V8-based (not Node.js) — some Node.js APIs are polyfilled via nodejs_compat"
+      ],
+      "checklist": [
+        "✓ All required env vars detected",
+        "✓ R2 storage configured — bind via wrangler.toml [[r2_buckets]]",
+        "Create wrangler.toml with your account and bucket details",
+        "Add DATABASE_URL and SESSION_SECRET via: wrangler secret put",
+        "Verify: wrangler dev (local emulation)",
+        "Deploy: wrangler deploy --env production"
+      ]
+    },
+    "docker": {
+      "version": "1.0",
+      "target": "docker",
+      "targetLabel": "Docker (self-hosted / any cloud)",
+      "generatedAt": "2026-07-22T06:16:45.861Z",
+      "sourceUrl": "https://example.com",
+      "summary": "Fully containerised deployment: multi-stage Dockerfile with Chromium/Puppeteer support, Nginx reverse proxy for the React frontend, and docker-compose for the full stack including Postgres. Deploy anywhere that runs Docker — Railway, Render, Fly.io, DigitalOcean, AWS ECS, or your own server.",
+      "tier": "free",
+      "recommended": true,
+      "confidence": "high",
+      "files": [
+        {
+          "path": "Dockerfile",
+          "content": "# ─── Stage 1: Install dependencies ───────────────────────────────────────\nFROM node:24-alpine AS deps\nWORKDIR /app\nRUN npm install -g pnpm@10\nCOPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./\nCOPY lib/*/package.json ./lib/\nCOPY artifacts/api-server/package.json ./artifacts/api-server/\nCOPY artifacts/article-scraper/package.json ./artifacts/article-scraper/\nRUN pnpm install --frozen-lockfile\n\n# ─── Stage 2: Build ───────────────────────────────────────────────────────\nFROM deps AS builder\nCOPY . .\nRUN pnpm run typecheck:libs\nRUN pnpm --filter @workspace/api-server run build\nRUN pnpm --filter @workspace/article-scraper run build\n\n# ─── Stage 3: Runtime (minimal) ───────────────────────────────────────────\nFROM node:24-alpine AS runtime\n\n# Puppeteer / Chromium dependencies\nRUN apk add --no-cache \\\n    chromium \\\n    nss \\\n    freetype \\\n    harfbuzz \\\n    ca-certificates \\\n    ttf-freefont\n\nENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser\nENV PUPPETEER_SKIP_DOWNLOAD=true\n\nWORKDIR /app\nRUN npm install -g pnpm@10\n\n# Copy only production artifacts\nCOPY --from=builder /app/artifacts/api-server/dist ./artifacts/api-server/dist\nCOPY --from=builder /app/artifacts/api-server/package.json ./artifacts/api-server/\nCOPY --from=builder /app/node_modules ./node_modules\nCOPY --from=builder /app/artifacts/api-server/node_modules ./artifacts/api-server/node_modules\n\nEXPOSE 8080\nENV NODE_ENV=production\nENV PORT=8080\n\nHEALTHCHECK --interval=30s --timeout=10s --start-period=20s \\\n  CMD wget -qO- http://localhost:8080/api/healthz || exit 1\n\nCMD [\"node\", \"--enable-source-maps\", \"--max-old-space-size=768\", \\\n     \"artifacts/api-server/dist/index.mjs\"]",
+          "description": "Multi-stage Dockerfile: deps → builder → minimal runtime with Chromium pre-installed"
+        },
+        {
+          "path": "docker-compose.yml",
+          "content": "version: \"3.9\"\n\nservices:\n  api:\n    build:\n      context: .\n      dockerfile: Dockerfile\n      target: runtime\n    restart: unless-stopped\n    ports:\n      - \"8080:8080\"\n    environment:\n      NODE_ENV: production\n      PORT: \"8080\"\n      DATABASE_URL: ${DATABASE_URL}\n      SESSION_SECRET: ${SESSION_SECRET}\n      CLOUD_PROVIDER: ${CLOUD_PROVIDER:-r2}\n      R2_ACCOUNT_ID: ${R2_ACCOUNT_ID}\n      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}\n      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}\n      R2_BUCKET_NAME: ${R2_BUCKET_NAME:-assets-stencil}\n      R2_PUBLIC_BASE_URL: ${R2_PUBLIC_BASE_URL}\n      R2_ENDPOINT: ${R2_ENDPOINT}\n    depends_on:\n      db:\n        condition: service_healthy\n    volumes:\n      - /tmp/webrecon:/tmp\n\n  frontend:\n    image: nginx:alpine\n    restart: unless-stopped\n    ports:\n      - \"3000:80\"\n    volumes:\n      - ./artifacts/article-scraper/dist:/usr/share/nginx/html:ro\n      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro\n    depends_on:\n      - api\n\n  db:\n    image: postgres:16-alpine\n    restart: unless-stopped\n    environment:\n      POSTGRES_DB: webrecon\n      POSTGRES_USER: webrecon\n      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n    healthcheck:\n      test: [\"CMD-SHELL\", \"pg_isready -U webrecon\"]\n      interval: 10s\n      timeout: 5s\n      retries: 5\n\nvolumes:\n  postgres_data:",
+          "description": "Full stack compose: API server + Nginx frontend + PostgreSQL with health checks"
+        },
+        {
+          "path": "nginx/default.conf",
+          "content": "server {\n    listen 80;\n    server_name _;\n\n    # API — proxy to Express\n    location /api/ {\n        proxy_pass         http://api:8080;\n        proxy_http_version 1.1;\n        proxy_set_header   Host              $host;\n        proxy_set_header   X-Real-IP         $remote_addr;\n        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;\n        proxy_set_header   X-Forwarded-Proto $scheme;\n        proxy_read_timeout 120s;\n    }\n\n    # Frontend — serve Vite static build\n    location / {\n        root  /usr/share/nginx/html;\n        index index.html;\n        try_files $uri $uri/ /index.html;\n        expires 1d;\n        add_header Cache-Control \"public, immutable\";\n    }\n\n    # Health check\n    location /health {\n        return 200 \"ok\\n\";\n        add_header Content-Type text/plain;\n    }\n}",
+          "description": "Nginx reverse proxy: routes /api/* to Express, /* to the React static build"
+        },
+        {
+          "path": ".dockerignore",
+          "content": "node_modules\n.git\n*.log\n.env\n.env.*\n!.env.*.example\ndist\n*.tsbuildinfo\n.merge-archive\nbackend-analysis-report.json\nmerge-plan.json\nmerge-audit.json\ndeployment-plan.json\nJune20thwebrecon",
+          "description": "Excludes dev artifacts, secrets, and large analysis reports from the Docker build context"
+        },
+        {
+          "path": ".env.docker.example",
+          "content": "# Web Reconstruction Platform — Docker Environment\n# Copy to .env (never commit this file)\n\n# PostgreSQL (docker-compose provisions this — use the connection string below)\nDATABASE_URL=postgresql://webrecon:changeme@db:5432/webrecon\nPOSTGRES_PASSWORD=changeme\n\nSESSION_SECRET=change-me-long-random-string\n\n# Cloudflare R2\nCLOUD_PROVIDER=r2\nR2_ACCOUNT_ID=your-account-id\nR2_ACCESS_KEY_ID=your-access-key\nR2_SECRET_ACCESS_KEY=your-secret-key\nR2_BUCKET_NAME=assets-stencil\nR2_PUBLIC_BASE_URL=https://pub-xxx.r2.dev\nR2_ENDPOINT=https://your-account-id.r2.cloudflarestorage.com",
+          "description": "Template .env for docker-compose — copy to .env and fill in your values"
+        },
+        {
+          "path": ".github/workflows/docker-deploy.yml",
+          "content": "name: Build & Push Docker Image\non:\n  push:\n    branches: [main]\n    tags: ['v*']\n\njobs:\n  build-and-push:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: read\n      packages: write\n    steps:\n      - uses: actions/checkout@v4\n      - uses: docker/setup-buildx-action@v3\n      - name: Log in to GitHub Container Registry\n        uses: docker/login-action@v3\n        with:\n          registry: ghcr.io\n          username: ${{ github.actor }}\n          password: ${{ secrets.GITHUB_TOKEN }}\n      - name: Build and push\n        uses: docker/build-push-action@v5\n        with:\n          context: .\n          push: true\n          tags: ghcr.io/${{ github.repository }}:latest\n          cache-from: type=gha\n          cache-to: type=gha,mode=max",
+          "description": "GitHub Actions: builds and pushes Docker image to GitHub Container Registry on push to main"
+        }
+      ],
+      "envVars": [
+        {
+          "key": "DATABASE_URL",
+          "required": true,
+          "description": "PostgreSQL connection string",
+          "example": "postgresql://user:pass@host:5432/db",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "SESSION_SECRET",
+          "required": true,
+          "description": "Express session signing secret",
+          "example": "long-random-string",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_ACCOUNT_ID",
+          "required": false,
+          "description": "Cloudflare account ID for R2 access",
+          "example": "69ba6c...",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "R2_ACCESS_KEY_ID",
+          "required": false,
+          "description": "R2 / S3-compatible access key",
+          "example": "abc123",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_SECRET_ACCESS_KEY",
+          "required": false,
+          "description": "R2 / S3-compatible secret key",
+          "example": "secret",
+          "secret": true,
+          "detected": true
+        },
+        {
+          "key": "R2_BUCKET_NAME",
+          "required": false,
+          "description": "R2 bucket name for asset storage",
+          "example": "assets-stencil",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "R2_PUBLIC_BASE_URL",
+          "required": false,
+          "description": "Public CDN base URL for R2 assets",
+          "example": "https://pub-xxx.r2.dev",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "CLOUD_PROVIDER",
+          "required": false,
+          "description": "Cloud storage provider selection (r2 | local)",
+          "example": "r2",
+          "secret": false,
+          "detected": false
+        },
+        {
+          "key": "NODE_ENV",
+          "required": false,
+          "description": "Runtime environment",
+          "example": "production",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "PORT",
+          "required": false,
+          "description": "HTTP server port",
+          "example": "8080",
+          "secret": false,
+          "detected": true
+        },
+        {
+          "key": "CLOUDFLARE_API_TOKEN",
+          "required": false,
+          "description": "Cloudflare API token for wrangler deploys",
+          "example": "cf_token",
+          "secret": true,
+          "detected": false
+        }
+      ],
+      "deploySteps": [
+        {
+          "order": 1,
+          "title": "Copy and configure environment",
+          "command": "cp .env.docker.example .env && nano .env",
+          "notes": [
+            "Fill in DATABASE_URL, SESSION_SECRET, and R2 credentials",
+            "POSTGRES_PASSWORD is used by both the db service and DATABASE_URL"
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Build the frontend",
+          "command": "pnpm --filter @workspace/article-scraper run build",
+          "notes": [
+            "The Nginx container serves the static build from artifacts/article-scraper/dist/"
+          ]
+        },
+        {
+          "order": 3,
+          "title": "Build and start all services",
+          "command": "docker compose up -d --build",
+          "notes": [
+            "First build takes ~5 minutes (downloads Chromium)",
+            "Subsequent builds use layer cache (~2 minutes)",
+            "Wait for: db (healthy) → api (healthy) → frontend"
+          ]
+        },
+        {
+          "order": 4,
+          "title": "Run database migrations",
+          "command": "docker compose exec api node -e \"require('./dist/index.mjs')\" || DATABASE_URL=<url> pnpm --filter @workspace/db run push",
+          "notes": [
+            "DATABASE_URL configured — run push to apply schema",
+            "Only needed on first deploy or when schema changes"
+          ]
+        },
+        {
+          "order": 5,
+          "title": "Verify deployment",
+          "command": "curl http://localhost:8080/api/healthz && curl http://localhost:3000",
+          "notes": [
+            "API: http://localhost:8080/api",
+            "Frontend: http://localhost:3000",
+            "R2 health: http://localhost:8080/api/healthz/r2"
+          ]
+        }
+      ],
+      "estimatedDeployTime": "5–8 minutes (first build with Chromium download)",
+      "limitations": [
+        "Chromium download (~300MB) makes first build slow — use a cached base image in production",
+        "Puppeteer requires elevated memory — allocate at least 1GB RAM to the API container",
+        "docker-compose Postgres is ephemeral without a named volume — always use the volumes: block",
+        "For production, use an external managed Postgres (not the compose db service) for reliability"
+      ],
+      "checklist": [
+        "✓ All required env vars detected",
+        "Copy .env.docker.example to .env and fill in secrets",
+        "Build frontend: pnpm --filter @workspace/article-scraper run build",
+        "mkdir -p nginx && copy nginx/default.conf",
+        "✓ R2 configured — assets persist across container restarts",
+        "Verify: docker compose ps (all services healthy)",
+        "Healthcheck: GET /api/healthz → {status: 'ok'}"
+      ]
+    }
+  },
+  "recommended": "replit",
+  "reasoning": "Currently running on Replit — Autoscale deployment is the fastest path to production with zero infra setup.",
+  "risk": {
+    "deploymentRisk": "LOW",
+    "compatibilityScore": 95,
+    "riskFactors": [
+      {
+        "factor": "Database dependency: postgres",
+        "severity": "medium",
+        "mitigation": "Run migrations before deploy: `pnpm --filter @workspace/db run push`"
+      },
+      {
+        "factor": "Object storage: r2 (Cloudflare R2)",
+        "severity": "low",
+        "mitigation": "Ensure storage credentials are set as environment variables on the deployment target"
+      }
+    ],
+    "compatibilityNotes": [
+      {
+        "aspect": "Database",
+        "score": -5,
+        "note": "postgres detected — ensure provisioned on target"
+      },
+      {
+        "aspect": "Object Storage",
+        "score": 0,
+        "note": "Cloudflare R2 detected — native binding available on Cloudflare target"
+      },
+      {
+        "aspect": "Environment Variables",
+        "score": 5,
+        "note": "All required environment variables detected"
+      },
+      {
+        "aspect": "Framework Complexity",
+        "score": 0,
+        "note": "unknown — medium deployment complexity"
+      },
+      {
+        "aspect": "Target Confidence",
+        "score": 10,
+        "note": "replit target confidence: high"
+      },
+      {
+        "aspect": "Hosting Match",
+        "score": 5,
+        "note": "Currently running on replit — deploying to the same platform"
+      }
+    ],
+    "summary": "Deployment risk is LOW (compatibility score 95/100). The environment is well-configured for the recommended replit target."
+  },
+  "outputFiles": {
+    "intelligenceReport": "deployment-intelligence-report.json",
+    "checklist": "deployment-checklist.json"
+  }
+}
