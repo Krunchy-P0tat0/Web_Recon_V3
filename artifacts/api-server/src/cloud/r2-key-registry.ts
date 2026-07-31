@@ -113,6 +113,33 @@ export const R2Keys = {
     engine: "orchestration/orchestration-engine.json",
     audit:  "orchestration/orchestration-audit.json",
   },
+
+  /**
+   * Phase D4.1 — Persistent Website Intelligence Memory (PWIM)
+   *
+   * One website identity owns all knowledge across every pipeline run.
+   * Layout:
+   *   websites/{websiteId}/
+   *     memory.json                 ← authoritative PWIM manifest (latest)
+   *     memory-v{NNNN}.json         ← versioned snapshots (atomic write safety)
+   *     history/runs.json           ← append-only run history
+   *     checkpoints/latest.json     ← pointer to active scrape checkpoint
+   *     metrics/overview.json       ← aggregated performance metrics
+   *
+   * websiteId = SHA-256(canonicalDomain).slice(0,16)
+   */
+  websites: {
+    prefix:          (websiteId: string) => `websites/${websiteId}/`,
+    memory:          (websiteId: string) => `websites/${websiteId}/memory.json`,
+    memoryVersioned: (websiteId: string, v: number) =>
+      `websites/${websiteId}/memory-v${String(v).padStart(4, "0")}.json`,
+    /** Lightweight version-pointer file — written before the versioned snapshot.
+     *  Contains { v: N } so corruption recovery knows where to start scanning. */
+    memoryVersionPtr:(websiteId: string) => `websites/${websiteId}/memory-vptr.json`,
+    historyRuns:     (websiteId: string) => `websites/${websiteId}/history/runs.json`,
+    checkpointRef:   (websiteId: string) => `websites/${websiteId}/checkpoints/latest.json`,
+    metricsOverview: (websiteId: string) => `websites/${websiteId}/metrics/overview.json`,
+  },
 } as const;
 
 /** Extract jobId from a job-set key, or null if not a job-set key. */
