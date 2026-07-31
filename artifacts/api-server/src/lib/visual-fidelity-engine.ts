@@ -101,6 +101,32 @@ function setOverlap(a: string[], b: string[]): number {
   return Math.round((intersection / union) * 100);
 }
 
+// ── CSS value normalization ────────────────────────────────────────────────────
+// Treats semantically equivalent CSS units as equal before set comparison.
+// "1rem" → "16", "24px" → "24", "1.5em" → "24"  (16px base assumed)
+// This fixes systematic under-scoring when source and generated sites express
+// the same design tokens in different unit conventions.
+
+function normalizeCssValue(v: string): string {
+  const s = v.trim().toLowerCase();
+  const remMatch = s.match(/^([\d.]+)r?em$/);
+  if (remMatch) return String(Math.round(parseFloat(remMatch[1]!) * 16));
+  const pxMatch = s.match(/^([\d.]+)px$/);
+  if (pxMatch) return String(Math.round(parseFloat(pxMatch[1]!)));
+  return s;
+}
+
+function normalizedSetOverlap(a: string[], b: string[]): number {
+  if (a.length === 0 && b.length === 0) return 100;
+  if (a.length === 0 || b.length === 0) return 0;
+  const setA = new Set(a.map(normalizeCssValue));
+  const setB = new Set(b.map(normalizeCssValue));
+  let intersection = 0;
+  for (const v of setA) if (setB.has(v)) intersection++;
+  const union = new Set([...setA, ...setB]).size;
+  return Math.round((intersection / union) * 100);
+}
+
 /** Numeric proximity score: 100 if equal, decays proportionally */
 function numericProximity(a: number, b: number, maxDelta: number): number {
   if (a === 0 && b === 0) return 100;
@@ -212,13 +238,13 @@ function scoreSpacing(src: PageDna, gen: PageDna): MetricScore {
     notes.push(`Font families diverge: source=[${srcT.fontFamilies.slice(0, 3).join(", ")}], generated=[${genT.fontFamilies.slice(0, 3).join(", ")}]`);
   }
 
-  // Font size scale overlap
-  const sizeScore = setOverlap(srcT.fontSizes, genT.fontSizes);
+  // Font size scale overlap — CSS-normalized so "16px" and "1rem" are treated as equal
+  const sizeScore = normalizedSetOverlap(srcT.fontSizes, genT.fontSizes);
   scores.push(sizeScore);
   if (sizeScore < 50) notes.push(`Font size scale mismatch (overlap ${sizeScore}%)`);
 
-  // Spacing rhythm overlap
-  const rhythmScore = setOverlap(srcT.spacingRhythm, genT.spacingRhythm);
+  // Spacing rhythm overlap — CSS-normalized
+  const rhythmScore = normalizedSetOverlap(srcT.spacingRhythm, genT.spacingRhythm);
   scores.push(rhythmScore);
   if (rhythmScore < 40) notes.push(`Spacing rhythm mismatch (overlap ${rhythmScore}%)`);
 

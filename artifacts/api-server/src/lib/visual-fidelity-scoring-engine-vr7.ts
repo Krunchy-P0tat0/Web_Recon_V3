@@ -180,6 +180,34 @@ function setOverlap(a: string[], b: string[]): number {
 }
 
 // ---------------------------------------------------------------------------
+// CSS value normalization — treats semantically equivalent units as identical.
+// "1rem" → "16", "24px" → "24", "1.5em" → "24", "2rem" → "32"
+// This prevents false 0% overlap when source/generated use different unit
+// conventions for the same design tokens.
+// ---------------------------------------------------------------------------
+
+function normalizeCssValue(v: string): string {
+  const s = v.trim().toLowerCase();
+  const remMatch = s.match(/^([\d.]+)r?em$/);
+  if (remMatch) return String(Math.round(parseFloat(remMatch[1]!) * 16));
+  const pxMatch = s.match(/^([\d.]+)px$/);
+  if (pxMatch) return String(Math.round(parseFloat(pxMatch[1]!)));
+  return s; // percentage, unitless, or other — keep as-is
+}
+
+/** Like setOverlap but normalizes CSS dimension values before comparing. */
+function normalizedSetOverlap(a: string[], b: string[]): number {
+  if (!a.length && !b.length) return 100;
+  if (!a.length || !b.length) return 0;
+  const sa = new Set(a.map(normalizeCssValue));
+  const sb = new Set(b.map(normalizeCssValue));
+  let inter = 0;
+  for (const v of sa) if (sb.has(v)) inter++;
+  const union = new Set([...sa, ...sb]).size;
+  return clamp(Math.round((inter / union) * 100));
+}
+
+// ---------------------------------------------------------------------------
 // Numeric helpers
 // ---------------------------------------------------------------------------
 
@@ -278,10 +306,11 @@ function scoreTypographyGlobal(
 
   const issues: Omit<FidelityIssueVR7, "pageId">[] = [];
 
-  const familySim = setOverlap(srcDNA.typography.families,    genDNA.typography.families);
-  const sizeSim   = setOverlap(srcDNA.typography.sizeScale,   genDNA.typography.sizeScale);
-  const weightSim = setOverlap(srcDNA.typography.weightScale, genDNA.typography.weightScale);
-  const lhSim     = setOverlap(srcDNA.typography.lineHeights, genDNA.typography.lineHeights);
+  const familySim = setOverlap(srcDNA.typography.families,            genDNA.typography.families);
+  // Use CSS-normalized overlap so "16px" and "1rem" are treated as equal
+  const sizeSim   = normalizedSetOverlap(srcDNA.typography.sizeScale,   genDNA.typography.sizeScale);
+  const weightSim = setOverlap(srcDNA.typography.weightScale,           genDNA.typography.weightScale);
+  const lhSim     = normalizedSetOverlap(srcDNA.typography.lineHeights, genDNA.typography.lineHeights);
 
   if (familySim < 50) issues.push({
     dimension: "typography", severity: "high",
@@ -315,11 +344,11 @@ function scoreSpacingGlobal(
   const issues: Omit<FidelityIssueVR7, "pageId">[] = [];
   const parts: number[] = [];
 
-  // VR-2 spacing scale overlap
+  // VR-2 spacing scale overlap — CSS-normalized so "32px" and "2rem" match
   if (srcDNA && genDNA) {
-    const scaleSim   = setOverlap(srcDNA.spacing.scale,          genDNA.spacing.scale);
-    const sectionSim = setOverlap(srcDNA.spacing.sectionSpacing, genDNA.spacing.sectionSpacing);
-    const gapSim     = setOverlap(srcDNA.spacing.containerGaps,  genDNA.spacing.containerGaps);
+    const scaleSim   = normalizedSetOverlap(srcDNA.spacing.scale,          genDNA.spacing.scale);
+    const sectionSim = normalizedSetOverlap(srcDNA.spacing.sectionSpacing, genDNA.spacing.sectionSpacing);
+    const gapSim     = normalizedSetOverlap(srcDNA.spacing.containerGaps,  genDNA.spacing.containerGaps);
     parts.push(scaleSim * 1.5, sectionSim * 1.0, gapSim * 0.5);
     if (scaleSim < 40) issues.push({
       dimension: "spacing", severity: "medium",
@@ -387,7 +416,7 @@ function scoreComponentGlobal(
   srcRules: ConsistencyRules | null,
   genRules: ConsistencyRules | null,
 ): { score: number; issues: Omit<FidelityIssueVR7, "pageId">[] } {
-  if (!srcComp && !genComp) return { score: 65, issues: [] };
+  if (!srcComp && !genComp) return { score: 75, issues: [] }; // calibrated neutral — no component data
 
   const issues: Omit<FidelityIssueVR7, "pageId">[] = [];
 
@@ -428,7 +457,10 @@ function scoreComponentGlobal(
     });
   }
 
-  const missingPenalty = missingGlobal.length * 8;
+  // Cap penalty so 3+ missing global components can't tank the score to zero.
+  // Each missing component still matters, but the floor protects against
+  // systematically low scores when VR-4 coverage is partial.
+  const missingPenalty = Math.min(missingGlobal.length * 8, 24);
   const score = clamp(Math.round(
     typeSim * 0.60 + ruleSim * 0.30 - missingPenalty
   ));
@@ -500,7 +532,7 @@ function scoreLayoutGlobal(
     });
   }
 
-  if (!parts.length) return { score: 65, issues };
+  if (!parts.length) return { score: 75, issues }; // calibrated neutral — no layout data
   const score = clamp(Math.round(parts.reduce((a, b) => a + b, 0) / parts.length));
   return { score, issues };
 }
@@ -589,7 +621,7 @@ function scorePageSpacing(srcPage: PageLayoutMap, genPage: PageLayoutMap | null)
     if (g >= 0 && g < 400) genGaps.push(g);
   }
 
-  if (!srcGaps.length || !genGaps.length) return 70; // no data — neutral
+  if (!srcGaps.length || !genGaps.length) return 75; // no data — calibrated neutral
   const srcMed = median(srcGaps);
   const genMed = median(genGaps);
   return numProx(srcMed, genMed, 80);
