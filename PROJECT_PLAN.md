@@ -138,6 +138,106 @@ Planned work:
 
 ---
 
+### Phase D4 — Knowledge Engine & Intelligent Execution
+
+Phase D4 extends the pipeline with persistent knowledge, intelligent execution decisions, and differential planning. D4.1 (Website Memory) and D4.2 (Checkpoint Engine) are complete. D4.3 adds the Intelligent Differential Execution Planner.
+
+---
+
+### D4.3 — Intelligent Differential Execution Planner 🚧 (Current)
+
+**Goal:** Before every pipeline run, inspect Website Memory to determine the minimum required work — eliminating redundant crawling, regeneration, and processing.
+
+**Objective:**
+The planner must inspect Website Memory before every crawl and determine minimum required work by distinguishing:
+1. Missing knowledge — modules that have never been generated
+2. Outdated knowledge — modules whose generatorVersion has been upgraded
+3. Current valid knowledge — modules that are healthy and up-to-date
+4. Website changes — URLs added/removed/changed detected via manifest comparison
+5. Interrupted work — pipeline state that can be resumed from last checkpoint
+
+**Architecture Changes:**
+
+1. **New file: `artifacts/api-server/src/lib/differential-execution-planner.ts`**
+   - `IntelligentDifferentialExecutionPlanner` class
+   - `createExecutionPlan()` — inspects memory, evaluates modules, generates plan
+   - `evaluateKnowledgeModule()` — checks module health vs required versions
+   - `evaluateDependencyGraph()` — traverses module dependencies downward
+   - `detectWebsiteChanges()` — compares manifests for URL/content changes
+   - `selectExecutionMode()` — chooses fresh/differential/resume/upgrade/regenerate
+   - `estimateWork()` — estimates remaining work based on modules to run
+
+2. **New file: `artifacts/api-server/src/lib/differential-execution-planner-types.ts`**
+   - `KnowledgeModuleStatus` — "missing" | "outdated" | "current"
+   - `ExecutionMode` — "fresh" | "differential" | "resume" | "upgrade" | "regenerate-website-prime"
+   - `WebsiteChangeSummary` — URLs added/removed/changed/unchanged, assets added/changed/unchanged
+   - `ExecutionPlan` — full plan output with all required fields
+   - `ModuleDependencyGraph` — explicit module dependency definitions
+
+3. **New route: `artifacts/api-server/src/routes/execution-planner.ts`**
+   - `POST /execution-planner/plan` — generate an execution plan for a website
+   - `GET /execution-planner/plan/:websiteId` — retrieve latest plan
+
+4. **Modified: `artifacts/api-server/src/routes/orchestrate.ts`**
+   - Accept optional `executionMode` parameter
+   - Optionally run planner before pipeline to determine stages
+
+5. **Modified: `artifacts/api-server/src/lib/master-orchestrator.ts`**
+   - Integrate execution planner as a pre-pipeline step
+   - Support skipping stages based on planner output
+   - Support resume-from-checkpoint via `executionMode: "resume"`
+
+6. **Modified: `artifacts/api-server/src/routes/index.ts`**
+   - Register new execution-planner route
+
+**Knowledge Module Versioning:**
+Each knowledge module tracks: moduleName, moduleVersion, generatorVersion, dependencies, outputChecksum, generatedAt, health. When Web Recon upgrades an engine, the planner compares required module versions against stored versions to determine MISSING / OUTDATED / CURRENT states.
+
+**Dependency Graph:**
+```
+Manifest
+↓
+Visual DNA
+↓
+Brand DNA
+↓
+Website Prime
+↓
+Production Certification
+```
+
+If a module is outdated, regenerate it AND evaluate all dependent modules. Do NOT rerun unrelated modules.
+
+**Execution Modes:**
+1. **Fresh Crawl** — ignore previous knowledge, perform complete analysis
+2. **Differential Crawl** — compare existing memory, execute only required work
+3. **Resume Interrupted Crawl** — restore persisted state, continue from last checkpoint
+4. **Upgrade Knowledge** — upgrade outdated knowledge modules
+5. **Regenerate Website Prime** — generate final outputs without unnecessary crawling
+
+**Execution Plan Output:**
+The planner exposes: website, memoryStatus, knowledgeStatus, websiteChangeSummary, missingModules, outdatedModules, affectedDownstreamModules, recommendedStages, estimatedWork, reusableArtifacts, unavailableArtifacts, recoveryOptions
+
+**Files Affected:**
+- `artifacts/api-server/src/lib/differential-execution-planner.ts` (NEW)
+- `artifacts/api-server/src/lib/differential-execution-planner-types.ts` (NEW)
+- `artifacts/api-server/src/routes/execution-planner.ts` (NEW)
+- `artifacts/api-server/src/routes/orchestrate.ts` (MODIFY)
+- `artifacts/api-server/src/lib/master-orchestrator.ts` (MODIFY)
+- `artifacts/api-server/src/routes/index.ts` (MODIFY)
+
+**Dependencies:**
+- D4.1 Website Memory types and service (`website-memory-types.ts`, `website-memory-service.ts`)
+- D4.2 Checkpoint Engine (`checkpoint-engine.ts`)
+- Diff Engine (`diff-engine.ts`)
+- Master Orchestrator (`master-orchestrator.ts`)
+- Crawl state machine (`pipeline-state-machine.ts`)
+- Existing generator engines (visual-dna-engine, brand-dna-engine, certification-engine-c6)
+
+**Exit criterion:** Planner generates correct execution plans for Scenarios A–E (see PROJECT_STATUS.md) and routes return valid JSON responses.
+
+---
+
 ### Phase I — Production Deployment (Planned)
 **Goal:** Deploy Web_Recon_V3 itself to production as a hosted service.
 

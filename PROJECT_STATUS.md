@@ -1,10 +1,30 @@
 # Web_Recon_V3 — Project Status
 
-_Last updated: 2026-07-22_
+_Last updated: 2026-08-01_
 
 ---
 
-## Current Phase: H — Polish & Hardening
+## Current Phase: D4.3 — Intelligent Differential Execution Planner 🚧
+
+D4.3 Task Analysis started on 2026-08-01. The planner will inspect Website Memory before every crawl and determine minimum required work.
+
+---
+
+## Phase Completion Summary
+
+| Phase | Name | Status |
+|-------|------|--------|
+| A | Foundations (monorepo, DB, API scaffold) | ✅ Complete |
+| B | Site Discovery & Crawling | ✅ Complete |
+| C | Intelligence & Classification | ✅ Complete |
+| D | Stencil & Website Prime Generation | ✅ Complete |
+| D4.1 | Persistent Website Memory (PWIM) | ✅ Complete |
+| D4.2 | Checkpoint Engine | ✅ Complete |
+| D4.3 | Intelligent Differential Execution Planner | 🔄 In Progress |
+| E | Merge & Deployment Execution | ✅ Complete |
+| F | Job Dashboard & Control Center | ✅ Complete |
+| G | Full End-to-End Pipeline (smoke test) | ✅ Complete |
+| H | Polish & Hardening | 🔄 On Hold |
 
 Phase G (Full End-to-End Pipeline) completed successfully on 2026-07-22.
 The 12-stage master orchestrator ran https://example.com through the full pipeline, uploaded artifacts to R2, and returned a certification result. The system is now entering hardening.
@@ -36,6 +56,28 @@ The 12-stage master orchestrator ran https://example.com through the full pipeli
 - **Pipeline monitoring** — quality scores (87–97), visual fidelity (75–82), coverage (83–100%) tracked per job
 - **Recovery engine** — autonomous repair planner (E3), disaster recovery (E4), route collision detection (BM2)
 - **API compatibility checks** — BM1–BM12 benchmark middleware suite
+
+---
+
+## D4.3 Pipeline Status
+
+| Stage | Status | Description |
+|-------|--------|-------------|
+| 0.1 Task Analysis | ✅ Complete | Existing architecture documented; implementation plan written |
+| 0.2 Codebase Discovery | ⏳ Pending | Full exploration of relevant systems |
+| 0.3 Implementation | ⏳ Pending | Build planner, types, API route, orchestrator integration |
+| 0.4 Testing & Validation | ⏳ Pending | Type checks, build checks, scenario verification |
+| 0.5 Final Review & Documentation | ⏳ Pending | Final report, docs update, cleanup |
+
+**D4.3 Implementation Goals:**
+- IntelligentDifferentialExecutionPlanner class that inspects Website Memory and produces optimized execution plans
+- Knowledge module version comparison (MISSING / OUTDATED / CURRENT states)
+- Dependency graph traversal for cascade regeneration
+- Five execution modes: fresh, differential, resume, upgrade, regenerate-website-prime
+- Website change detection using existing manifests, URL hashes, asset hashes, checksums
+- Execution plan output with: website, memoryStatus, knowledgeStatus, websiteChangeSummary, missingModules, outdatedModules, affectedDownstreamModules, recommendedStages, estimatedWork, reusableArtifacts, unavailableArtifacts, recoveryOptions
+- API endpoint `POST /execution-planner/plan` to expose planner
+- Master orchestrator integration for pre-pipeline planning
 
 ---
 
