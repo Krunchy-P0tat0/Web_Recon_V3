@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T07:26:17.809Z",
+  "generatedAt": "2026-08-01T07:27:02.836Z",
   "totalWorkers": 1,
   "activeWorkers": 0,
   "idleWorkers": 1,
@@ -10,7 +10,7 @@
       "workerId": "worker-7ef9e6de",
       "inFlight": 0,
       "active": true,
-      "lastSeenAt": "2026-08-01T07:26:17.809Z",
+      "lastSeenAt": "2026-08-01T07:27:02.836Z",
       "status": "idle"
     }
   ]
