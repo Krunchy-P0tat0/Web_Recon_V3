@@ -238,6 +238,61 @@ The planner exposes: website, memoryStatus, knowledgeStatus, websiteChangeSummar
 
 ---
 
+### Codebase Discovery Findings (D4.3 Stage 0.2)
+
+**Existing Capabilities That Will Be Reused:**
+
+| Capability | Source File | How It Maps to D4.3 |
+|---|---|---|
+| Website Memory manifest | `website-memory-types.ts`, `website-memory-service.ts` | Planner reads knowledgeModules to determine module health, version, checksum |
+| KnowledgeModule version tracking | `website-memory-types.ts:57-82` | Module.version (numeric) + moduleVersions map; generatorVersion semver string |
+| Module health states | `website-memory-types.ts:48-55` | healthy/stale/error/missing — planner derives MISSING/OUTDATED/CURRENT from these |
+| Module dependency tracking | `website-memory-types.ts:70` | dependencies: PipelineStageKey[] — planner traverses these for cascade regeneration |
+| Content hash computation | `diff-engine.ts:92-98` | SHA-256 of normalized cleanHtml — used for website change detection |
+| Diff classification | `diff-engine.ts:229-366` | NEW/CHANGED/UNCHANGED/DELETED URL classification — feeds websiteChangeSummary |
+| Checkpoint save/load/resume | `checkpoint-engine.ts:191-334` | saveCheckpoint/loadCheckpoint/computeResumeList — resume interrupted crawl mode |
+| Crawl job submission | `scrape-bridge.ts:29-50` | submitScrapeJob with diffMode/baseJobId — used by execution modes |
+| Manifest load/save | `manifest-store.ts:84-128` | loadManifest(jobId) — loads manifests for website change detection |
+| URL normalization | `crawl-frontier.ts:87` | normalizeUrlFrontier — ensures consistent URL comparison |
+| Pipeline state machine | `pipeline-state-machine.ts:27-43` | 15 states, pause/resume/cancel/retry — state management for execution modes |
+| Orchestration job creation | `master-orchestrator.ts:387-415` | createJob(opts) — creates jobs with url, baseJobId, coverageThreshold |
+| Route registration pattern | `routes/index.ts:89-166` | router.use(importedRouter) — standard pattern for adding new routes |
+
+**Generator Version Constants (existing/found):**
+
+| Engine | Version | Defined In |
+|---|---|---|
+| Brand DNA | `"BrandDNA-v1"` | `brand-dna-engine.ts:209` |
+| Visual DNA | *(no explicit version)* | `visual-dna-engine.ts` — needs version constant added |
+| Certification | *(no explicit version)* | `certification-engine-c6.ts` — needs version constant added |
+| Crawler | `"3.0.0"` | `website-memory-types.ts:20` |
+| Diff Engine | *(no explicit version)* | `diff-engine.ts` — uses content hash comparison |
+| Manifest | schema version `"1.0"` | `manifest.ts:176` |
+
+**Missing Components Required for D4.3:**
+
+1. **No execution planner class** — Need `differential-execution-planner.ts` with IntelligentDifferentialExecutionPlanner
+2. **No knowledge module version comparator** — Logic to compare stored generatorVersion against required generatorVersion
+3. **No dependency graph definition** — Need explicit module-to-module dependency map (e.g., Manifest → Visual DNA → Brand DNA → Website Prime → Certification)
+4. **No execution plan type** — Need `ExecutionPlan` interface with all required output fields
+5. **No execution modes** — Need fresh/differential/resume/upgrade/regenerate-website-prime dispatch logic
+6. **No website change detection service** — Need service wrapping existing diff-engine.ts for plan consumption
+7. **No API endpoint** — Need `POST /execution-planner/plan` route
+8. **No orchestrator integration** — Need planner call before pipeline stages in master-orchestrator.ts
+9. **Missing generator versions** — visual-dna-engine and certification-engine-c6 need explicit version constants
+10. **No resume-from-checkpoint path** — master-orchestrator.ts doesn't load/use checkpoint-engine
+
+**Implementation Approach:**
+1. Create `lib/differential-execution-planner-types.ts` — all new types/interfaces
+2. Create `lib/differential-execution-planner.ts` — planner class + website change detection
+3. Add generator version constants to visual-dna-engine.ts and certification-engine-c6.ts
+4. Create `routes/execution-planner.ts` — POST /execution-planner/plan endpoint
+5. Modify `routes/orchestrate.ts` — accept executionMode parameter
+6. Modify `master-orchestrator.ts` — run planner pre-pipeline for mode selection
+7. Register new route in `routes/index.ts`
+
+---
+
 ### Phase I — Production Deployment (Planned)
 **Goal:** Deploy Web_Recon_V3 itself to production as a hosted service.
 
