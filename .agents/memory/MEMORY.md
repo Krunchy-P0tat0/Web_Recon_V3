@@ -1,0 +1,1 @@
+- [Web Recon V3 setup](web-recon-v3-setup.md) — migration from GitHub, key architecture quirks, and runtime gotchas

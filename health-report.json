@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-08-01T05:35:31.166Z",
+  "generatedAt": "2026-08-01T05:36:31.159Z",
   "overallStatus": "degraded",
-  "uptimeSeconds": 65,
+  "uptimeSeconds": 125,
   "intervalSeconds": 60,
   "checks": {
     "routes": {
@@ -10,8 +10,8 @@
       "totalProbed": 9,
       "passed": 9,
       "failed": 0,
-      "avgLatencyMs": 16,
-      "p95LatencyMs": 26,
+      "avgLatencyMs": 13,
+      "p95LatencyMs": 18,
       "probes": [
         {
           "path": "/api/healthz",
@@ -24,56 +24,56 @@
           "path": "/api/scrape/jobs",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 8,
+          "latencyMs": 9,
           "pass": true
         },
         {
           "path": "/api/deploy/frameworks",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 10,
+          "latencyMs": 11,
           "pass": true
         },
         {
           "path": "/api/deploy/targets",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 11,
+          "latencyMs": 12,
           "pass": true
         },
         {
           "path": "/api/deploy/audit",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 26,
+          "latencyMs": 17,
           "pass": true
         },
         {
           "path": "/api/deploy/executions",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 15,
+          "latencyMs": 14,
           "pass": true
         },
         {
           "path": "/api/monitor/health",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 20,
+          "latencyMs": 15,
           "pass": true
         },
         {
           "path": "/api/monitor/pipeline",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 25,
+          "latencyMs": 16,
           "pass": true
         },
         {
           "path": "/api/monitor/status",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 26,
+          "latencyMs": 18,
           "pass": true
         }
       ]
