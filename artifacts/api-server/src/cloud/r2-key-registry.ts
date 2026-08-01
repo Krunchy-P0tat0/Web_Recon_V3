@@ -113,6 +113,79 @@ export const R2Keys = {
     engine: "orchestration/orchestration-engine.json",
     audit:  "orchestration/orchestration-audit.json",
   },
+
+  /**
+   * Phase D4.1 — Persistent Website Intelligence Memory (PWIM)
+   *
+   * All website-scoped memory lives under websites/{canonicalDomain}/.
+   * The canonicalDomain is the stripped hostname (no www., no protocol),
+   * e.g. "colincowie.com". It contains only [a-z0-9.-] chars — all valid
+   * in R2 / S3 object keys.
+   *
+   * Job-scoped artifacts (jobs/{jobId}/…) remain unchanged — the website
+   * memory layer is an additive cross-job intelligence layer and does NOT
+   * migrate or delete existing job-scoped keys.
+   */
+  websites: {
+    /** Root prefix for all memory artifacts for a website. */
+    prefix:      (domain: string) => `websites/${domain}/`,
+
+    /** Canonical versioned memory manifest — the PWIM source of truth. */
+    memory:      (domain: string) => `websites/${domain}/memory.json`,
+
+    /** Per-stage pipeline output snapshots. */
+    pipeline: {
+      prefix:  (domain: string) => `websites/${domain}/pipeline/`,
+      stage:   (domain: string, stageId: string) => `websites/${domain}/pipeline/${stageId}.json`,
+    },
+
+    /** Checkpoint files referenced by knowledgeModules[].checksum. */
+    checkpoints: {
+      prefix:  (domain: string) => `websites/${domain}/checkpoints/`,
+      file:    (domain: string, name: string) => `websites/${domain}/checkpoints/${name}`,
+    },
+
+    /** Crawl manifests (page coverage, link graph). */
+    manifests: {
+      prefix:  (domain: string) => `websites/${domain}/manifests/`,
+      file:    (domain: string, name: string) => `websites/${domain}/manifests/${name}`,
+    },
+
+    /** Asset cache (CSS, JS, images, fonts). */
+    assets: {
+      prefix:  (domain: string) => `websites/${domain}/assets/`,
+    },
+
+    /** Normalized DOM/CSS/JS JSON output. */
+    normalized: {
+      prefix:  (domain: string) => `websites/${domain}/normalized/`,
+      file:    (domain: string, name: string) => `websites/${domain}/normalized/${name}`,
+    },
+
+    /** BFS crawl frontier state snapshots. */
+    frontier: {
+      prefix:  (domain: string) => `websites/${domain}/frontier/`,
+      state:   (domain: string) => `websites/${domain}/frontier/state.json`,
+    },
+
+    /** Per-URL retry logs and failure records. */
+    retries: {
+      prefix:  (domain: string) => `websites/${domain}/retries/`,
+      log:     (domain: string) => `websites/${domain}/retries/retry.log`,
+    },
+
+    /** Execution history snapshots (one per pipeline run). */
+    history: {
+      prefix:  (domain: string) => `websites/${domain}/history/`,
+      run:     (domain: string, jobId: string) => `websites/${domain}/history/${jobId}.json`,
+    },
+
+    /** Quality and fidelity metrics over time. */
+    metrics: {
+      prefix:  (domain: string) => `websites/${domain}/metrics/`,
+      latest:  (domain: string) => `websites/${domain}/metrics/latest.json`,
+    },
+  },
 } as const;
 
 /** Extract jobId from a job-set key, or null if not a job-set key. */

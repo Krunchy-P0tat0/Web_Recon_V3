@@ -1,9 +1,9 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-08-01T05:36:31.164Z",
-  "durationMs": 0,
-  "basedOnHealthReport": "2026-08-01T05:36:31.159Z",
-  "basedOnRecoveryReport": "2026-08-01T05:36:31.164Z",
+  "generatedAt": "2026-08-01T07:26:21.837Z",
+  "durationMs": 1,
+  "basedOnHealthReport": "2026-08-01T07:26:21.834Z",
+  "basedOnRecoveryReport": "2026-08-01T07:26:21.836Z",
   "rootCauses": [
     {
       "id": "rc:assets:not_configured",
