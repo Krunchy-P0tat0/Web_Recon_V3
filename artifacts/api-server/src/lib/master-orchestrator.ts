@@ -44,6 +44,8 @@ import { getJobRecord } from "./db-queue.js";
 import { classifyFailure } from "./failure-classifier.js";
 import { executeRecovery } from "./autonomous-recovery-engine.js";
 import { persistStageOutput, persistJobSummary } from "./r2-stage-persister.js";
+import { PIPELINE_STAGE_KEYS } from "./website-memory-types.js";
+import type { PipelineStageKey } from "./website-memory-types.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -110,6 +112,12 @@ export interface OrchestrationJob {
   error:                 string | null;
   /** Minimum site coverage % (0–100) required before entering stencil phase. */
   coverageThreshold:     number;
+  /** D4.3: Selected execution mode (auto-detected or user-provided). */
+  executionMode:         string | null;
+  /** D4.3: JSON-serialized execution plan from the planner. */
+  executionPlan:         string | null;
+  /** D4.3: Recommended stages from the planner (subset of all stages). */
+  recommendedStages:     string[] | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -388,6 +396,9 @@ export function createJob(opts: {
   url:                string;
   baseJobId?:         string | null;
   coverageThreshold?: number;
+  executionMode?:     string;
+  executionPlan?:     string;
+  recommendedStages?: string[];
 }): OrchestrationJob {
   const id  = randomUUID();
   const now = new Date().toISOString();
@@ -409,6 +420,9 @@ export function createJob(opts: {
     totalDurationMs:       null,
     error:                 null,
     coverageThreshold:     opts.coverageThreshold ?? 0,
+    executionMode:         opts.executionMode ?? null,
+    executionPlan:         opts.executionPlan ?? null,
+    recommendedStages:     opts.recommendedStages ?? null,
   };
   _jobs.set(id, job);
   return job;
@@ -666,82 +680,117 @@ export async function runPipeline(job: OrchestrationJob): Promise<void> {
     if (stg) void persistStageOutput(job, stg, _d34cloud).catch(() => {});
   }
 
+  /**
+   * D4.3: Planner-aware stage runner.
+   * If the planner provided recommendedStages and this stage is not in the list,
+   * the stage is skipped. Otherwise, runs the stage normally.
+   */
+  const plannerRecommended = new Set<string>(job.recommendedStages ?? []);
+  const hasPlannerPlan = job.recommendedStages !== null && job.recommendedStages.length > 0;
+
+  async function runOrSkipStage(
+    stageId: MasterStageId,
+    label: string,
+    runner: () => Promise<void>,
+    skipReason?: string,
+  ): Promise<void> {
+    await gate(stageId);
+    if (hasPlannerPlan && !plannerRecommended.has(stageId)) {
+      await skipStage(job, stageId, skipReason ?? `Skipped by D4.3 planner: stage "${stageId}" not in recommended list`);
+      logger.info({ jobId: job.id, stageId, mode: job.executionMode }, "MASTER: stage skipped by planner");
+      return;
+    }
+    await runner();
+  }
+
   try {
     // 1. crawl
-    await gate("crawl");
-    publishEvent("crawl-started", job.id, { url: job.url }, "crawl");
-    await runWithRetry(job, "crawl", () => stageCrawl(job));
-    await persist(job); d34("crawl");
+    await runOrSkipStage("crawl", "Crawl", async () => {
+      publishEvent("crawl-started", job.id, { url: job.url }, "crawl");
+      await runWithRetry(job, "crawl", () => stageCrawl(job));
+      await persist(job); d34("crawl");
+    }, "Existing crawl data is current — no re-crawl needed");
 
     // 2. manifest
-    await gate("manifest");
-    await runWithRetry(job, "manifest", () => stageManifest(job));
-    publishEvent("manifest-generated", job.id, { scrapeJobId: job.underlyingJobId }, "manifest");
-    await persist(job); d34("manifest");
+    await runOrSkipStage("manifest", "Manifest", async () => {
+      await runWithRetry(job, "manifest", () => stageManifest(job));
+      publishEvent("manifest-generated", job.id, { scrapeJobId: job.underlyingJobId }, "manifest");
+      await persist(job); d34("manifest");
+    }, "Manifest is current — may be reused from previous run");
 
     // 3. diff (skip if no baseJobId)
-    await gate("diff");
-    if (job.includeDiff && job.baseJobId) {
-      await runWithRetry(job, "diff", () => stageDiff(job));
-      publishEvent("diff-computed", job.id, { baseJobId: job.baseJobId }, "diff");
-    } else {
-      await skipStage(job, "diff", "No baseline job provided — diff not required");
-    }
-    await persist(job); d34("diff");
+    await runOrSkipStage("diff", "Diff", async () => {
+      if (job.includeDiff && job.baseJobId) {
+        await runWithRetry(job, "diff", () => stageDiff(job));
+        publishEvent("diff-computed", job.id, { baseJobId: job.baseJobId }, "diff");
+      } else {
+        await skipStage(job, "diff", "No baseline job provided — diff not required");
+      }
+      await persist(job); d34("diff");
+    }, "Diff not required — no changes detected or no baseline");
 
     // 4. intelligence
-    await gate("intelligence");
-    await runWithRetry(job, "intelligence", () => stageIntelligence(job));
-    publishEvent("intelligence-complete", job.id, {}, "intelligence");
-    await persist(job); d34("intelligence");
+    await runOrSkipStage("intelligence", "Intelligence", async () => {
+      await runWithRetry(job, "intelligence", () => stageIntelligence(job));
+      publishEvent("intelligence-complete", job.id, {}, "intelligence");
+      await persist(job); d34("intelligence");
+    }, "Intelligence data is current");
 
     // 5. design-dna
-    await gate("design-dna");
-    await runWithRetry(job, "design-dna", () => stageDesignDna(job));
-    publishEvent("design-dna-complete", job.id, {}, "design-dna");
-    await persist(job); d34("design-dna");
+    await runOrSkipStage("design-dna", "Design DNA", async () => {
+      await runWithRetry(job, "design-dna", () => stageDesignDna(job));
+      publishEvent("design-dna-complete", job.id, {}, "design-dna");
+      await persist(job); d34("design-dna");
+    }, "Design DNA is current");
 
     // 6. visual-dna
-    await gate("visual-dna");
-    await runWithRetry(job, "visual-dna", () => stageVisualDna(job));
-    publishEvent("visual-dna-complete", job.id, {}, "visual-dna");
-    await persist(job); d34("visual-dna");
+    await runOrSkipStage("visual-dna", "Visual DNA", async () => {
+      await runWithRetry(job, "visual-dna", () => stageVisualDna(job));
+      publishEvent("visual-dna-complete", job.id, {}, "visual-dna");
+      await persist(job); d34("visual-dna");
+    }, "Visual DNA is current");
 
     // 7. stencil
-    await gate("stencil");
-    await runWithRetry(job, "stencil", () => stageStencil(job));
-    publishEvent("stencil-generated", job.id, {}, "stencil");
-    await persist(job); d34("stencil");
+    await runOrSkipStage("stencil", "Stencil", async () => {
+      await runWithRetry(job, "stencil", () => stageStencil(job));
+      publishEvent("stencil-generated", job.id, {}, "stencil");
+      await persist(job); d34("stencil");
+    }, "Stencil is current");
 
     // 8. website-prime
-    await gate("website-prime");
-    await runWithRetry(job, "website-prime", () => stageWebsitePrime(job));
-    publishEvent("website-prime-complete", job.id, {}, "website-prime");
-    await persist(job); d34("website-prime");
+    await runOrSkipStage("website-prime", "Website Prime", async () => {
+      await runWithRetry(job, "website-prime", () => stageWebsitePrime(job));
+      publishEvent("website-prime-complete", job.id, {}, "website-prime");
+      await persist(job); d34("website-prime");
+    }, "Website Prime is current");
 
     // 9. merge
-    await gate("merge");
-    await runWithRetry(job, "merge", () => stageMerge(job));
-    publishEvent("merge-complete", job.id, {}, "merge");
-    await persist(job); d34("merge");
+    await runOrSkipStage("merge", "Merge", async () => {
+      await runWithRetry(job, "merge", () => stageMerge(job));
+      publishEvent("merge-complete", job.id, {}, "merge");
+      await persist(job); d34("merge");
+    }, "Merge data is current");
 
     // 10. deployment-plan
-    await gate("deployment-plan");
-    await runWithRetry(job, "deployment-plan", () => stageDeploymentPlan(job));
-    publishEvent("deployment-plan-ready", job.id, {}, "deployment-plan");
-    await persist(job); d34("deployment-plan");
+    await runOrSkipStage("deployment-plan", "Deployment Plan", async () => {
+      await runWithRetry(job, "deployment-plan", () => stageDeploymentPlan(job));
+      publishEvent("deployment-plan-ready", job.id, {}, "deployment-plan");
+      await persist(job); d34("deployment-plan");
+    }, "Deployment Plan is current");
 
     // 11. deploy
-    await gate("deploy");
-    await runWithRetry(job, "deploy", () => stageDeploy(job));
-    publishEvent("deployment-complete", job.id, { executionId: job.deploymentExecutionId }, "deploy");
-    await persist(job); d34("deploy");
+    await runOrSkipStage("deploy", "Deploy", async () => {
+      await runWithRetry(job, "deploy", () => stageDeploy(job));
+      publishEvent("deployment-complete", job.id, { executionId: job.deploymentExecutionId }, "deploy");
+      await persist(job); d34("deploy");
+    }, "Deployment is current");
 
-    // 12. certification (Stage 19 — Production Certification)
-    await gate("certification");
-    await runWithRetry(job, "certification", () => stageCertification(job));
-    publishEvent("certification-complete", job.id, {}, "certification");
-    await persist(job); d34("certification");
+    // 12. certification
+    await runOrSkipStage("certification", "Certification", async () => {
+      await runWithRetry(job, "certification", () => stageCertification(job));
+      publishEvent("certification-complete", job.id, {}, "certification");
+      await persist(job); d34("certification");
+    }, "Certification is current");
 
     // Done
     job.status          = "complete";

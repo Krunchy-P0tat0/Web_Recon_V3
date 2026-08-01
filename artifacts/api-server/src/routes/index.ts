@@ -80,6 +80,7 @@ import vr8ReviewIntegrationRouter from "./vr8-review-integration.js";
 import storageRouter from "./storage.js";
 import regenerateRouter from "./regenerate.js";
 import jobStorageRouter from "./job-storage.js";
+import executionPlannerRouter from "./execution-planner.js";
 
 const router: IRouter = Router();
 
@@ -164,5 +165,6 @@ router.use(vr8ReviewIntegrationRouter);
 router.use(jobStorageRouter);
 router.use(storageRouter);
 router.use(regenerateRouter);
+router.use(executionPlannerRouter);
 
 export default router;
