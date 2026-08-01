@@ -29,6 +29,9 @@ async function buildAll() {
     // - use path traversal to read files (e.g. @google-cloud/secret-manager loads sibling .proto files)
     external: [
       "*.node",
+      // zod is a direct dependency of api-server; externalize so esbuild doesn't
+      // attempt to bundle it when resolving through workspace lib symlinks
+      "zod",
       "sharp",
       "better-sqlite3",
       "sqlite3",

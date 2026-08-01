@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "phase": "6.5",
+  "generatedAt": "2026-07-22T06:17:26.660Z",
+  "durationMs": 0,
+  "executionId": "19e9cfa9-cdff-4df0-83fa-dec0a8acba90",
+  "jobId": "c14b30f3-e515-469d-a369-3259b058e4b4",
+  "readiness": "NO_PRIOR_DEPLOYMENT",
+  "rollbackTarget": null,
+  "dbRollbackRequirements": {
+    "risk": "NONE",
+    "notes": "Static site deployment (r2-static). No database schema changes occur during deployment. Rollback is purely a storage + URL redirect operation with zero DB impact.",
+    "schemaTablesInScope": [],
+    "migrationStepsRequired": [],
+    "automatable": true
+  },
+  "storageRollbackRequirements": {
+    "r2PrefixToCleanup": "deployments/19e9cfa9-cdff-4df0-83fa-dec0a8acba90",
+    "estimatedFilesToDelete": 2,
+    "estimatedBytesToFree": 8256,
+    "retainPreviousDeployment": true,
+    "cleanupCommand": "DELETE objects under r2://assets-stencil/deployments/19e9cfa9-cdff-4df0-83fa-dec0a8acba90/ (2 files, 8kb). Previous deployment remains live at its own prefix."
+  },
+  "rollbackSteps": [
+    {
+      "order": 1,
+      "action": "MANUAL_RESTORE",
+      "detail": "No prior deployment exists. Restore from source: re-run the full pipeline from scrape → generate → deploy.",
+      "automated": false,
+      "apiEndpoint": "POST /api/orchestrate"
+    }
+  ],
+  "singleClickEndpoint": null,
+  "summary": {
+    "canRollback": false,
+    "estimatedRollbackSeconds": 0,
+    "riskLevel": "LOW",
+    "blockers": [
+      "Rollback readiness: NO_PRIOR_DEPLOYMENT"
+    ]
+  }
+}

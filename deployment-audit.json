@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-08-01T05:35:31.151Z",
+  "summary": {
+    "total": 0,
+    "success": 0,
+    "failed": 0,
+    "rolledBack": 0,
+    "running": 0,
+    "avgDurationMs": null,
+    "firstDeployedAt": null,
+    "lastDeployedAt": null
+  },
+  "executions": []
+}

@@ -10,13 +10,19 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: pipeline
+    description: Pipeline orchestration
+  - name: storage
+    description: Cloud storage operations
+  - name: platform
+    description: Platform feature registry
 paths:
+  # ── Health ──────────────────────────────────────────────────────────────────
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,8 +30,216 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ── Pipeline ─────────────────────────────────────────────────────────────────
+  /orchestrate:
+    get:
+      operationId: listPipelineJobs
+      tags: [pipeline]
+      summary: List all pipeline jobs
+      responses:
+        "200":
+          description: List of jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PipelineJob"
+    post:
+      operationId: startPipelineJob
+      tags: [pipeline]
+      summary: Start a new pipeline job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PipelineJobInput"
+      responses:
+        "200":
+          description: Job started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PipelineJobStarted"
+
+  /orchestrate/{jobId}:
+    get:
+      operationId: getPipelineJob
+      tags: [pipeline]
+      summary: Get a pipeline job by ID
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Job details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PipelineJob"
+        "404":
+          description: Not found
+
+  /scrape-progress/{scrapeJobId}:
+    get:
+      operationId: getScrapeProgress
+      tags: [pipeline]
+      summary: Get scrape job article progress
+      parameters:
+        - name: scrapeJobId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Scrape progress
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScrapeProgress"
+        "404":
+          description: Not found
+
+  # ── Storage ───────────────────────────────────────────────────────────────────
+  /storage/status:
+    get:
+      operationId: getStorageStatus
+      tags: [storage]
+      summary: Get cloud storage provider status
+      responses:
+        "200":
+          description: Storage status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorageStatus"
+
+  /storage/metrics:
+    get:
+      operationId: getStorageMetrics
+      tags: [storage]
+      summary: Get storage usage metrics
+      responses:
+        "200":
+          description: Storage metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorageMetrics"
+
+  /storage/objects:
+    get:
+      operationId: listStorageObjects
+      tags: [storage]
+      summary: List objects in storage
+      responses:
+        "200":
+          description: Object listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StorageObject"
+
+  /storage/upload:
+    post:
+      operationId: uploadStorageObject
+      tags: [storage]
+      summary: Upload a file to cloud storage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StorageUploadRequest"
+      responses:
+        "200":
+          description: Upload result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorageUploadResult"
+        "400":
+          description: Invalid body
+        "503":
+          description: Storage not configured
+
+  # ── Platform Feature Registry ─────────────────────────────────────────────────
+  /platform/features:
+    get:
+      operationId: listPlatformFeatures
+      tags: [platform]
+      summary: List all platform features from the registry
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: live
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: controls
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Platform feature registry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlatformFeaturesResponse"
+
+  /platform/routes:
+    get:
+      operationId: listPlatformRoutes
+      tags: [platform]
+      summary: List all registered HTTP routes
+      responses:
+        "200":
+          description: Route catalogue
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericRegistryResponse"
+
+  /platform/widgets:
+    get:
+      operationId: listPlatformWidgets
+      tags: [platform]
+      summary: List all recommended dashboard widgets
+      responses:
+        "200":
+          description: Widget catalogue
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericRegistryResponse"
+
 components:
   schemas:
+    # ── Health ────────────────────────────────────────────────────────────────
     HealthStatus:
       type: object
       properties:
@@ -34,3 +248,255 @@ components:
       required:
         - status
 
+    # ── Pipeline ──────────────────────────────────────────────────────────────
+    PipelineStage:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        durationMs:
+          type: ["integer", "null"]
+        error:
+          type: ["string", "null"]
+        metadata:
+          type: object
+          additionalProperties: false
+      required:
+        - id
+        - status
+
+    PipelineJob:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+        status:
+          type: string
+        currentStage:
+          type: ["string", "null"]
+        completedStages:
+          type: array
+          items:
+            type: string
+        stages:
+          type: array
+          items:
+            $ref: "#/components/schemas/PipelineStage"
+        startedAt:
+          type: ["string", "null"]
+        completedAt:
+          type: ["string", "null"]
+        error:
+          type: ["string", "null"]
+        underlyingJobId:
+          type: ["string", "null"]
+        totalDurationMs:
+          type: ["integer", "null"]
+        coverageThreshold:
+          type: integer
+        failedStages:
+          type: array
+          items:
+            type: string
+        skippedStages:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - url
+        - status
+        - stages
+        - completedStages
+        - failedStages
+        - skippedStages
+        - coverageThreshold
+
+    PipelineJobInput:
+      type: object
+      properties:
+        url:
+          type: string
+        coverageThreshold:
+          type: integer
+      required:
+        - url
+
+    PipelineJobStarted:
+      type: object
+      properties:
+        jobId:
+          type: string
+        url:
+          type: string
+        coverageThreshold:
+          type: integer
+        status:
+          type: string
+        startedAt:
+          type: string
+      required:
+        - jobId
+        - url
+        - status
+
+    ScrapeProgress:
+      type: object
+      properties:
+        jobId:
+          type: string
+        status:
+          type: string
+        totalArticles:
+          type: integer
+        completedArticles:
+          type: integer
+        currentArticle:
+          type: ["string", "null"]
+        crawlAllPages:
+          type: ["boolean", "null"]
+        coverageThreshold:
+          type: ["integer", "null"]
+        coveragePct:
+          type: integer
+      required:
+        - jobId
+        - status
+        - totalArticles
+        - completedArticles
+        - coveragePct
+
+    # ── Storage ───────────────────────────────────────────────────────────────
+    StorageStatus:
+      type: object
+      properties:
+        provider:
+          type: string
+        configured:
+          type: boolean
+      required:
+        - provider
+        - configured
+
+    StorageMetrics:
+      type: object
+      properties:
+        provider:
+          type: string
+        configured:
+          type: boolean
+        storageUsedBytes:
+          type: integer
+        objectCount:
+          type: integer
+
+    StorageObject:
+      type: object
+      properties:
+        key:
+          type: string
+        size:
+          type: ["integer", "null"]
+        lastModified:
+          type: ["string", "null"]
+        provider:
+          type: ["string", "null"]
+      required:
+        - key
+
+    StorageUploadRequest:
+      type: object
+      properties:
+        key:
+          type: string
+        contentBase64:
+          type: string
+        contentType:
+          type: string
+      required:
+        - key
+        - contentBase64
+
+    StorageUploadResult:
+      type: object
+      properties:
+        key:
+          type: string
+        url:
+          type: ["string", "null"]
+        size:
+          type: ["integer", "null"]
+      required:
+        - key
+
+    # ── Platform ──────────────────────────────────────────────────────────────
+    PlatformFeature:
+      type: object
+      properties:
+        id:
+          type: string
+        featureName:
+          type: string
+        category:
+          type: string
+        status:
+          type: string
+        description:
+          type: string
+        supportsLiveUpdates:
+          type: ["boolean", "null"]
+        supportsControls:
+          type: ["boolean", "null"]
+      required:
+        - id
+        - featureName
+        - category
+        - status
+        - description
+
+    PlatformFeaturesMeta:
+      type: object
+      properties:
+        generatedAt:
+          type: string
+        total:
+          type: integer
+        filtered:
+          type: boolean
+      required:
+        - total
+        - filtered
+
+    PlatformFeaturesResponse:
+      type: object
+      properties:
+        meta:
+          $ref: "#/components/schemas/PlatformFeaturesMeta"
+        features:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlatformFeature"
+        byCategory:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/PlatformFeature"
+      required:
+        - meta
+        - features
+
+    GenericRegistryResponse:
+      type: object
+      properties:
+        meta:
+          type: object
+          additionalProperties: false
+        items:
+          type: array
+          items: {}
+      required: []

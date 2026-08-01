@@ -1,0 +1,16 @@
+{
+  "name": "@workspace/merge-planner",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@workspace/site-discovery": "workspace:*",
+    "@workspace/site-intelligence": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
+  }
+}
