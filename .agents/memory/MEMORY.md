@@ -1,1 +1,2 @@
+- [GitHub HTTPS authentication](github-auth.md) — GitHub API bearer auth may work while Git fetch requires Basic auth with `x-access-token` and the PAT.
 - [Web Recon V3 setup](web-recon-v3-setup.md) — migration from GitHub, key architecture quirks, and runtime gotchas
