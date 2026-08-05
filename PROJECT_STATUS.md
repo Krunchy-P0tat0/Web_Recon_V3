@@ -20,7 +20,8 @@ D4.3 is complete. D4.4 Task Analysis started on 2026-08-05. Mission Control will
 | D | Stencil & Website Prime Generation | ✅ Complete |
 | D4.1 | Persistent Website Memory (PWIM) | ✅ Complete |
 | D4.2 | Checkpoint Engine | ✅ Complete |
-| D4.3 | Intelligent Differential Execution Planner | 🔄 In Progress |
+| D4.3 | Intelligent Differential Execution Planner | ✅ Complete |
+| D4.4 | Persistent Memory & Differential UX | 🔄 In Progress |
 | E | Merge & Deployment Execution | ✅ Complete |
 | F | Job Dashboard & Control Center | ✅ Complete |
 | G | Full End-to-End Pipeline (smoke test) | ✅ Complete |
@@ -56,6 +57,39 @@ The 12-stage master orchestrator ran https://example.com through the full pipeli
 - **Pipeline monitoring** — quality scores (87–97), visual fidelity (75–82), coverage (83–100%) tracked per job
 - **Recovery engine** — autonomous repair planner (E3), disaster recovery (E4), route collision detection (BM2)
 - **API compatibility checks** — BM1–BM12 benchmark middleware suite
+
+---
+
+## D4.4 Pipeline Status
+
+| Stage | Status | Description |
+|-------|--------|-------------|
+| 0.1 Task Analysis | ✅ Complete | Objective, planned UI, backend endpoints, files identified |
+| 0.2 Codebase Discovery | ✅ Complete | Existing services mapped; reuse strategy confirmed |
+| 0.3 Implementation | ✅ Complete | Backend route, API client, WebsiteMemoryCenter page, sidebar, routing |
+| 0.4 Testing & Validation | ✅ Complete | TypeScript clean on all D4.4 files; pre-existing errors unchanged |
+| 0.5 Final Review & Documentation | ✅ Complete | PROJECT_PLAN.md and PROJECT_STATUS.md updated |
+
+**D4.4 Implementation — Files Created/Modified:**
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `artifacts/api-server/src/routes/website-memory.ts` | ✅ Created | `GET /api/website-memory?url=` — lightweight memory summary endpoint |
+| `artifacts/api-server/src/routes/index.ts` | ✅ Modified | Registered websiteMemoryRouter |
+| `artifacts/dashboard/src/lib/planner-api.ts` | ✅ Created | API client: fetchWebsiteMemory, fetchExecutionPlan, orchestrateWithMode |
+| `artifacts/dashboard/src/pages/WebsiteMemoryCenter.tsx` | ✅ Created | Full UX page: memory status, modules grid, change summary, action launcher, plan preview |
+| `artifacts/dashboard/src/components/layout/Sidebar.tsx` | ✅ Modified | Added "Website Memory" nav entry (Brain icon) under Pipeline section |
+| `artifacts/dashboard/src/App.tsx` | ✅ Modified | Registered `/memory` route → WebsiteMemoryCenter |
+
+**D4.4 UX — WebsiteMemoryCenter Features:**
+- URL input → `POST /api/execution-planner/plan` → full plan displayed
+- Memory Status card: exists/not, last crawl, last pipeline, pipeline state, knowledge completeness, recommended mode
+- Recovery Panel: interrupt detection, last checkpoint stage, resume instructions
+- Website Change Summary: added/removed/changed/unchanged URLs and assets
+- Available Actions: 5 execution mode buttons (disabled when not applicable, "Recommended" badge on planner choice)
+- Execution Plan Preview: all 12 stages, each labeled SKIP/MISSING/UPGRADE/REBUILD/RUN with run/skip indicator
+- Knowledge Modules Grid: per-stage status badge, generatedAt, engine version, health
+- SSE integration: plan refreshes on pipeline events for the active domain
 
 ---
 
