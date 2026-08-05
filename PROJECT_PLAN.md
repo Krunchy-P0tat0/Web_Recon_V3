@@ -159,3 +159,37 @@ Planned work:
 - **All backend logging via `req.log` or the singleton `logger`** — never `console.log` in server code.
 - **DB changes require `pnpm --filter @workspace/db run push`** — run against dev before touching prod.
 - **R2_ACCOUNT_ID and R2_PUBLIC_BASE_URL are non-secret env vars; the three R2 credential keys are Replit Secrets.**
+
+---
+
+## Phase R0 — Laboratory Recovery, Integration & Validation
+
+**Objective:** Perform a complete recovery and integration audit of the Web Recon V3 repository. Discover every change made in the `laboratory` branch, compare against `main`, integrate into a new `lab-merge` staging branch, and produce a complete recovery report.
+
+**Branch Strategy:**
+- Source: `origin/laboratory`
+- Target: `lab-merge` (created from `origin/main`)
+- Main: never modified during this phase
+
+**Expected Deliverables:**
+- `docs/recovery/R0/BRANCH_DISCOVERY.md`
+- `docs/recovery/R0/COMMIT_ARCHAEOLOGY.md`
+- `docs/recovery/R0/BRANCH_DIFFERENCE_REPORT.md`
+- `docs/recovery/R0/FEATURE_RECOVERY_MAP.md`
+- `docs/recovery/R0/MERGE_READINESS_REPORT.md`
+- `docs/recovery/R0/LAB_MERGE_SUMMARY.md`
+- `docs/recovery/R0/VALIDATION_REPORT.md`
+- `docs/recovery/R0/RECOVERY_MANIFEST.md`
+- `docs/recovery/R0/RECONSTRUCTION_PLAN.md`
+
+**Pipeline:**
+
+| Stage | Description |
+|-------|-------------|
+| 0.1 | Task Analysis |
+| 0.2 | Branch Discovery |
+| 0.3 | Branch Archaeology |
+| 0.4 | Laboratory Integration |
+| 0.5 | Validation |
+| 0.6 | Final Documentation |
+

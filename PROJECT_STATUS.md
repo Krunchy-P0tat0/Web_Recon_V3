@@ -100,3 +100,24 @@ The 12-stage master orchestrator ran https://example.com through the full pipeli
 - Git remote is `github` (not `origin`) — use `git push github main`
 - Required secrets for full pipeline: `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`
 - `R2_ACCOUNT_ID` and `R2_PUBLIC_BASE_URL` are env vars, not secrets
+
+---
+
+## Phase R0 — Laboratory Recovery, Integration & Validation
+
+**Current Stage:** 0.1 — Task Analysis (In Progress)
+
+| Stage | Status | Description |
+|-------|--------|-------------|
+| 0.1 Task Analysis | 🔄 In Progress | Understand repo, branches, plan deliverables |
+| 0.2 Branch Discovery | ⏳ Pending | Inspect all branches, generate BRANCH_DISCOVERY.md |
+| 0.3 Branch Archaeology | ⏳ Pending | Commit-level audit, difference reports, feature map |
+| 0.4 Integration | ⏳ Pending | Merge laboratory into lab-merge |
+| 0.5 Validation | ⏳ Pending | Build, typecheck, import validation |
+| 0.6 Final Documentation | ⏳ Pending | All recovery docs, RECOVERY_MANIFEST.md |
+
+**Branch Strategy:**
+- Source: `origin/laboratory` (11 commits ahead of main, 0 behind)
+- Staging target: `lab-merge` (created from `origin/main` @ `4a60bee`)
+- Main: untouched
+
