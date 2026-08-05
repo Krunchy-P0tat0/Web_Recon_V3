@@ -4,9 +4,9 @@ _Last updated: 2026-08-01_
 
 ---
 
-## Current Phase: D4.3 — Intelligent Differential Execution Planner 🚧
+## Current Phase: D4.4 — Persistent Memory & Differential UX 🔄
 
-D4.3 Task Analysis started on 2026-08-01. The planner will inspect Website Memory before every crawl and determine minimum required work.
+D4.3 is complete. D4.4 Task Analysis started on 2026-08-05. Mission Control will expose the D4.3 planner and D4.1 memory through a new Website Memory Center page.
 
 ---
 

@@ -293,6 +293,63 @@ The planner exposes: website, memoryStatus, knowledgeStatus, websiteChangeSummar
 
 ---
 
+### D4.4 — Persistent Memory & Differential UX 🔄 (Current)
+
+**Goal:** Expose the D4.3 Intelligent Differential Execution Planner and D4.1 Website Memory through Mission Control. When a URL is entered, the dashboard queries existing knowledge, shows memory status, and lets the operator choose an informed execution mode before launching.
+
+**Objective:**
+Mission Control should surface the capabilities already built in D4.1–D4.3 without recreating any backend logic. All intelligence lives in existing services; this phase is a UX layer on top.
+
+**Planned UI Additions:**
+- New page: **Website Memory Center** (`/memory`) — URL-input-driven memory inspection and action launcher
+- URL search box → calls `POST /api/execution-planner/plan` → displays full plan
+- **Memory Status card**: Website Found / Not Found, Last Crawl, Last Successful Pipeline, Knowledge Version, Pipeline State, WebsitePrime Status
+- **Knowledge Modules grid**: 12 pipeline stages, each with status badge (✓ Current / ⚠ Outdated / ✗ Missing), generatedAt, generatorVersion
+- **Website Change Summary**: detected/not, URLs added/removed/changed/unchanged
+- **Recovery Panel**: canResume, lastCheckpointStage, checkpointJobId
+- **Available Actions** (mode buttons that call `POST /api/orchestrate` with correct `executionMode`):
+  - START FRESH CRAWL
+  - RUN DIFFERENTIAL CRAWL
+  - RESUME INTERRUPTED CRAWL
+  - UPGRADE KNOWLEDGE
+  - GENERATE WEBSITE PRIME
+  - REBUILD FAILED STAGE
+- **Execution Plan Preview**: recommended stages list with skip/run indicators
+- Sidebar nav entry added under Pipeline section
+
+**Backend Endpoints Required:**
+- `GET /api/website-memory?url=<url>` — lightweight memory summary (WebsiteMemorySummary) without full planner cost; returns `{ exists: false }` if no memory found (NEW route file)
+- `POST /api/execution-planner/plan` — already exists (D4.3); drives the main plan view
+- `POST /api/orchestrate` — already exists; accepts `executionMode` (D4.3 integration)
+
+**Files Expected to Change:**
+| File | Action |
+|------|--------|
+| `artifacts/api-server/src/routes/website-memory.ts` | NEW — GET /api/website-memory |
+| `artifacts/api-server/src/routes/index.ts` | MODIFY — register website-memory route |
+| `artifacts/dashboard/src/lib/planner-api.ts` | NEW — API client for planner + memory endpoints |
+| `artifacts/dashboard/src/pages/WebsiteMemoryCenter.tsx` | NEW — full UX page |
+| `artifacts/dashboard/src/components/layout/Sidebar.tsx` | MODIFY — add Memory nav entry |
+| `artifacts/dashboard/src/App.tsx` | MODIFY — register /memory route |
+
+**Reuse Strategy:**
+- Reuse `WebsiteMemoryService` (D4.1) — no changes
+- Reuse `IntelligentDifferentialExecutionPlanner` (D4.3) — no changes
+- Reuse `POST /api/orchestrate` with `executionMode` (D4.3) — no changes
+- Reuse `POST /api/jobs/:jobId/run-diff`, `generate-website-prime`, recovery endpoints
+- Reuse existing dashboard patterns: Stat tiles, badge styles, SSE callbacks, query invalidation
+
+**Dependencies:**
+- D4.1 WebsiteMemoryService (`website-memory-service.ts`, `website-memory-types.ts`)
+- D4.3 IntelligentDifferentialExecutionPlanner (`differential-execution-planner.ts`, `differential-execution-planner-types.ts`)
+- Existing orchestrate route (`orchestrate.ts`)
+- Existing jobs API (`jobs-api.ts`)
+- Existing SSE infrastructure (`EventStreamContext.tsx`, `useEventStream.ts`)
+
+**Exit Criterion:** Website Memory Center renders plan for any URL; all 6 action buttons successfully trigger the correct pipeline mode; plan preview shows correct stage list.
+
+---
+
 ### Phase I — Production Deployment (Planned)
 **Goal:** Deploy Web_Recon_V3 itself to production as a hosted service.
 
