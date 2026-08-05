@@ -189,3 +189,6 @@ The 12-stage master orchestrator ran https://example.com through the full pipeli
 - Git remote is `github` (not `origin`) — use `git push github main`
 - Required secrets for full pipeline: `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`
 - `R2_ACCOUNT_ID` and `R2_PUBLIC_BASE_URL` are env vars, not secrets
+
+---
+_Last updated: 2026-08-05 — D4.4 Stage 0.4 validation confirmed: all new D4.4 source files (website-memory.ts, planner-api.ts, WebsiteMemoryCenter.tsx, Sidebar.tsx, App.tsx) pass TypeScript without errors. Pre-existing API server and dashboard type errors are unrelated to D4.4 scope._
