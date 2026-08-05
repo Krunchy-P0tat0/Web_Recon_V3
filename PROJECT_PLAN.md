@@ -406,3 +406,5 @@ Mission Control should surface the capabilities already built in D4.1–D4.3 wit
 | 0.4 | Laboratory Integration |
 | 0.5 | Validation |
 | 0.6 | Final Documentation |
+
+<!-- Phase R0 complete 2026-08-05 — laboratory integrated into lab-merge -->
