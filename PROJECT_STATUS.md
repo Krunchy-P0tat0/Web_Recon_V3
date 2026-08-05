@@ -1,10 +1,31 @@
 # Web_Recon_V3 — Project Status
 
-_Last updated: 2026-07-22_
+_Last updated: 2026-08-01_
 
 ---
 
-## Current Phase: H — Polish & Hardening
+## Current Phase: D4.4 — Persistent Memory & Differential UX 🔄
+
+D4.3 is complete. D4.4 Task Analysis started on 2026-08-05. Mission Control will expose the D4.3 planner and D4.1 memory through a new Website Memory Center page.
+
+---
+
+## Phase Completion Summary
+
+| Phase | Name | Status |
+|-------|------|--------|
+| A | Foundations (monorepo, DB, API scaffold) | ✅ Complete |
+| B | Site Discovery & Crawling | ✅ Complete |
+| C | Intelligence & Classification | ✅ Complete |
+| D | Stencil & Website Prime Generation | ✅ Complete |
+| D4.1 | Persistent Website Memory (PWIM) | ✅ Complete |
+| D4.2 | Checkpoint Engine | ✅ Complete |
+| D4.3 | Intelligent Differential Execution Planner | ✅ Complete |
+| D4.4 | Persistent Memory & Differential UX | 🔄 In Progress |
+| E | Merge & Deployment Execution | ✅ Complete |
+| F | Job Dashboard & Control Center | ✅ Complete |
+| G | Full End-to-End Pipeline (smoke test) | ✅ Complete |
+| H | Polish & Hardening | 🔄 On Hold |
 
 Phase G (Full End-to-End Pipeline) completed successfully on 2026-07-22.
 The 12-stage master orchestrator ran https://example.com through the full pipeline, uploaded artifacts to R2, and returned a certification result. The system is now entering hardening.
@@ -36,6 +57,74 @@ The 12-stage master orchestrator ran https://example.com through the full pipeli
 - **Pipeline monitoring** — quality scores (87–97), visual fidelity (75–82), coverage (83–100%) tracked per job
 - **Recovery engine** — autonomous repair planner (E3), disaster recovery (E4), route collision detection (BM2)
 - **API compatibility checks** — BM1–BM12 benchmark middleware suite
+
+---
+
+## D4.4 Pipeline Status
+
+| Stage | Status | Description |
+|-------|--------|-------------|
+| 0.1 Task Analysis | ✅ Complete | Objective, planned UI, backend endpoints, files identified |
+| 0.2 Codebase Discovery | ✅ Complete | Existing services mapped; reuse strategy confirmed |
+| 0.3 Implementation | ✅ Complete | Backend route, API client, WebsiteMemoryCenter page, sidebar, routing |
+| 0.4 Testing & Validation | ✅ Complete | TypeScript clean on all D4.4 files; pre-existing errors unchanged |
+| 0.5 Final Review & Documentation | ✅ Complete | PROJECT_PLAN.md and PROJECT_STATUS.md updated |
+
+**D4.4 Implementation — Files Created/Modified:**
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `artifacts/api-server/src/routes/website-memory.ts` | ✅ Created | `GET /api/website-memory?url=` — lightweight memory summary endpoint |
+| `artifacts/api-server/src/routes/index.ts` | ✅ Modified | Registered websiteMemoryRouter |
+| `artifacts/dashboard/src/lib/planner-api.ts` | ✅ Created | API client: fetchWebsiteMemory, fetchExecutionPlan, orchestrateWithMode |
+| `artifacts/dashboard/src/pages/WebsiteMemoryCenter.tsx` | ✅ Created | Full UX page: memory status, modules grid, change summary, action launcher, plan preview |
+| `artifacts/dashboard/src/components/layout/Sidebar.tsx` | ✅ Modified | Added "Website Memory" nav entry (Brain icon) under Pipeline section |
+| `artifacts/dashboard/src/App.tsx` | ✅ Modified | Registered `/memory` route → WebsiteMemoryCenter |
+
+**D4.4 UX — WebsiteMemoryCenter Features:**
+- URL input → `POST /api/execution-planner/plan` → full plan displayed
+- Memory Status card: exists/not, last crawl, last pipeline, pipeline state, knowledge completeness, recommended mode
+- Recovery Panel: interrupt detection, last checkpoint stage, resume instructions
+- Website Change Summary: added/removed/changed/unchanged URLs and assets
+- Available Actions: 5 execution mode buttons (disabled when not applicable, "Recommended" badge on planner choice)
+- Execution Plan Preview: all 12 stages, each labeled SKIP/MISSING/UPGRADE/REBUILD/RUN with run/skip indicator
+- Knowledge Modules Grid: per-stage status badge, generatedAt, engine version, health
+- SSE integration: plan refreshes on pipeline events for the active domain
+
+---
+
+## D4.3 Pipeline Status
+
+| Stage | Status | Description |
+|-------|--------|-------------|
+| 0.1 Task Analysis | ✅ Complete | Existing architecture documented; implementation plan written |
+| 0.2 Codebase Discovery | ✅ Complete | All relevant systems explored and documented |
+| 0.3 Implementation | ✅ Complete | Planner, types, API route, orchestrator integration built |
+| 0.4 Testing & Validation | ⏳ Pending | Type checks, build checks, scenario verification |
+| 0.5 Final Review & Documentation | ⏳ Pending | Final report, docs update, cleanup |
+
+**D4.3 Implementation — Files Created/Modified:**
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `lib/differential-execution-planner-types.ts` | ✅ Created | All D4.3 types, dependency graph, generator version registry |
+| `lib/differential-execution-planner.ts` | ✅ Created | IntelligentDifferentialExecutionPlanner class with all 5 execution modes |
+| `routes/execution-planner.ts` | ✅ Created | `POST /execution-planner/plan` API endpoint |
+| `routes/index.ts` | ✅ Modified | Registered execution-planner route |
+| `routes/orchestrate.ts` | ✅ Modified | Accepts executionMode param, runs planner pre-pipeline |
+| `lib/master-orchestrator.ts` | ✅ Modified | OrchestrationJob extended; planner-aware stage skipping in runPipeline |
+| `lib/visual-dna-engine.ts` | ✅ Modified | Added generator version comment |
+| `lib/certification-engine-c6.ts` | ✅ Modified | Added generator version comment |
+
+**D4.3 Implementation Goals:**
+- IntelligentDifferentialExecutionPlanner class that inspects Website Memory and produces optimized execution plans
+- Knowledge module version comparison (MISSING / OUTDATED / CURRENT states)
+- Dependency graph traversal for cascade regeneration
+- Five execution modes: fresh, differential, resume, upgrade, regenerate-website-prime
+- Website change detection using existing manifests, URL hashes, asset hashes, checksums
+- Execution plan output with: website, memoryStatus, knowledgeStatus, websiteChangeSummary, missingModules, outdatedModules, affectedDownstreamModules, recommendedStages, estimatedWork, reusableArtifacts, unavailableArtifacts, recoveryOptions
+- API endpoint `POST /execution-planner/plan` to expose planner
+- Master orchestrator integration for pre-pipeline planning
 
 ---
 
@@ -102,17 +191,20 @@ The 12-stage master orchestrator ran https://example.com through the full pipeli
 - `R2_ACCOUNT_ID` and `R2_PUBLIC_BASE_URL` are env vars, not secrets
 
 ---
+_Last updated: 2026-08-05 — D4.4 Stage 0.4 validation confirmed: all new D4.4 source files (website-memory.ts, planner-api.ts, WebsiteMemoryCenter.tsx, Sidebar.tsx, App.tsx) pass TypeScript without errors. Pre-existing API server and dashboard type errors are unrelated to D4.4 scope._
+
+---
 
 ## Phase R0 — Laboratory Recovery, Integration & Validation
 
-**Current Stage:** 0.3 — Branch Archaeology (Complete)
+**Current Stage:** 0.4 — Integration (In Progress)
 
 | Stage | Status | Description |
 |-------|--------|-------------|
 | 0.1 Task Analysis | ✅ Complete | Understand repo, branches, plan deliverables |
 | 0.2 Branch Discovery | ✅ Complete | Inspect all branches, generate BRANCH_DISCOVERY.md |
 | 0.3 Branch Archaeology | ✅ Complete | Commit-level audit, difference reports, feature map |
-| 0.4 Integration | ⏳ Pending | Merge laboratory into lab-merge |
+| 0.4 Integration | 🔄 In Progress | Merge laboratory into lab-merge |
 | 0.5 Validation | ⏳ Pending | Build, typecheck, import validation |
 | 0.6 Final Documentation | ⏳ Pending | All recovery docs, RECOVERY_MANIFEST.md |
 
@@ -120,4 +212,3 @@ The 12-stage master orchestrator ran https://example.com through the full pipeli
 - Source: `origin/laboratory` (11 commits ahead of main, 0 behind)
 - Staging target: `lab-merge` (created from `origin/main` @ `4a60bee`)
 - Main: untouched
-

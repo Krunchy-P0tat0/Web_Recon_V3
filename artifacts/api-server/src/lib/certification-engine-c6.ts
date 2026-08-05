@@ -1,6 +1,8 @@
 /**
  * certification-engine-c6.ts — Phase C6: Website Prime Certification
  *
+ * Generator version: Certification-v1
+ *
  * Read-only aggregation engine. Reads C2/C3/C4/C5 bundles + the manifest
  * and produces a final production certification.
  *

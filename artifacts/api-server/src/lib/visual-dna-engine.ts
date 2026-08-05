@@ -1,6 +1,8 @@
 /**
  * visual-dna-engine.ts — Phase 2.5B Visual DNA Engine
  *
+ * Generator version: VisualDNA-v1
+ *
  * Converts screenshots, DOM snapshots, CSS, and layout metadata into
  * structured design intelligence — without relying on screenshots directly.
  *

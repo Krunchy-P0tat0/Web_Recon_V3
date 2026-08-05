@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-08-01T07:26:17.809Z",
-  "supervisionCycleCount": 41,
-  "lastCycleAt": "2026-08-01T07:26:17.747Z",
+  "generatedAt": "2026-08-05T04:48:25.171Z",
+  "supervisionCycleCount": 4,
+  "lastCycleAt": "2026-08-05T04:48:25.160Z",
   "totalTrackedJobs": 0,
   "totalActiveJobs": 0,
   "totalStalledJobs": 0,
@@ -19,10 +19,10 @@
   "jobs": [],
   "workers": [
     {
-      "workerId": "worker-7ef9e6de",
+      "workerId": "worker-0c5f6b29",
       "inFlight": 0,
       "active": true,
-      "lastSeenAt": "2026-08-01T07:26:17.809Z",
+      "lastSeenAt": "2026-08-05T04:48:25.171Z",
       "status": "idle"
     }
   ]

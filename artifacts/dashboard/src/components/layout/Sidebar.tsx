@@ -10,6 +10,7 @@ import {
   GitCompare,
   FileText,
   Zap,
+  Brain,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -75,6 +76,19 @@ export function Sidebar() {
           >
             <RefreshCw className="h-4 w-4" />
             Recovery &amp; Checkpoints
+          </Link>
+
+          <Link
+            href="/memory"
+            className={cn(
+              "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+              isActive("/memory")
+                ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                : "text-muted-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+            )}
+          >
+            <Brain className="h-4 w-4" />
+            Website Memory
           </Link>
 
           <Link
