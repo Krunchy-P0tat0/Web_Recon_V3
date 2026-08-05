@@ -11,6 +11,7 @@ import JobMissionControl from "@/pages/JobMissionControl";
 import RecoveryCenter from "@/pages/RecoveryCenter";
 import DifferentialCenter from "@/pages/DifferentialCenter";
 import ManifestCenter from "@/pages/ManifestCenter";
+import WebsiteMemoryCenter from "@/pages/WebsiteMemoryCenter";
 
 // V2 pages — ported, adapted to V1 endpoints
 import Storage from "@/pages/Storage";
@@ -36,6 +37,7 @@ function AppRouter() {
         <Route path="/recovery" component={RecoveryCenter} />
         <Route path="/differential" component={DifferentialCenter} />
         <Route path="/manifest" component={ManifestCenter} />
+        <Route path="/memory" component={WebsiteMemoryCenter} />
 
         {/* V2 utility pages */}
         <Route path="/storage" component={Storage} />

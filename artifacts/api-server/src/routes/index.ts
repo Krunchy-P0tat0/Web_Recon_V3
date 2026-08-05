@@ -81,6 +81,7 @@ import storageRouter from "./storage.js";
 import regenerateRouter from "./regenerate.js";
 import jobStorageRouter from "./job-storage.js";
 import executionPlannerRouter from "./execution-planner.js";
+import websiteMemoryRouter from "./website-memory.js";
 
 const router: IRouter = Router();
 
@@ -166,5 +167,6 @@ router.use(jobStorageRouter);
 router.use(storageRouter);
 router.use(regenerateRouter);
 router.use(executionPlannerRouter);
+router.use(websiteMemoryRouter);
 
 export default router;
