@@ -197,14 +197,14 @@ _Last updated: 2026-08-05 — D4.4 Stage 0.4 validation confirmed: all new D4.4 
 
 ## Phase R0 — Laboratory Recovery, Integration & Validation
 
-**Current Stage:** 0.4 — Integration (In Progress)
+**Current Stage:** 0.4 — Integration (Complete)
 
 | Stage | Status | Description |
 |-------|--------|-------------|
 | 0.1 Task Analysis | ✅ Complete | Understand repo, branches, plan deliverables |
 | 0.2 Branch Discovery | ✅ Complete | Inspect all branches, generate BRANCH_DISCOVERY.md |
 | 0.3 Branch Archaeology | ✅ Complete | Commit-level audit, difference reports, feature map |
-| 0.4 Integration | 🔄 In Progress | Merge laboratory into lab-merge |
+| 0.4 Integration | ✅ Complete | Merge laboratory into lab-merge |
 | 0.5 Validation | ⏳ Pending | Build, typecheck, import validation |
 | 0.6 Final Documentation | ⏳ Pending | All recovery docs, RECOVERY_MANIFEST.md |
 
