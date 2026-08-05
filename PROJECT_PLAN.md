@@ -371,3 +371,5 @@ Mission Control should surface the capabilities already built in D4.1–D4.3 wit
 - **All backend logging via `req.log` or the singleton `logger`** — never `console.log` in server code.
 - **DB changes require `pnpm --filter @workspace/db run push`** — run against dev before touching prod.
 - **R2_ACCOUNT_ID and R2_PUBLIC_BASE_URL are non-secret env vars; the three R2 credential keys are Replit Secrets.**
+
+<!-- D4.4 implementation complete 2026-08-05 -->
