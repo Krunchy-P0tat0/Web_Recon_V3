@@ -105,12 +105,12 @@ The 12-stage master orchestrator ran https://example.com through the full pipeli
 
 ## Phase R0 — Laboratory Recovery, Integration & Validation
 
-**Current Stage:** 0.1 — Task Analysis (In Progress)
+**Current Stage:** 0.2 — Branch Discovery (Complete)
 
 | Stage | Status | Description |
 |-------|--------|-------------|
-| 0.1 Task Analysis | 🔄 In Progress | Understand repo, branches, plan deliverables |
-| 0.2 Branch Discovery | ⏳ Pending | Inspect all branches, generate BRANCH_DISCOVERY.md |
+| 0.1 Task Analysis | ✅ Complete | Understand repo, branches, plan deliverables |
+| 0.2 Branch Discovery | ✅ Complete | Inspect all branches, generate BRANCH_DISCOVERY.md |
 | 0.3 Branch Archaeology | ⏳ Pending | Commit-level audit, difference reports, feature map |
 | 0.4 Integration | ⏳ Pending | Merge laboratory into lab-merge |
 | 0.5 Validation | ⏳ Pending | Build, typecheck, import validation |
