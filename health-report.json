@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-08-05T04:47:43.375Z",
-  "overallStatus": "critical",
-  "uptimeSeconds": 5,
+  "generatedAt": "2026-08-07T18:01:05.906Z",
+  "overallStatus": "degraded",
+  "uptimeSeconds": 125,
   "intervalSeconds": 60,
   "checks": {
     "routes": {
@@ -10,70 +10,70 @@
       "totalProbed": 9,
       "passed": 9,
       "failed": 0,
-      "avgLatencyMs": 28,
-      "p95LatencyMs": 37,
+      "avgLatencyMs": 31,
+      "p95LatencyMs": 42,
       "probes": [
         {
           "path": "/api/healthz",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 14,
+          "latencyMs": 15,
           "pass": true
         },
         {
           "path": "/api/scrape/jobs",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 21,
+          "latencyMs": 22,
           "pass": true
         },
         {
           "path": "/api/deploy/frameworks",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 23,
+          "latencyMs": 27,
           "pass": true
         },
         {
           "path": "/api/deploy/targets",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 24,
+          "latencyMs": 28,
           "pass": true
         },
         {
           "path": "/api/deploy/audit",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 36,
+          "latencyMs": 42,
           "pass": true
         },
         {
           "path": "/api/deploy/executions",
           "method": "GET",
           "statusCode": 200,
-          "latencyMs": 25,
+          "latencyMs": 33,
           "pass": true
         },
         {
           "path": "/api/monitor/health",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 33,
+          "latencyMs": 36,
           "pass": true
         },
         {
           "path": "/api/monitor/pipeline",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 35,
+          "latencyMs": 37,
           "pass": true
         },
         {
           "path": "/api/monitor/status",
           "method": "GET",
           "statusCode": 404,
-          "latencyMs": 37,
+          "latencyMs": 41,
           "pass": true
         }
       ]
@@ -88,7 +88,7 @@
       "probes": []
     },
     "manifests": {
-      "status": "fail",
+      "status": "pass",
       "totalSnapshots": 0,
       "totalJobs": 0,
       "jobsByStatus": {},

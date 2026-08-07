@@ -9,7 +9,6 @@ args = ["pnpm", "store", "prune"]
 env = { "CI" = "true" }
 
 [workflows]
-runButton = "Project"
 
 [agent]
 stack = "PNPM_WORKSPACE"
@@ -21,3 +20,9 @@ timeoutMs = 20000
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+R2_ACCOUNT_ID = "69ba6c6060b1f150465b2f7f71fb9b25"
+R2_PUBLIC_BASE_URL = "https://pub-8710859f71744960aa5d89e60cf0eb31.r2.dev"

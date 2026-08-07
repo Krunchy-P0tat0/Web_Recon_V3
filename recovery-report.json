@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-08-05T04:47:43.389Z",
-  "durationMs": 12,
-  "basedOnHealthReport": "2026-08-05T04:47:43.375Z",
+  "generatedAt": "2026-08-07T18:01:05.911Z",
+  "durationMs": 3,
+  "basedOnHealthReport": "2026-08-07T18:01:05.906Z",
   "totalActionsAttempted": 0,
   "totalActionsSucceeded": 0,
   "totalActionsFailed": 0,
@@ -28,18 +28,7 @@
       "repairedStaleJobs": 0,
       "schemaAnomalies": [],
       "staleJobs": [],
-      "repairActions": [
-        {
-          "id": "manifest:check_error",
-          "dimension": "manifests",
-          "type": "check_error",
-          "target": "manifest_snapshots",
-          "outcome": "failed",
-          "detail": "DB query failed: Failed query: \n      SELECT job_id, status, updated_at, claimed_at\n      FROM scrape_jobs\n      WHERE status = 'running'\n        AND COALESCE(claimed_at, updated_at) < $1\n      ORDER BY updated_at ASC\n      LIMIT 10\n    \nparams: Wed Aug 05 2026 03:17:43 GMT+0000 (Coordinated Universal Time)",
-          "durationMs": 0,
-          "autoExecuted": false
-        }
-      ]
+      "repairActions": []
     },
     "deployments": {
       "totalExecutions": 0,

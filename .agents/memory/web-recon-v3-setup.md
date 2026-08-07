@@ -6,7 +6,7 @@ description: Migration notes, architecture quirks, and runtime gotchas for the W
 ## Key facts
 
 - Project is in **Phase H — Polish & Hardening**. Phases A–G complete.
-- Git remote is `github` (not `origin`) — always `git push github main`.
+- The imported repository tracks GitHub through `origin`; the active staging branch is `lab-merge`.
 - Authoritative docs: `PROJECT_STATUS.md`, `PROJECT_PLAN.md`, `ARCHITECTURE_INDEX.md`.
 
 ## Architecture quirks
@@ -28,6 +28,16 @@ Run `pnpm --filter @workspace/db run push` after any schema change. Tables: `scr
 - Secrets: `DATABASE_URL`, `SESSION_SECRET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`
 - Plain env vars: `R2_ACCOUNT_ID=69ba6c6060b1f150465b2f7f71fb9b25`, `R2_PUBLIC_BASE_URL=https://pub-8710859f71744960aa5d89e60cf0eb31.r2.dev`
 - Without R2 creds, the server falls back to local filesystem provider (pipeline still runs, no cloud uploads).
+
+## Replit setup
+
+- The dashboard is the managed web artifact at `/` and the API server is mounted at `/api` and `/recon-api`.
+- The development database schema is applied with `pnpm --filter @workspace/db run push`; the five documented pipeline tables are present.
+- The GitHub repository exposes the requested branch as `lab-merge` (hyphenated), not `lab merge`.
+
+**Why:** The repository’s imported recovery notes used an older remote name and assumed the dashboard workflow was already registered, while this workspace registers services through artifact metadata.
+
+**How to apply:** Use the branch/paths above when resuming setup, and restart the managed artifact workflows after importing or changing dependencies.
 
 ## Generated files — never edit
 

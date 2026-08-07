@@ -1,12 +1,12 @@
 {
   "version": "1.0",
   "phase": "6.2",
-  "generatedAt": "2026-08-05T04:48:16.354Z",
-  "durationMs": 18,
-  "overallStatus": "unknown",
+  "generatedAt": "2026-08-07T18:01:08.889Z",
+  "durationMs": 31,
+  "overallStatus": "healthy",
   "stages": {
     "crawl": {
-      "status": "unknown",
+      "status": "healthy",
       "totalJobs": 0,
       "byStatus": {},
       "stuckWorkerCount": 0,
@@ -16,30 +16,20 @@
       "recentDoneCount": 0,
       "avgArticlesPerJob": null,
       "errorRatePercent": 0,
-      "findings": [
-        {
-          "severity": "error",
-          "message": "DB error: Error: Failed query: select \"status\", cast(count(*) as int) from \"scrape_jobs\" group by \"scrape_jobs\".\"status\"\nparams: "
-        }
-      ]
+      "findings": []
     },
     "manifest": {
-      "status": "unknown",
+      "status": "healthy",
       "totalSnapshots": 0,
       "snapshotsForDoneJobs": 0,
       "orphanedSnapshotCount": 0,
       "missingSnapshotCount": 0,
       "staleSnapshotCount": 0,
       "schemaVersions": [],
-      "findings": [
-        {
-          "severity": "error",
-          "message": "DB error: Error: Failed query: SELECT cast(count(*) as int) as n FROM manifest_snapshots\nparams: "
-        }
-      ]
+      "findings": []
     },
     "diff": {
-      "status": "unknown",
+      "status": "healthy",
       "totalDiffs": 0,
       "recentDiffCount": 0,
       "suspectDiffCount": 0,
@@ -47,24 +37,24 @@
       "avgChangedArticles": null,
       "findings": [
         {
-          "severity": "error",
-          "message": "DB error: Error: Failed query: SELECT cast(count(*) as int) as n FROM differential_history\nparams: "
+          "severity": "info",
+          "message": "No differential history records yet — diff mode not used"
         }
       ]
     },
     "generation": {
-      "status": "unknown",
+      "status": "healthy",
       "totalGenerationReports": 0,
       "totalConstructionReports": 0,
       "failedGenerations": 0,
       "failedConstructions": 0,
       "recentGenerationCount": 0,
       "avgGenerationDurationMs": null,
-      "completionRatePercent": 0,
+      "completionRatePercent": 100,
       "findings": [
         {
-          "severity": "error",
-          "message": "DB error: Error: Failed query: SELECT cast(count(*) as int) as n FROM construction_reports\nparams: "
+          "severity": "info",
+          "message": "No generation reports yet — generation pipeline not yet triggered"
         }
       ]
     },
@@ -76,21 +66,16 @@
       "rolledBackCount": 0,
       "runningCount": 0,
       "successRatePercent": 100,
-      "intelligencePlanFresh": false,
+      "intelligencePlanFresh": true,
       "lastDeployedAt": null,
-      "findings": [
-        {
-          "severity": "info",
-          "message": "deployment-plan.json is stale or missing — run POST /api/deploy/intelligence"
-        }
-      ]
+      "findings": []
     }
   },
   "summary": {
-    "totalFindings": 5,
-    "errorCount": 4,
+    "totalFindings": 2,
+    "errorCount": 0,
     "warnCount": 0,
-    "healthyStages": 1,
+    "healthyStages": 5,
     "degradedStages": 0,
     "criticalStages": 0
   }

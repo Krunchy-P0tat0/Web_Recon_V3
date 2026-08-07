@@ -1,21 +1,10 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-08-05T04:47:43.389Z",
+  "generatedAt": "2026-08-07T18:01:05.911Z",
   "durationMs": 0,
-  "basedOnHealthReport": "2026-08-05T04:47:43.375Z",
-  "basedOnRecoveryReport": "2026-08-05T04:47:43.389Z",
+  "basedOnHealthReport": "2026-08-07T18:01:05.906Z",
+  "basedOnRecoveryReport": "2026-08-07T18:01:05.911Z",
   "rootCauses": [
-    {
-      "id": "rc:manifests:db_unreachable",
-      "category": "connectivity",
-      "priority": "critical",
-      "title": "Database appears unreachable or empty",
-      "description": "Manifest check returned fail with zero jobs. DB may be offline or the schema hasn't been applied.",
-      "evidence": [
-        "manifest_snapshots query returned error or zero rows with jobs present"
-      ],
-      "affectedDimension": "manifests"
-    },
     {
       "id": "rc:assets:not_configured",
       "category": "configuration",
@@ -30,16 +19,6 @@
   ],
   "repairs": [
     {
-      "id": "repair:rc:manifests:db_unreachable",
-      "rootCauseId": "rc:manifests:db_unreachable",
-      "priority": "critical",
-      "title": "Verify DB connectivity and run schema push",
-      "description": "Check DATABASE_URL secret, confirm Postgres is running, and run: pnpm --filter @workspace/db run push",
-      "autoExecutable": false,
-      "status": "pending_manual",
-      "estimatedImpact": "Restores all manifest and job tracking functionality."
-    },
-    {
       "id": "repair:rc:assets:not_configured",
       "rootCauseId": "rc:assets:not_configured",
       "priority": "medium",
@@ -51,12 +30,12 @@
     }
   ],
   "summary": {
-    "totalRootCauses": 2,
-    "criticalCount": 1,
+    "totalRootCauses": 1,
+    "criticalCount": 0,
     "highCount": 0,
     "mediumCount": 1,
     "autoExecutedCount": 0,
-    "pendingManualCount": 2,
+    "pendingManualCount": 1,
     "systemStatus": "action_required"
   }
 }
