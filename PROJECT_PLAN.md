@@ -408,3 +408,57 @@ Mission Control should surface the capabilities already built in D4.1–D4.3 wit
 | 0.6 | Final Documentation |
 
 <!-- Phase R0 complete 2026-08-05 — laboratory integrated into lab-merge -->
+
+---
+
+## Phase R1 — Feature Testing & Stabilization
+
+**Objective:** Verify and stabilize the recovered laboratory features on `lab-merge` without introducing unrelated functionality or promoting changes to `main`.
+
+### R1 Testing Sequence
+
+| Stage | Focus | Required deliverables |
+|-------|-------|-----------------------|
+| 0.1 | Test planning | Complete test matrix, success criteria, and promotion requirements |
+| 0.2 | API validation | `API_TEST_REPORT.md`, endpoint and invalid-input results |
+| 0.3 | Dashboard and Website Memory | `DASHBOARD_TEST_REPORT.md`, `WEBSITE_MEMORY_TEST_REPORT.md` |
+| 0.4 | Differential and recovery | `DIFFERENTIAL_TEST_REPORT.md`, `RECOVERY_TEST_REPORT.md` |
+| 0.5 | Stabilization | `STABILIZATION_REPORT.md`, `TYPECHECK_REPORT.md`, `SOAK_TEST_REPORT.md` |
+| 0.6 | Final documentation | `TEST_SUMMARY.md`, `BUG_FIX_SUMMARY.md`, `PROMOTION_READINESS.md`, `VALIDATION_REPORT.md` |
+
+### R1 Test Coverage
+
+1. Confirm the API health, Website Memory, Execution Planner, invalid-input handling, and both `/api` and `/recon-api` mounts.
+2. Verify every dashboard route, navigation entry, loading/empty/error state, browser console, and the Website Memory Center flow.
+3. Exercise fresh, differential, interrupted, checkpoint-resume, pause, resume, retry, and cancel behavior with disposable jobs.
+4. Verify stage dependency behavior: unchanged work is skipped, changed work reruns, downstream modules regenerate when required, and completed stages are not repeated.
+5. Regenerate the OpenAPI clients, resolve database schema exports and generated-client mismatches, run the workspace typecheck, and perform an extended API stability/soak test.
+
+### R1 Success Criteria
+
+- API smoke tests return the documented success responses on both API mounts.
+- Dashboard navigation and Website Memory flows work without browser console errors.
+- Differential and recovery behavior is verified with persisted disposable-job state.
+- R2 storage is reachable with secure credentials, while local fallback behavior remains intact when R2 is unavailable.
+- OpenAPI-generated clients and database schema exports match the current routes and source schema.
+- Workspace typecheck passes without new errors.
+- The 30-minute soak test and extended stability test complete without critical runtime failures.
+- All discovered defects are fixed or explicitly documented with a non-blocking disposition.
+
+### R1 Promotion Requirements
+
+`lab-merge` must remain isolated from `main`. Promotion is prohibited until every gate below is satisfied:
+
+- [ ] API smoke tests pass
+- [ ] Dashboard navigation passes
+- [ ] Website Memory tests pass
+- [ ] Differential pipeline is verified
+- [ ] Recovery pipeline is verified
+- [ ] Workspace TypeScript check passes
+- [ ] OpenAPI client is regenerated
+- [ ] Database schema export mismatches are resolved
+- [ ] 30-minute soak test passes
+- [ ] Extended stability test passes
+- [ ] No critical defects remain
+
+Each completed R1 stage must update `PROJECT_PLAN.md` and `PROJECT_STATUS.md`, commit with the `[R1][0.X]` format, push to `origin/lab-merge`, and leave a clean working tree.

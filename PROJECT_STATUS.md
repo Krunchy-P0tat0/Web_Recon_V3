@@ -195,6 +195,33 @@ _Last updated: 2026-08-05 — D4.4 Stage 0.4 validation confirmed: all new D4.4 
 
 ---
 
+## Phase R1 — Feature Testing & Stabilization
+
+**Current Stage:** 0.1 — Test Planning (Complete)
+
+R1 testing has started on `lab-merge`. The `main` branch remains untouched, and no promotion or merge to `main` is permitted during this phase.
+
+| Stage | Status | Description |
+|-------|--------|-------------|
+| 0.1 | ✅ Complete | Test sequence, success criteria, and promotion gates documented |
+| 0.2 | ⏳ Pending | API validation and invalid-input testing |
+| 0.3 | ⏳ Pending | Dashboard and Website Memory testing |
+| 0.4 | ⏳ Pending | Differential and recovery testing |
+| 0.5 | ⏳ Pending | Stabilization, generated clients, typecheck, and soak test |
+| 0.6 | ⏳ Pending | Final reports and promotion-readiness documentation |
+
+### R1 Stage 0.1 Scope
+
+- Validate the recovered D4.3 Execution Planner, D4.4 Website Memory API, Mission Control dashboard, and R0 architecture before testing changes.
+- Test API mounts, invalid input, dashboard states, execution modes, disposable differential jobs, checkpoints, recovery controls, storage, generated clients, database exports, and long-running stability.
+- Record every result in repository-tracked reports; do not use temporary or ephemeral reports.
+
+### R1 Promotion Status
+
+Promotion to `main` is **not permitted**. All promotion gates are currently pending until their corresponding R1 stages complete.
+
+---
+
 ## Phase R0 — Laboratory Recovery, Integration & Validation
 
 **Current Stage:** 0.6 — Final Documentation (Complete)
