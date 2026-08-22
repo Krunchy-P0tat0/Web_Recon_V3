@@ -32,9 +32,7 @@ export default function Audit() {
     isFetching,
     error,
     refetch,
-  } = useListPlatformFeatures({
-    query: { refetchInterval: 30000 },
-  });
+  } = useListPlatformFeatures();
 
   const totalFeatures = data?.meta?.total ?? data?.features?.length ?? 0;
   const byCategory = data?.byCategory ?? {};
