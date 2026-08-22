@@ -23,8 +23,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Build if script exists
-        run: pnpm run build --if-present
+      - name: Typecheck dashboard
+        run: pnpm --filter "./artifacts/dashboard" run typecheck
 
-      - name: Test if script exists
-        run: pnpm test --if-present
+      - name: Typecheck mockup sandbox
+        run: pnpm --filter "./artifacts/mockup-sandbox" run typecheck
+
+      - name: Typecheck scripts
+        run: pnpm --filter "./scripts" run typecheck
