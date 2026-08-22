@@ -2,7 +2,7 @@ name: WebRecon Labs Validation
 
 on:
   push:
-    branches: [ Labs ]
+    branches: [ lab-merge ]
 
 jobs:
   build:
