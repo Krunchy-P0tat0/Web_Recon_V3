@@ -6,19 +6,20 @@
 import { useCallback } from "react";
 import { useEventStreamCallback } from "@/hooks/useEventStream";
 import { toast } from "sonner";
+import type { WebReconEvent } from "@/lib/event-stream";
 
 export function useSystemNotifications() {
-  const onEvent = useCallback((event: { type: string; payload?: Record<string, unknown> }) => {
-    if (event.type === "recovery") {
+  const onEvent = useCallback((event: WebReconEvent) => {
+    if (event.subsystem === "recovery") {
       toast.info("Recovery Initiated", {
         description: "Autonomous recovery event triggered.",
       });
-    } else if (event.type === "checkpoint") {
+    } else if (event.subsystem === "checkpoints") {
       toast.success("Checkpoint Saved", {
         description: "Pipeline state checkpoint written.",
       });
     }
   }, []);
 
-  useEventStreamCallback({ subsystem: "recovery" }, onEvent);
+  useEventStreamCallback({ subsystem: ["recovery", "checkpoints"] }, onEvent);
 }
