@@ -34,3 +34,25 @@ jobs:
 
       - name: Typecheck scripts
         run: pnpm --filter "./scripts" run typecheck
+
+      - name: Report success to bridge
+        if: success()
+        env:
+          BRIDGE_URL: https://webrecon-ai-bridge.christopheruduma77.workers.dev
+          WEBHOOK_SECRET: ${{ secrets.WORKER_WEBHOOK_SECRET }}
+        run: |
+          curl -s -X POST "$BRIDGE_URL/store-test-result" \
+            -H "Content-Type: application/json" \
+            -H "x-webhook-secret: $WEBHOOK_SECRET" \
+            -d "{\"branch\":\"lab-merge\",\"run_id\":\"$GITHUB_RUN_ID\",\"status\":\"success\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
+
+      - name: Report failure to bridge
+        if: failure()
+        env:
+          BRIDGE_URL: https://webrecon-ai-bridge.christopheruduma77.workers.dev
+          WEBHOOK_SECRET: ${{ secrets.WORKER_WEBHOOK_SECRET }}
+        run: |
+          curl -s -X POST "$BRIDGE_URL/store-test-result" \
+            -H "Content-Type: application/json" \
+            -H "x-webhook-secret: $WEBHOOK_SECRET" \
+            -d "{\"branch\":\"lab-merge\",\"run_id\":\"$GITHUB_RUN_ID\",\"status\":\"failure\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
