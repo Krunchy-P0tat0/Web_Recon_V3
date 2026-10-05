@@ -1,3 +1,4 @@
+// Reviewed by AI Bridge
 /**
  * Audit.tsx — Platform Feature Audit page.
  * Uses the generated useListPlatformFeatures hook (Phase 4 codegen).
@@ -32,7 +33,9 @@ export default function Audit() {
     isFetching,
     error,
     refetch,
-  } = useListPlatformFeatures();
+  } = useListPlatformFeatures({
+    query: { refetchInterval: 30000 },
+  });
 
   const totalFeatures = data?.meta?.total ?? data?.features?.length ?? 0;
   const byCategory = data?.byCategory ?? {};
