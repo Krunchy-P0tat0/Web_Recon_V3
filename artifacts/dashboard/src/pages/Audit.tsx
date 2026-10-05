@@ -1,5 +1,6 @@
+// Reviewed by AI Bridge
 /**
- * Audit.tsx — Platform Feature Audit page.
+ * Audit.tsx â Platform Feature Audit page.
  * Uses the generated useListPlatformFeatures hook (Phase 4 codegen).
  * Wired to V1's GET /api/platform/features endpoint.
  */
@@ -32,7 +33,9 @@ export default function Audit() {
     isFetching,
     error,
     refetch,
-  } = useListPlatformFeatures();
+  } = useListPlatformFeatures({
+    query: { refetchInterval: 30000 },
+  });
 
   const totalFeatures = data?.meta?.total ?? data?.features?.length ?? 0;
   const byCategory = data?.byCategory ?? {};
@@ -45,7 +48,7 @@ export default function Audit() {
             <ShieldAlert className="h-6 w-6" /> PLATFORM_AUDIT
           </h1>
           <p className="text-muted-foreground text-sm">
-            Complete feature registry — all engines, routes, workers, and services.
+            Complete feature registry â all engines, routes, workers, and services.
           </p>
         </div>
         <Button
@@ -64,7 +67,7 @@ export default function Audit() {
         <Card className="bg-card/50">
           <CardContent className="pt-4 pb-3 text-center">
             <div className="text-3xl font-bold font-mono text-primary">
-              {isLoading ? "…" : totalFeatures}
+              {isLoading ? "â¦" : totalFeatures}
             </div>
             <div className="text-xs text-muted-foreground font-mono mt-1">TOTAL_FEATURES</div>
           </CardContent>
@@ -102,7 +105,7 @@ export default function Audit() {
       {isLoading && !data && (
         <div className="flex items-center justify-center h-32 text-primary">
           <RefreshCw className="h-6 w-6 animate-spin mr-2" />
-          <span className="font-mono text-sm">Loading feature registry…</span>
+          <span className="font-mono text-sm">Loading feature registryâ¦</span>
         </div>
       )}
 
