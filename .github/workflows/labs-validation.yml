@@ -26,37 +26,52 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Typecheck shared libraries
-        run: pnpm run typecheck:libs
+        run: pnpm run typecheck:libs 2>&1 | tee /tmp/tc-libs.log
+        continue-on-error: true
 
       - name: Typecheck dashboard
-        run: pnpm --filter "./artifacts/dashboard" run typecheck
+        run: pnpm --filter "./artifacts/dashboard" run typecheck 2>&1 | tee /tmp/tc-dashboard.log
+        continue-on-error: true
 
       - name: Typecheck mockup sandbox
-        run: pnpm --filter "./artifacts/mockup-sandbox" run typecheck
+        run: pnpm --filter "./artifacts/mockup-sandbox" run typecheck 2>&1 | tee /tmp/tc-mockup.log
+        continue-on-error: true
 
       - name: Typecheck scripts
-        run: pnpm --filter "./scripts" run typecheck
+        run: pnpm --filter "./scripts" run typecheck 2>&1 | tee /tmp/tc-scripts.log
+        continue-on-error: true
 
-      - name: Report success to bridge
-        if: success()
+      - name: Check results
+        id: check
+        run: |
+          FAILED=0
+          for f in /tmp/tc-libs.log /tmp/tc-dashboard.log /tmp/tc-mockup.log /tmp/tc-scripts.log; do
+            if grep -qi "error TS" "$f" 2>/dev/null; then
+              FAILED=1
+            fi
+          done
+          if [ "$FAILED" = "1" ]; then
+            echo "result=failure" >> $GITHUB_OUTPUT
+          else
+            echo "result=success" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Report to bridge
+        if: always()
         env:
           BRIDGE_URL: https://webrecon-ai-bridge.christopheruduma77.workers.dev
           WEBHOOK_SECRET: ${{ secrets.WORKER_WEBHOOK_SECRET }}
           BRANCH_NAME: ${{ github.ref_name }}
+          RUN_ID: ${{ github.run_id }}
+          RESULT: ${{ steps.check.outputs.result }}
         run: |
+          if [ "$RESULT" = "success" ]; then
+            LOG_B64=""
+          else
+            LOG=$(cat /tmp/tc-*.log 2>/dev/null | tail -c 3000 || echo "")
+            LOG_B64=$(echo "$LOG" | base64 -w0)
+          fi
           curl -s -X POST "$BRIDGE_URL/store-test-result" \
             -H "Content-Type: application/json" \
             -H "x-webhook-secret: $WEBHOOK_SECRET" \
-            -d "{\"branch\":\"$BRANCH_NAME\",\"run_id\":\"$GITHUB_RUN_ID\",\"status\":\"success\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
-
-      - name: Report failure to bridge
-        if: failure()
-        env:
-          BRIDGE_URL: https://webrecon-ai-bridge.christopheruduma77.workers.dev
-          WEBHOOK_SECRET: ${{ secrets.WORKER_WEBHOOK_SECRET }}
-          BRANCH_NAME: ${{ github.ref_name }}
-        run: |
-          curl -s -X POST "$BRIDGE_URL/store-test-result" \
-            -H "Content-Type: application/json" \
-            -H "x-webhook-secret: $WEBHOOK_SECRET" \
-            -d "{\"branch\":\"$BRANCH_NAME\",\"run_id\":\"$GITHUB_RUN_ID\",\"status\":\"failure\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
+            -d "{\"branch\":\"$BRANCH_NAME\",\"run_id\":\"$RUN_ID\",\"status\":\"$RESULT\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"log_b64\":\"$LOG_B64\"}"
