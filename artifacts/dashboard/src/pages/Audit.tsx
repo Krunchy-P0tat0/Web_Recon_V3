@@ -3,7 +3,7 @@
  * Uses the generated useListPlatformFeatures hook (Phase 4 codegen).
  * Wired to V1's GET /api/platform/features endpoint.
  */
-import { useListPlatformFeatures } from "@workspace/api-client-react";
+import { useListPlatformFeatures } from "@workspace/api-client-react";const brokenVariable: number = "not a number";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
