@@ -25,36 +25,24 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Typecheck shared libraries
-        run: pnpm run typecheck:libs 2>&1 | tee /tmp/tc-libs.log
-        continue-on-error: true
-
-      - name: Typecheck dashboard
-        run: pnpm --filter "./artifacts/dashboard" run typecheck 2>&1 | tee /tmp/tc-dashboard.log
-        continue-on-error: true
-
-      - name: Typecheck mockup sandbox
-        run: pnpm --filter "./artifacts/mockup-sandbox" run typecheck 2>&1 | tee /tmp/tc-mockup.log
-        continue-on-error: true
-
-      - name: Typecheck scripts
-        run: pnpm --filter "./scripts" run typecheck 2>&1 | tee /tmp/tc-scripts.log
-        continue-on-error: true
-
-      - name: Check results
-        id: check
+      - name: Run typechecks
+        id: tc
         run: |
-          FAILED=0
-          for f in /tmp/tc-libs.log /tmp/tc-dashboard.log /tmp/tc-mockup.log /tmp/tc-scripts.log; do
-            if grep -qi "error TS" "$f" 2>/dev/null; then
-              FAILED=1
-            fi
-          done
-          if [ "$FAILED" = "1" ]; then
+          set +e
+          pnpm run typecheck:libs > /tmp/tc-libs.log 2>&1
+          E1=$?
+          pnpm --filter "./artifacts/dashboard" run typecheck > /tmp/tc-dashboard.log 2>&1
+          E2=$?
+          pnpm --filter "./artifacts/mockup-sandbox" run typecheck > /tmp/tc-mockup.log 2>&1
+          E3=$?
+          pnpm --filter "./scripts" run typecheck > /tmp/tc-scripts.log 2>&1
+          E4=$?
+          if [ $E1 -ne 0 ] || [ $E2 -ne 0 ] || [ $E3 -ne 0 ] || [ $E4 -ne 0 ]; then
             echo "result=failure" >> $GITHUB_OUTPUT
           else
             echo "result=success" >> $GITHUB_OUTPUT
           fi
+          exit 0
 
       - name: Report to bridge
         if: always()
@@ -63,14 +51,18 @@ jobs:
           WEBHOOK_SECRET: ${{ secrets.WORKER_WEBHOOK_SECRET }}
           BRANCH_NAME: ${{ github.ref_name }}
           RUN_ID: ${{ github.run_id }}
-          RESULT: ${{ steps.check.outputs.result }}
+          RESULT: ${{ steps.tc.outputs.result }}
         run: |
-          if [ "$RESULT" = "success" ]; then
-            LOG_B64=""
-          else
-            LOG=$(cat /tmp/tc-*.log 2>/dev/null | tail -c 3000 || echo "")
+          echo "Branch: $BRANCH_NAME"
+          echo "Result: $RESULT"
+
+          if [ "$RESULT" = "failure" ]; then
+            LOG=$(cat /tmp/tc-libs.log /tmp/tc-dashboard.log /tmp/tc-mockup.log /tmp/tc-scripts.log 2>/dev/null | grep -i "error TS" | head -50 || echo "")
             LOG_B64=$(echo "$LOG" | base64 -w0)
+          else
+            LOG_B64=""
           fi
+
           curl -s -X POST "$BRIDGE_URL/store-test-result" \
             -H "Content-Type: application/json" \
             -H "x-webhook-secret: $WEBHOOK_SECRET" \
