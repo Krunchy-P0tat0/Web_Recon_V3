@@ -1,69 +1,144 @@
-name: WebRecon Labs Validation
+name: WebRecon Audit
 
 on:
-  push:
-    branches:
-      - lab-merge
-      - 'agent/**'
+  workflow_dispatch:
+    inputs:
+      audit_id:
+        description: "Unique audit ID from the Worker"
+        required: true
+        type: string
 
 jobs:
-  build:
+  audit:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          version: 9
+          fetch-depth: 1
 
-      - uses: actions/setup-node@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
 
-      - name: Run typechecks
-        id: tc
+      - name: Build dump
+        id: dump
         run: |
-          set +e
-          pnpm run typecheck:libs > /tmp/tc-libs.log 2>&1
-          E1=$?
-          pnpm --filter "./artifacts/dashboard" run typecheck > /tmp/tc-dashboard.log 2>&1
-          E2=$?
-          pnpm --filter "./artifacts/mockup-sandbox" run typecheck > /tmp/tc-mockup.log 2>&1
-          E3=$?
-          pnpm --filter "./scripts" run typecheck > /tmp/tc-scripts.log 2>&1
-          E4=$?
-          if [ $E1 -ne 0 ] || [ $E2 -ne 0 ] || [ $E3 -ne 0 ] || [ $E4 -ne 0 ]; then
-            echo "result=failure" >> $GITHUB_OUTPUT
-          else
-            echo "result=success" >> $GITHUB_OUTPUT
-          fi
-          exit 0
+          {
+            echo "# WebRecon_V3 source dump — lab-merge"
+            echo ""
+            echo "## Root files"
+            for f in package.json pnpm-workspace.yaml tsconfig.json tsconfig.base.json KNOWN_ISSUES.md ARCHITECTURE_INDEX.md PROJECT_PLAN.md PROJECT_STATUS.md replit.md; do
+              [ -f "$f" ] || continue
+              echo ""
+              echo "### $f"
+              echo '```'
+              head -c 20000 "$f"
+              echo '```'
+            done
+            echo ""
+            echo "## GitHub Actions workflows"
+            for f in .github/workflows/*.yml .github/workflows/*.yaml; do
+              [ -f "$f" ] || continue
+              echo ""
+              echo "### $f"
+              echo '```yaml'
+              cat "$f"
+              echo '```'
+            done
+            echo ""
+            echo "## Full file tree (paths only)"
+            echo '```'
+            find . -type f \
+              -not -path "./.git/*" \
+              -not -path "./node_modules/*" \
+              -not -path "*/node_modules/*" \
+              -not -path "./.github/*" \
+              | sort | head -800
+            echo '```'
+            echo ""
+            echo "## Workspace package manifests"
+            for f in $(find artifacts lib scripts -maxdepth 2 -name package.json 2>/dev/null | sort); do
+              echo ""
+              echo "### $f"
+              echo '```json'
+              head -c 8000 "$f"
+              echo '```'
+            done
+            echo ""
+            echo "## Key source files (matching storage/orchestrat/diff/recover/checkpoint/prime/resume)"
+            for f in $(find artifacts/api-server/src lib -type f -name "*.ts" 2>/dev/null | grep -iE "storage\.ts|orchestrat|stage.*diff|diff.*stage|recover|checkpoint|website-prime|websiteprime|prime|resume|waitForJob" | sort | head -20); do
+              echo ""
+              echo "### $f"
+              echo '```ts'
+              head -c 8000 "$f"
+              echo '```'
+            done
+          } > /tmp/webrecon_dump.md
 
-      - name: Report to bridge
+          wc -c /tmp/webrecon_dump.md
+
+      - name: Call Kimi
+        id: kimi
+        env:
+          KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
+        run: |
+          DUMP_FILE=/tmp/webrecon_dump.md
+
+          jq -n --rawfile content "$DUMP_FILE" '{
+            model: "kimi-k3",
+            messages: [
+              {
+                role: "system",
+                content: "You audit TypeScript codebases. Cite exact file paths. Do not guess. Say \"cannot determine from dump\" when unsure."
+              },
+              {
+                role: "user",
+                content: ("Here is a focused dump of a TypeScript monorepo called WebRecon_V3, from the lab-merge branch.\n\n---\n\n" + $content + "\n\n---\n\nProduce a structured audit. Do not propose any code changes. Just describe what exists.\n\nCover:\n1. REPOSITORY SHAPE — workspace packages, Node version, dependencies, CI workflow\n2. API SERVER — top-level routes, structural problems\n3. ORCHESTRATION AND STATE — where state lives, durability across restarts\n4. RECOVERY AND CHECKPOINTS — files related to recovery/checkpoint/resume, whether wired in or helper-only\n5. WEBSITE PRIME — the flow from trigger to output\n6. STAGE REGISTRY — ALL_STAGES or equivalent\n7. TESTS — what test files exist, whether CI runs them\n8. TOP 5 RISKS — the biggest blockers for end-to-end operational status\n\nFor every claim, cite the file path. If you cannot determine something, say so. Do not guess.")
+              }
+            ],
+            temperature: 1,
+            max_tokens: 8000
+          }' > /tmp/kimi_payload.json
+
+          curl -s --max-time 240 https://api.moonshot.ai/v1/chat/completions \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $KIMI_API_KEY" \
+            -d @/tmp/kimi_payload.json > /tmp/kimi_response.json
+
+          head -c 500 /tmp/kimi_response.json
+
+          jq -r '.choices[0].message.content // "(no content)"' /tmp/kimi_response.json > /tmp/report.md
+
+          wc -c /tmp/report.md
+
+      - name: Post result to Worker
         if: always()
         env:
-          BRIDGE_URL: https://webrecon-ai-bridge.christopheruduma77.workers.dev
+          WORKER_URL: https://webrecon-ai-bridge.christopheruduma77.workers.dev
           WEBHOOK_SECRET: ${{ secrets.WORKER_WEBHOOK_SECRET }}
-          BRANCH_NAME: ${{ github.ref_name }}
-          RUN_ID: ${{ github.run_id }}
-          RESULT: ${{ steps.tc.outputs.result }}
+          AUDIT_ID: ${{ github.event.inputs.audit_id }}
         run: |
-          echo "Branch: $BRANCH_NAME"
-          echo "Result: $RESULT"
-
-          if [ "$RESULT" = "failure" ]; then
-            LOG=$(cat /tmp/tc-libs.log /tmp/tc-dashboard.log /tmp/tc-mockup.log /tmp/tc-scripts.log 2>/dev/null | grep -i "error TS" | head -50 || echo "")
-            LOG_B64=$(echo "$LOG" | base64 -w0)
+          if [ ! -s /tmp/report.md ]; then
+            echo "Audit failed, sending error"
+            PAYLOAD=$(jq -n \
+              --arg id "$AUDIT_ID" \
+              --arg err "Kimi call failed. Check Actions log." \
+              '{ audit_id: $id, status: "error", error: $err }')
           else
-            LOG_B64=""
+            REPORT_CONTENT=$(cat /tmp/report.md)
+            PAYLOAD=$(jq -n \
+              --arg id "$AUDIT_ID" \
+              --arg report "$REPORT_CONTENT" \
+              '{ audit_id: $id, status: "done", report: $report }')
           fi
 
-          curl -s -X POST "$BRIDGE_URL/store-test-result" \
+          curl -s -X POST "$WORKER_URL/audit/complete" \
             -H "Content-Type: application/json" \
             -H "x-webhook-secret: $WEBHOOK_SECRET" \
-            -d "{\"branch\":\"$BRANCH_NAME\",\"run_id\":\"$RUN_ID\",\"status\":\"$RESULT\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"log_b64\":\"$LOG_B64\"}"
+            -d "$PAYLOAD"
