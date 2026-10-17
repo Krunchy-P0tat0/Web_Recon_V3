@@ -15,7 +15,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Hello
+      - name: Build dump
         run: |
-          echo "Audit ID is ${{ github.event.inputs.audit_id }}"
-          echo "Repo is $GITHUB_REPOSITORY"
+          DUMP=/tmp/webrecon_dump.md
+          echo "# WebRecon_V3 source dump" > "$DUMP"
+          echo "" >> "$DUMP"
+          echo "## Root files" >> "$DUMP"
+          for f in package.json pnpm-workspace.yaml tsconfig.json tsconfig.base.json KNOWN_ISSUES.md; do
+            if [ -f "$f" ]; then
+              echo "" >> "$DUMP"
+              echo "### $f" >> "$DUMP"
+              head -c 20000 "$f" >> "$DUMP"
+            fi
+          done
+          echo "" >> "$DUMP"
+          echo "## File tree" >> "$DUMP"
+          find . -type f -not -path "./.git/*" -not -path "*/node_modules/*" | sort | head -400 >> "$DUMP"
+          echo "" >> "$DUMP"
+          echo "## Package manifests" >> "$DUMP"
+          for f in $(find artifacts lib scripts -maxdepth 2 -name package.json 2>/dev/null | sort); do
+            echo "" >> "$DUMP"
+            echo "### $f" >> "$DUMP"
+            head -c 8000 "$f" >> "$DUMP"
+          done
+          wc -c "$DUMP"
