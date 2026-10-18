@@ -67,3 +67,22 @@ jobs:
           jq -r '.choices[0].message.content // "(no content)"' /tmp/kimi_response.json > /tmp/report.md
 
           wc -c /tmp/report.md
+
+      - name: Post result to Worker
+        if: always()
+        env:
+          WORKER_URL: https://webrecon-ai-bridge.christopheruduma77.workers.dev
+          WEBHOOK_SECRET: ${{ secrets.WORKER_WEBHOOK_SECRET }}
+          AUDIT_ID: ${{ github.event.inputs.audit_id }}
+        run: |
+          if [ -s /tmp/report.md ]; then
+            REPORT=$(cat /tmp/report.md)
+            PAYLOAD=$(jq -n --arg id "$AUDIT_ID" --arg r "$REPORT" '{audit_id: $id, status: "done", report: $r}')
+          else
+            PAYLOAD=$(jq -n --arg id "$AUDIT_ID" '{audit_id: $id, status: "error", error: "Kimi call failed"}')
+          fi
+
+          curl -s -X POST "$WORKER_URL/audit/complete" \
+            -H "Content-Type: application/json" \
+            -H "x-webhook-secret: $WEBHOOK_SECRET" \
+            -d "$PAYLOAD"
