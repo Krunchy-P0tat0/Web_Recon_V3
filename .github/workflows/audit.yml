@@ -14,6 +14,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: lab-merge
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Build dump
         run: |
@@ -21,7 +26,7 @@ jobs:
           echo "# WebRecon_V3 source dump" > "$DUMP"
           echo "" >> "$DUMP"
           echo "## Root files" >> "$DUMP"
-          for f in package.json pnpm-workspace.yaml tsconfig.json tsconfig.base.json KNOWN_ISSUES.md; do
+          for f in package.json pnpm-workspace.yaml tsconfig.json tsconfig.base.json KNOWN_ISSUES.md ARCHITECTURE_INDEX.md PROJECT_PLAN.md PROJECT_STATUS.md replit.md; do
             if [ -f "$f" ]; then
               echo "" >> "$DUMP"
               echo "### $f" >> "$DUMP"
@@ -29,8 +34,17 @@ jobs:
             fi
           done
           echo "" >> "$DUMP"
+          echo "## Workflows" >> "$DUMP"
+          for f in .github/workflows/*.yml; do
+            if [ -f "$f" ]; then
+              echo "" >> "$DUMP"
+              echo "### $f" >> "$DUMP"
+              cat "$f" >> "$DUMP"
+            fi
+          done
+          echo "" >> "$DUMP"
           echo "## File tree" >> "$DUMP"
-          find . -type f -not -path "./.git/*" -not -path "*/node_modules/*" | sort | head -400 >> "$DUMP"
+          find . -type f -not -path "./.git/*" -not -path "*/node_modules/*" | sort | head -600 >> "$DUMP"
           echo "" >> "$DUMP"
           echo "## Package manifests" >> "$DUMP"
           for f in $(find artifacts lib scripts -maxdepth 2 -name package.json 2>/dev/null | sort); do
@@ -38,10 +52,14 @@ jobs:
             echo "### $f" >> "$DUMP"
             head -c 8000 "$f" >> "$DUMP"
           done
+          echo "" >> "$DUMP"
+          echo "## Key source files" >> "$DUMP"
+          for f in $(find artifacts/api-server/src lib -type f -name "*.ts" 2>/dev/null | grep -iE "storage|orchestrat|recover|checkpoint|website-prime|prime|resume|waitForJob" | sort | head -25); do
+            echo "" >> "$DUMP"
+            echo "### $f" >> "$DUMP"
+            head -c 8000 "$f" >> "$DUMP"
+          done
           wc -c "$DUMP"
-
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Call Kimi
         env:
@@ -50,8 +68,8 @@ jobs:
           jq -n --rawfile content /tmp/webrecon_dump.md '{
             model: "kimi-k3",
             messages: [
-              {"role": "system", "content": "You audit TypeScript codebases. Cite file paths."},
-              {"role": "user", "content": ("Audit this TypeScript monorepo.\n\n" + $content + "\n\nCover: repo shape, API routes, orchestration durability, recovery, Website Prime, tests, top 5 risks. Cite file paths.")}
+              {"role": "system", "content": "You audit TypeScript codebases. Cite exact file paths. Do not guess."},
+              {"role": "user", "content": ("Audit this TypeScript monorepo.\n\n" + $content + "\n\nCover: repo shape, API routes, orchestration durability, recovery and checkpoints, Website Prime flow, stage registry, tests, top 5 risks. Cite file paths. If unsure, say so.")}
             ],
             temperature: 1,
             max_tokens: 8000
