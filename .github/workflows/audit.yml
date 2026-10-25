@@ -30,7 +30,7 @@ jobs:
             if [ -f "$f" ]; then
               echo "" >> "$DUMP"
               echo "### $f" >> "$DUMP"
-              head -c 20000 "$f" >> "$DUMP"
+              head -c 5000 "$f" >> "$DUMP"
             fi
           done
           echo "" >> "$DUMP"
@@ -44,20 +44,20 @@ jobs:
           done
           echo "" >> "$DUMP"
           echo "## File tree" >> "$DUMP"
-          find . -type f -not -path "./.git/*" -not -path "*/node_modules/*" | sort | head -600 >> "$DUMP"
+          find . -type f -not -path "./.git/*" -not -path "*/node_modules/*" | sort | head -200 >> "$DUMP"
           echo "" >> "$DUMP"
           echo "## Package manifests" >> "$DUMP"
           for f in $(find artifacts lib scripts -maxdepth 2 -name package.json 2>/dev/null | sort); do
             echo "" >> "$DUMP"
             echo "### $f" >> "$DUMP"
-            head -c 8000 "$f" >> "$DUMP"
+            head -c 3000 "$f" >> "$DUMP"
           done
           echo "" >> "$DUMP"
           echo "## Key source files" >> "$DUMP"
-          for f in $(find artifacts/api-server/src lib -type f -name "*.ts" 2>/dev/null | grep -iE "storage|orchestrat|recover|checkpoint|website-prime|prime|resume|waitForJob" | sort | head -25); do
+          for f in $(find artifacts/api-server/src lib -type f -name "*.ts" 2>/dev/null | grep -iE "storage|orchestrat|recover|checkpoint|website-prime|prime|resume|waitForJob" | sort | head -12); do
             echo "" >> "$DUMP"
             echo "### $f" >> "$DUMP"
-            head -c 8000 "$f" >> "$DUMP"
+            head -c 3000 "$f" >> "$DUMP"
           done
           wc -c "$DUMP"
 
@@ -72,10 +72,10 @@ jobs:
               {"role": "user", "content": ("Audit this TypeScript monorepo.\n\n" + $content + "\n\nCover: repo shape, API routes, orchestration durability, recovery and checkpoints, Website Prime flow, stage registry, tests, top 5 risks. Cite file paths. If unsure, say so.")}
             ],
             temperature: 1,
-            max_tokens: 32000
+            max_tokens: 16000
           }' > /tmp/kimi_payload.json
 
-          curl -s --max-time 300 https://api.moonshot.ai/v1/chat/completions \
+          curl -s --max-time 480 https://api.moonshot.ai/v1/chat/completions \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $KIMI_API_KEY" \
             -d @/tmp/kimi_payload.json > /tmp/kimi_response.json
