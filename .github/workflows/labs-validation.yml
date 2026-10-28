@@ -25,24 +25,47 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Run typechecks
+      - name: Typecheck libs
+        id: tc_libs
+        continue-on-error: true
+        run: pnpm run typecheck:libs 2>&1 | tee /tmp/tc-libs.log
+
+      - name: Typecheck dashboard
+        id: tc_dashboard
+        continue-on-error: true
+        run: pnpm --filter "./artifacts/dashboard" run typecheck 2>&1 | tee /tmp/tc-dashboard.log
+
+      - name: Typecheck mockup sandbox
+        id: tc_mockup
+        continue-on-error: true
+        run: pnpm --filter "./artifacts/mockup-sandbox" run typecheck 2>&1 | tee /tmp/tc-mockup.log
+
+      - name: Typecheck scripts
+        id: tc_scripts
+        continue-on-error: true
+        run: pnpm --filter "./scripts" run typecheck 2>&1 | tee /tmp/tc-scripts.log
+
+      # api-server is deliberately excluded from typechecking.
+      # It has ~11 pre-existing type errors from the Replit-era codebase,
+      # tracked in KNOWN_ISSUES.md. When those are fixed, add:
+      #   - name: Typecheck api-server
+      #     id: tc_api
+      #     continue-on-error: true
+      #     run: pnpm --filter "./artifacts/api-server" run typecheck 2>&1 | tee /tmp/tc-api.log
+      # and include steps.tc_api.outcome in the check below.
+
+      - name: Determine overall result
         id: tc
+        if: always()
         run: |
-          set +e
-          pnpm run typecheck:libs > /tmp/tc-libs.log 2>&1
-          E1=$?
-          pnpm --filter "./artifacts/dashboard" run typecheck > /tmp/tc-dashboard.log 2>&1
-          E2=$?
-          pnpm --filter "./artifacts/mockup-sandbox" run typecheck > /tmp/tc-mockup.log 2>&1
-          E3=$?
-          pnpm --filter "./scripts" run typecheck > /tmp/tc-scripts.log 2>&1
-          E4=$?
-          if [ $E1 -ne 0 ] || [ $E2 -ne 0 ] || [ $E3 -ne 0 ] || [ $E4 -ne 0 ]; then
+          if [ "${{ steps.tc_libs.outcome }}" = "failure" ] || \
+             [ "${{ steps.tc_dashboard.outcome }}" = "failure" ] || \
+             [ "${{ steps.tc_mockup.outcome }}" = "failure" ] || \
+             [ "${{ steps.tc_scripts.outcome }}" = "failure" ]; then
             echo "result=failure" >> $GITHUB_OUTPUT
           else
             echo "result=success" >> $GITHUB_OUTPUT
           fi
-          exit 0
 
       - name: Report to bridge
         if: always()
@@ -67,3 +90,9 @@ jobs:
             -H "Content-Type: application/json" \
             -H "x-webhook-secret: $WEBHOOK_SECRET" \
             -d "{\"branch\":\"$BRANCH_NAME\",\"run_id\":\"$RUN_ID\",\"status\":\"$RESULT\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"log_b64\":\"$LOG_B64\"}"
+
+      - name: Fail job if typechecks failed
+        if: steps.tc.outputs.result == 'failure'
+        run: |
+          echo "One or more typechecks failed. See logs above."
+          exit 1
